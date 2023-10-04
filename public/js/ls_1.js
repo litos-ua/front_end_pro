@@ -1,7 +1,8 @@
-let name;
-let country;
+"use strict"
+let userName;
+let userCountry;
 alert("Hello!");
-name = prompt("What is your name?",'Noman');
-country = prompt("Where are you from, " + name + "?","Everywere");
-alert("Nice to meet you," + name + "! You are from  " + country + "!");
-document.getElementById('display').textContent = "Nice to meet you, " + name + "! You are from " + country + "!";
+userName = prompt("What is your name?",'Noman');
+userCountry = prompt("Where are you from, " + userName + "?","Everywere");
+alert("Nice to meet you," + userName + "! You are from  " + userCountry + "!");
+document.getElementById('display').textContent = "Nice to meet you, " + userName + "! You are from " + userCountry + "!";
