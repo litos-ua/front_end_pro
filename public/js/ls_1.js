@@ -6,3 +6,5 @@ userName = prompt("What is your name?",'Noman');
 userCountry = prompt("Where are you from, " + userName + "?","Everywere");
 alert("Nice to meet you," + userName + "! You are from  " + userCountry + "!");
 document.getElementById('display').textContent = "Nice to meet you, " + userName + "! You are from " + userCountry + "!";
+//[1,2,7].forEach(alert);
+//console.log([1,2,7]);
