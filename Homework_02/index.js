@@ -10,6 +10,6 @@ resultOut = `Calculations has finished!\n
 
 alert(`${resultOut}`);
 console.log(`${resultOut}`);
-document.getElementById('display1').innerHTML = `${resultOut}`;
+document.getElementById('display1').innerText = `${resultOut}`;
 
 

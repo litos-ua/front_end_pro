@@ -5,6 +5,6 @@ timeInSeconds = 3600 * timeInHours;
 
 alert(`${timeInHours} hours is ${timeInSeconds} seconds`);
 console.log(`${timeInHours} hours is ${timeInSeconds} seconds`);
-document.getElementById('display1').innerHTML = `${timeInHours} hours is ${timeInSeconds} seconds`;
+document.getElementById('display1').innerText = `${timeInHours} hours is ${timeInSeconds} seconds`;
 
 
