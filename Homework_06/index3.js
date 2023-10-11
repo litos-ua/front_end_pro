@@ -1,7 +1,7 @@
 'use strict'
 {
-    const firstNumb = Number(prompt("Enter the A (first) number.",'1'));
-    const secondNumb = Number(prompt("Enter the B (second) number.",'1'));
+    const firstNumb = Number(prompt("Enter the A (first) number.",'7'));
+    const secondNumb = Number(prompt("Enter the B (second) number.",'77'));
     const reminderDirDiv = secondNumb % firstNumb;
     const reminderInvDiv = firstNumb % secondNumb;
     let msg = '';

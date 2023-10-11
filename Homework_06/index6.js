@@ -1,7 +1,8 @@
 'use strict'
 {
-    let myTdNumber = Number(prompt("Enter the  three-digit number."));
-    let reminder, dig1, dig2, dig3;
+    let myTdNumber = Number(prompt("Enter the  three-digit number.", "757"));
+    let reminder;
+    let dig1, dig2, dig3;
     let n =10;
     let rp = [];
     let msg = ' ';

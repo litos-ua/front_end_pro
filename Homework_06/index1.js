@@ -1,6 +1,6 @@
 'use strict'
 const firstNumber = Number(prompt("Enter the first number.",'10'));
-const secondNumber = Number(prompt("Enter the second number.",'10'));
+const secondNumber = Number(prompt("Enter the second number.",'20'));
 
 if (firstNumber>secondNumber){
     console.log(`first number (${firstNumber}) > second number (${secondNumber})`);

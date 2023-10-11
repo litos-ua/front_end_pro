@@ -1,6 +1,6 @@
 'use strict'
 {
-    let myTdNumber = Number(prompt("Enter the  six-digit number."));
+    let myTdNumber = Number(prompt("Enter the  six-digit number.","123321"));
     let reminder, dig1, dig2, dig3, dig4, dig5, dig6;
     let n =10;
     let rp = [];
