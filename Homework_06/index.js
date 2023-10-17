@@ -2,33 +2,34 @@
 
 alert('Welcome to calculator!');
 
-let action, action1, action2, a, goodBy = true;
+let firstNumber, secondNumber, condNum1 = true, condNum2 = true, incorrectAct = true, goodBy = true;
+
 let kindOfAction = prompt('What action you want to do? Add, Diff, Mult, Div, Sqrt, Exp, Sin; Cos');
-(kindOfAction === 'Add' || kindOfAction === 'Diff' || kindOfAction === 'Mult' || kindOfAction === 'Div') ? action1 =1 : action1 = 0;
-(kindOfAction === 'Sqrt' || kindOfAction === 'Exp' || kindOfAction === 'Sin' || kindOfAction === 'Cos') ? action2 =2 : action2 = 0;
-let firstNumberStr,  firstNumber, secondNumberStr, secondNumber, condNum1 = true, incorrectAct = true;
-kindOfAction === null ? kindOfAction = 'CancelAction': a = 'Nothing to do';
-action = action1 + action2;
-switch (action){
-    case 1:
-        firstNumberStr = prompt('Enter the first number.');
-        firstNumber = parseFloat(firstNumberStr);
-        ((firstNumberStr !== null) && (!isNaN(firstNumber)) && (firstNumberStr !== '')) ? condNum1 = true: condNum1 = false;
-        secondNumberStr = prompt('Enter the second number.');
-        secondNumber = parseFloat(secondNumberStr);
-        ((secondNumberStr !== null) && (!isNaN(secondNumber)) && (secondNumberStr !== '' && condNum1)) ? condNum1 = true: condNum1 = false;
-        break
-    case 2:
-        firstNumberStr = prompt('Enter the number.');
-        firstNumber = parseFloat(firstNumberStr);
-        ((firstNumberStr !== null) && (!isNaN(firstNumber)) && (firstNumberStr !== '')) ? condNum1 = true: condNum1 = false;
-        break
+
+switch (kindOfAction) {
+    case 'Add':
+    case 'Diff':
+    case 'Mult':
+    case 'Div':
+        firstNumber = parseFloat(prompt('Enter the first number.'));
+        condNum1 = !isNaN(firstNumber);
+        condNum1 ? ((secondNumber = parseFloat(prompt('Enter the second number.'))), (condNum2 = !isNaN(secondNumber))) : null;
+        break;
+    case 'Sqrt':
+    case 'Exp':
+    case 'Sin':
+    case 'Cos':
+        firstNumber = parseFloat(prompt('Enter the number.'));
+        condNum1 = !isNaN(firstNumber);
+        break;
     default:
+        kindOfAction = kindOfAction === null ? 'CancelAction' : 'WrongAction';
         incorrectAct = false;
 }
 
-(!condNum1 && incorrectAct) ? kindOfAction = 'WrongNum': a = 'Nothing to do';
-
+(!condNum1 && incorrectAct) ? kindOfAction = 'WrongNum1': null;
+(!condNum2 && incorrectAct) ? kindOfAction = 'WrongNum2': null;
+(!condNum1 && !condNum2 && incorrectAct) ? kindOfAction = 'WrongTwoNum': null
 
 switch (kindOfAction) {
     case 'Add':
@@ -43,15 +44,15 @@ switch (kindOfAction) {
         break
     case  'Div':
         secondNumber === 0 ? alert('Division by 0 is not possible!') :
-        alert(`Division of ${firstNumber} by ${secondNumber} is ${(firstNumber / secondNumber).toFixed(2)}`);
+            alert(`Division of ${firstNumber} by ${secondNumber} is ${(firstNumber / secondNumber).toFixed(2)}`);
         break
     case "Sqrt":
         firstNumber <= 0 ? alert('Extracting the square root of a number is not possible!') :
-        alert(`Square root of a number ${firstNumber} is ${Math.sqrt(firstNumber).toFixed(2)}`);
+            alert(`Square root of a number ${firstNumber} is ${Math.sqrt(firstNumber).toFixed(2)}`);
         break
     case 'Exp':
         firstNumber <= 0 ? alert('Raising to a negative power is impossible!') :
-        alert(`Exponent of a number ${firstNumber} is ${Math.exp(firstNumber).toFixed(2)}`);
+            alert(`Exponent of a number ${firstNumber} is ${Math.exp(firstNumber).toFixed(2)}`);
         break
     case 'Sin':
         alert(`Sine of angle ${firstNumber} is ${Math.sin(firstNumber).toFixed(2)}`);
@@ -59,8 +60,12 @@ switch (kindOfAction) {
     case  'Cos':
         alert(`Cosine of angle ${firstNumber} is ${Math.cos(firstNumber).toFixed(2)}`);
         break
-    case 'WrongNum':
-        alert('You have entered an INCORRECT NUMBER, the program will stop working! Good by, see you later.');
+    case 'WrongNum1':
+        alert('You have entered an INCORRECT The FIRST NUMBER, the program will stop working! Good by, see you later.');
+        goodBy = false
+        break
+    case 'WrongNum2':
+        alert('You have entered an INCORRECT The SECOND NUMBER, the program will stop working! Good by, see you later.');
         goodBy = false
         break
     case 'CancelAction' :
@@ -68,10 +73,12 @@ switch (kindOfAction) {
         goodBy = false;
         break
     default: alert('You have entered an INCORRECT ACTION, the program will stop working! Good by, see you later.');
-             goodBy = false;
+        goodBy = false;
 }
 
-goodBy ? alert('Good by, see you later.') : a = 'Nothing to do';
+goodBy ? alert('Good by, see you later.') : null;
+
+
 
 
 
