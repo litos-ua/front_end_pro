@@ -8,7 +8,6 @@ const actionsAlg = 'sqrt,exp,sin,cos';
 
 do {
     goodBy = false;
-    nextAction = true;
     do {
         kindOfAction = prompt('What action do you want to do? Add, Diff, Mult, Div, Sqrt, Exp, Sin, Cos');
         kindOfAction !== null ? kindOfAction = kindOfAction.toLowerCase() : null;
