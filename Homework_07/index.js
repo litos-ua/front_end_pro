@@ -24,7 +24,8 @@ do {
             firstNumber = parseFloat(firstNumberStr);
             if (isNaN(firstNumber) && firstNumberStr !== null) {
                 alert('This is a bad digit. Please enter a correct digit');
-            } else if (firstNumberStr === null) {
+            }
+            if (firstNumberStr === null) {
                 kindOfAction = 'cancelAction';
                 break;
             }
@@ -36,7 +37,8 @@ do {
                 secondNumber = parseFloat(secondNumberStr);
                 if (isNaN(secondNumber) && secondNumberStr !== null) {
                     alert('This is a bad digit. Please enter a correct digit');
-                } else if (secondNumberStr === null) {
+                }
+                if (secondNumberStr === null) {
                     kindOfAction = 'cancelAction';
                     break;
                 }
@@ -48,7 +50,8 @@ do {
             firstNumber = parseFloat(firstNumberStr);
             if (isNaN(firstNumber) && firstNumberStr !== null) {
                 alert('This is a bad digit. Please enter a correct digit');
-            } else if (firstNumberStr === null) {
+            }
+            if (firstNumberStr === null) {
                 kindOfAction = 'cancelAction';
                 break;
             }
