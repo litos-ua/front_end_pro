@@ -14,7 +14,6 @@ do {
         if ((!actionsAr.includes(kindOfAction) && !actionsAlg.includes(kindOfAction) && kindOfAction !== null) || (kindOfAction === "")) {
             alert("I don't recognize your operation. Please choose a correct operation like: Add, Diff, Mult, Div, Sqrt, Exp, Sin, or Cos");
         } else if (kindOfAction === null) {
-            //kindOfAction = 'cancelAction';
             break;
         }
     } while ((!actionsAr.includes(kindOfAction) && !actionsAlg.includes(kindOfAction) && kindOfAction !== null) || kindOfAction === "");
