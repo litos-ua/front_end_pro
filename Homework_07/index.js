@@ -2,12 +2,11 @@
 
 alert('Welcome to calculator!');
 
-let firstNumber, secondNumber, firstNumberStr, secondNumberStr, kindOfAction, goodBy, nextAction, cancelAction, cond;
+let firstNumber, secondNumber, firstNumberStr, secondNumberStr, kindOfAction, nextAction, cancelAction, cond;
 const actionsAr = 'add,diff,mult,div';
 const actionsAlg = 'sqrt,exp,sin,cos';
 
 do {
-    goodBy = false;
     cancelAction = false;
     do {
         kindOfAction = prompt('What action do you want to do? Add, Diff, Mult, Div, Sqrt, Exp, Sin, Cos');
