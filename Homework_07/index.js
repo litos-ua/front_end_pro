@@ -10,11 +10,11 @@ do {
     goodBy = false;
     do {
         kindOfAction = prompt('What action do you want to do? Add, Diff, Mult, Div, Sqrt, Exp, Sin, Cos');
-        kindOfAction !== null ? kindOfAction = kindOfAction.toLowerCase() : null;
+        if (kindOfAction !== null) kindOfAction = kindOfAction.toLowerCase();
         if ((!actionsAr.includes(kindOfAction) && !actionsAlg.includes(kindOfAction) && kindOfAction !== null) || (kindOfAction === "")) {
             alert("I don't recognize your operation. Please choose a correct operation like: Add, Diff, Mult, Div, Sqrt, Exp, Sin, or Cos");
         } else if (kindOfAction === null) {
-            kindOfAction = 'cancelAction';
+            //kindOfAction = 'cancelAction';
             break;
         }
     } while ((!actionsAr.includes(kindOfAction) && !actionsAlg.includes(kindOfAction) && kindOfAction !== null) || kindOfAction === "");
@@ -67,25 +67,16 @@ do {
             alert(`Product of ${firstNumber} and ${secondNumber} is ${firstNumber * secondNumber}`);
             break;
         case 'div':
-            if (secondNumber === 0) {
-                alert('Division by 0 is not possible!');
-            } else {
-                alert(`Division of ${firstNumber} by ${secondNumber} is ${(firstNumber / secondNumber).toFixed(2)}`);
-            }
+            secondNumber === 0 ? alert('Division by 0 is not possible!') :
+            alert(`Division of ${firstNumber} by ${secondNumber} is ${(firstNumber / secondNumber).toFixed(2)}`)
             break;
         case 'sqrt':
-            if (firstNumber < 0) {
-                alert('Extracting the square root of the negative number is not possible!');
-            } else {
-                alert(`Square root of a number ${firstNumber} is ${Math.sqrt(firstNumber).toFixed(2)}`);
-            }
+            firstNumber < 0 ? alert('Extracting the square root of a number is not possible!') :
+            alert(`Square root of a number ${firstNumber} is ${Math.sqrt(firstNumber).toFixed(2)}`);
             break;
         case 'exp':
-            if (firstNumber < 0) {
-                alert('Raising to a negative power is impossible!');
-            } else {
-                alert(`Exponent of a number ${firstNumber} is ${Math.exp(firstNumber).toFixed(2)}`);
-            }
+            firstNumber < 0 ? alert('Raising to a negative power is impossible!') :
+            alert(`Exponent of a number ${firstNumber} is ${Math.exp(firstNumber).toFixed(2)}`);
             break;
         case 'sin':
             alert(`Sine of angle ${firstNumber} is ${Math.sin(firstNumber).toFixed(2)}`);
