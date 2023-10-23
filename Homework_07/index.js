@@ -10,15 +10,11 @@ do {
     goodBy = false;
     do {
         kindOfAction = prompt('What action do you want to do? Add, Diff, Mult, Div, Sqrt, Exp, Sin, Cos');
-
         if (kindOfAction !== null) kindOfAction = kindOfAction.toLowerCase();
             else break;
         if ((!actionsAr.includes(kindOfAction) && !actionsAlg.includes(kindOfAction) && kindOfAction !== null) || (kindOfAction === "")) {
             alert("I don't recognize your operation. Please choose a correct operation like: Add, Diff, Mult, Div, Sqrt, Exp, Sin, or Cos");
         }
-        // if (kindOfAction === null) {
-        //     break;
-        // }
     } while ((!actionsAr.includes(kindOfAction) && !actionsAlg.includes(kindOfAction) && kindOfAction !== null) || kindOfAction === "");
 
     if (actionsAr.includes(kindOfAction)) {
