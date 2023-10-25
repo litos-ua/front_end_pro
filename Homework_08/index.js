@@ -3,10 +3,10 @@
 alert('Welcome to calculator!');
 
 let firstNumber, secondNumber, firstNumberStr, secondNumberStr, kindOfAction,
-    nextAction, cancelAction, cond, mathSymbol, result='', errorMes='';
+    nextAction, cancelAction, mathSymbol, cond, result='', errorMes='';
 const arActions = ['add', 'diff', 'mult', 'div',];
 const algActions = ['sqrt', 'exp', 'sin', 'cos',];
-const serviceAction = ['h',]
+const serviceAction = ['history',]
 const logArray = [];
 
 do {
@@ -19,37 +19,11 @@ do {
         cond = !arActions.includes(kindOfAction) && !algActions.includes(kindOfAction) &&
                !serviceAction.includes(kindOfAction) && kindOfAction !== null;
         if (cond) {
-            alert("I don't recognize your operation. Please choose a correct operation like: Add, Diff, Mult, Div, Sqrt, Exp, Sin, or Cos");
+            alert("I don't recognize your operation. Please choose a correct operation like: Add, Diff, Mult, Div, Sqrt, Exp, Sin, Cos or History");
         }
     } while (cond);
 
-    if (arActions.includes(kindOfAction)) {
-        do {
-            firstNumberStr = prompt('Enter the first number.');
-            firstNumber = parseFloat(firstNumberStr);
-            if (isNaN(firstNumber) && firstNumberStr !== null) {
-                alert('This is a bad digit. Please enter a correct digit');
-            }
-            if (firstNumberStr === null) {
-                cancelAction = true;
-                break;
-            }
-        } while (isNaN(firstNumber) && (firstNumberStr !== null));
-
-        if (firstNumberStr) {
-            do {
-                secondNumberStr = prompt('Enter the second number.');
-                secondNumber = parseFloat(secondNumberStr);
-                if (isNaN(secondNumber) && secondNumberStr !== null) {
-                    alert('This is a bad digit. Please enter a correct digit');
-                }
-                if (secondNumberStr === null) {
-                    cancelAction = true;
-                    break;
-                }
-            } while (isNaN(secondNumber) && secondNumberStr !== null);
-        }
-    } else if (algActions.includes(kindOfAction)) {
+    if (arActions.includes(kindOfAction) || algActions.includes(kindOfAction)) {
         do {
             firstNumberStr = prompt('Enter the number.');
             firstNumber = parseFloat(firstNumberStr);
@@ -60,7 +34,20 @@ do {
                 cancelAction = true;
                 break;
             }
-        } while (isNaN(firstNumber) && firstNumberStr !== null);
+        } while (isNaN(firstNumber) && (firstNumberStr !== null));
+    }
+    if (arActions.includes(kindOfAction) && firstNumberStr) {
+        do {
+            secondNumberStr = prompt('Enter the second number.');
+            secondNumber = parseFloat(secondNumberStr);
+            if (isNaN(secondNumber) && secondNumberStr !== null) {
+                alert('This is a bad digit. Please enter a correct digit');
+            }
+            if (secondNumberStr === null) {
+                cancelAction = true;
+                break;
+            }
+        } while (isNaN(secondNumber) && secondNumberStr !== null);
     }
 
     if (cancelAction === false) {
@@ -84,11 +71,11 @@ do {
                 break;
             case 'sqrt':
                 firstNumber < 0 ? (errorMes = 'Extracting the square root of a number is not possible!\n', alert(errorMes)) :
-                    alert(`Square root of a number ${firstNumber} is ${result = Math.sqrt(firstNumber).toFixed(2)}`);
+                alert(`Square root of a number ${firstNumber} is ${result = Math.sqrt(firstNumber).toFixed(2)}`);
                 break;
             case 'exp':
                 firstNumber < 0 ? (errorMes = 'Raising to a negative power is impossible!\n', alert(errorMes)) :
-                    alert(`Exponent of a number ${firstNumber} is ${result = Math.exp(firstNumber).toFixed(2)}`);
+                alert(`Exponent of a number ${firstNumber} is ${result = Math.exp(firstNumber).toFixed(2)}`);
                 break;
             case 'sin':
                 alert(`Sine of angle ${firstNumber} is ${result = Math.sin(firstNumber).toFixed(2)}`);
@@ -96,20 +83,27 @@ do {
             case 'cos':
                 alert(`Cosine of angle ${firstNumber} is ${result = Math.cos(firstNumber).toFixed(2)}`);
                 break;
-            case 'h':
+            case 'history':
                 if (!logArray.length) {
                     alert('You haven\'t done any operations yet!');
-                } else alert(logArray);
+                } else {
+                    const historyArr = logArray.map((arrElement) => `${logArray.indexOf(arrElement)+1}. ${arrElement}`);
+                    alert(`Your operation history:\n${historyArr}`);
+                }
         }
         nextAction = confirm('Do you want to continue working with me?');
     }
 
+    if (errorMes) {
+        logArray.push(`${kindOfAction} : ${errorMes}`);
+    } else if (firstNumber || firstNumber === 0) {
+        if (secondNumber || secondNumber === 0) {
+            logArray.push(`${kindOfAction} :  ${firstNumber}  ${mathSymbol} ${secondNumber} = ${result }\n`);
+        } else {
+            logArray.push(`${kindOfAction} (${firstNumber}) = ${result } \n`);
+        }
+    }
 
-    if ((firstNumber || firstNumber === 0) && (secondNumber || secondNumber === 0) && result)
-        logArray.push(`${kindOfAction} :  ${firstNumber}  ${mathSymbol} ${secondNumber} = ${result }\n`);
-    if ((firstNumber || firstNumber === 0) && !secondNumber && secondNumber !== 0  && result)
-        logArray.push(`${kindOfAction} (${firstNumber}) = ${result } \n`);
-    if (errorMes) logArray.push(errorMes);
     firstNumber = secondNumber = errorMes = result = '';
 
 }   while (cancelAction === false && nextAction )
