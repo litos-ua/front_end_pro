@@ -65,16 +65,16 @@ do {
                 mathSymbol = ' * ';
                 break;
             case 'div':
-                secondNumber === 0 ? (errorMes = 'Division by 0 is not possible!\n', alert(errorMes)):
+                secondNumber === 0 ? (errorMes = 'Division by 0 is not possible!', alert(errorMes)):
                 alert(`Division of ${firstNumber} by ${secondNumber} is ${result = (firstNumber / secondNumber).toFixed(2)}`);
                 mathSymbol = ' / ';
                 break;
             case 'sqrt':
-                firstNumber < 0 ? (errorMes = 'Extracting the square root of a number is not possible!\n', alert(errorMes)) :
+                firstNumber < 0 ? (errorMes = 'Extracting the square root of a number is not possible!', alert(errorMes)) :
                 alert(`Square root of a number ${firstNumber} is ${result = Math.sqrt(firstNumber).toFixed(2)}`);
                 break;
             case 'exp':
-                firstNumber < 0 ? (errorMes = 'Raising to a negative power is impossible!\n', alert(errorMes)) :
+                firstNumber < 0 ? (errorMes = 'Raising to a negative power is impossible!', alert(errorMes)) :
                 alert(`Exponent of a number ${firstNumber} is ${result = Math.exp(firstNumber).toFixed(2)}`);
                 break;
             case 'sin':
@@ -88,7 +88,7 @@ do {
                     alert('You haven\'t done any operations yet!');
                 } else {
                     const historyArr = logArray.map((arrElement) => `${logArray.indexOf(arrElement)+1}. ${arrElement}`);
-                    alert(`Your operation history:\n${historyArr}`);
+                    alert(`Your operation history:\n${historyArr.join('\n')}`);
                 }
         }
         nextAction = confirm('Do you want to continue working with me?');
@@ -98,9 +98,9 @@ do {
         logArray.push(`${kindOfAction} : ${errorMes}`);
     } else if (firstNumber || firstNumber === 0) {
         if (secondNumber || secondNumber === 0) {
-            logArray.push(`${kindOfAction} :  ${firstNumber}  ${mathSymbol} ${secondNumber} = ${result }\n`);
+            logArray.push(`${kindOfAction} :  ${firstNumber}  ${mathSymbol} ${secondNumber} = ${result }`);
         } else {
-            logArray.push(`${kindOfAction} (${firstNumber}) = ${result } \n`);
+            logArray.push(`${kindOfAction} (${firstNumber}) = ${result }`);
         }
     }
 
