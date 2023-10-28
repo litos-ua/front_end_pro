@@ -14,8 +14,10 @@ do {
     do {
         kindOfAction = prompt('What action do you want to do? Add, Diff, Mult, Div, Sqrt, Exp, Sin, Cos, History');
         if (kindOfAction !== null) kindOfAction = kindOfAction.toLowerCase();
-            else {cancelAction = true;
-                break;}
+            else {
+                cancelAction = true;
+                break;
+            }
         cond = !arActions.includes(kindOfAction) && !algActions.includes(kindOfAction) &&
                !serviceAction.includes(kindOfAction) && kindOfAction !== null;
         if (cond) {
