@@ -13,28 +13,23 @@ do {
     do {
         kindOfAction = prompt(`What action do you want to do? Add, Diff, Mult, Div, Sqrt, Exp, Sin, Cos${logArray.length?', History':''}`);
         if (kindOfAction !== null) kindOfAction = kindOfAction.toLowerCase();
-            else {
-                cancelAction = true;
-                break;
-            }
+        else {
+            cancelAction = true;
+            break;
+        }
         cond = !arActions.includes(kindOfAction) && !algActions.includes(kindOfAction) &&
-               !serviceAction.includes(kindOfAction) && kindOfAction !== null;
+            !serviceAction.includes(kindOfAction) && kindOfAction !== null;
         if (cond) {
             alert("I don't recognize your operation. Please choose a correct operation like: Add, Diff, Mult, Div, Sqrt, Exp, Sin, Cos or History");
         }
     } while (cond);
 
-    if (arActions.includes(kindOfAction) || algActions.includes(kindOfAction)) {
-        const first = getUserNumber('first');
-        first === null ? cancelAction = true : firstNumber = first;
-    }
-    if (arActions.includes(kindOfAction) && firstNumber) {
-        const second = getUserNumber('second');
-        second === null ? cancelAction = true : secondNumber = second;
-    }
-    //-----------------------------------
-    let a =1;
-    //-----------------------------------
+
+    const Number = getUserNumber(kindOfAction)
+    firstNumber = Number[0];
+    secondNumber = Number[1];
+    if (firstNumber === null || secondNumber === null) cancelAction = true
+
     if (cancelAction === false) {
         let calcRes;
         if (arActions.includes(kindOfAction)){
@@ -47,11 +42,11 @@ do {
                 (result = calcRes[0], alert(`${kindOfAction} of ${firstNumber} is ${calcRes[0]}`));
         } else {
             if (!logArray.length) {
-            alert('You haven\'t done any operations yet!');
-        } else {
-            const historyArr = logArray.map((value, index) => `${index+1}. ${value}`);
-            alert(`Your operation history:\n${historyArr.join('\n')}`);
-        }
+                alert('You haven\'t done any operations yet!');
+            } else {
+                const historyArr = logArray.map((value, index) => `${index+1}. ${value}`);
+                alert(`Your operation history:\n${historyArr.join('\n')}`);
+            }
         }
         nextAction = confirm('Do you want to continue working with me?');
     }
@@ -72,46 +67,61 @@ do {
 
 alert('Goodbye, see you later.');
 
-function getUserNumber(str){
-    let NumberStr, Number;
-    do {
-        NumberStr = prompt(`Enter the ${str} number.`);
-        Number = parseFloat(NumberStr);
-        if (isNaN(Number) && NumberStr !== null) {
-            alert('This is a bad digit. Please enter a correct digit');
-        }
-        if (NumberStr === null) {
-            Number = null;
-            break;
-        }
-    } while (isNaN(Number) && (NumberStr !== null));
-    return Number;
-}
-
-function arithmCalc (kindOfAction, Number1, Number2) {
-    switch (kindOfAction) {
-        case 'add':
-            return [(Number1 + Number2).toFixed(2),''];
-        case 'diff':
-            return [(Number1 - Number2).toFixed(2),''];
-        case 'mult':
-            return [(Number1 * Number2).toFixed(2),''];
-        case 'div':
-            return Number2 === 0 ? [null, 'Division by 0 is not possible!'] :
-            [(Number1 / Number2).toFixed(2),''];
+function getUserNumber(kindOfAction){
+    let fNumber, sNumber
+    if (arActions.includes(kindOfAction) || algActions.includes(kindOfAction)) {
+        const first = getUserSingleNumber('first');
+        first === null ? fNumber = null : fNumber = first;
+    }
+    if (arActions.includes(kindOfAction) && !isNaN(fNumber) && fNumber !== null) {
+        const second = getUserSingleNumber('second');
+        second === null ? sNumber = null : sNumber = second;
+    }
+    return (sNumber || sNumber === null || sNumber === 0) ? [fNumber,sNumber] : [fNumber,''];
+    function getUserSingleNumber(str){
+        let numberStr, number;
+        do {
+            numberStr = prompt(`Enter the ${str} number.`);
+            number = parseFloat(numberStr);
+            if (isNaN(number) && numberStr !== null) {
+                alert('This is a bad digit. Please enter a correct digit');
+            }
+            if (numberStr === null) {
+                number = null;
+                break;
+            }
+        } while (isNaN(number) && (numberStr !== null));
+        return number;
     }
 }
-function mathCalc(kindOfAction, Number){
+
+
+function arithmCalc (kindOfAction, number1, number2) {
+    switch (kindOfAction) {
+        case 'add':
+            return [(number1 + number2).toFixed(2),''];
+        case 'diff':
+            return [(number1 - number2).toFixed(2),''];
+        case 'mult':
+            return [(number1 * number2).toFixed(2),''];
+        case 'div':
+            return number2 === 0 ? [null, 'Division by 0 is not possible!'] :
+                [(number1 / number2).toFixed(2),''];
+    }
+}
+
+
+function mathCalc(kindOfAction, number){
     const mathFunctions = [
         Math.sqrt,
         Math.exp,
         Math.sin,
         Math.cos,
-]
+    ]
     const actionIndex = ['sqrt','exp', 'sin', 'cos'].indexOf(kindOfAction);
-    let tmp = mathFunctions[actionIndex](Number).toFixed(2)
-    return (kindOfAction === 'sqrt' && Number < 0) ? [null, 'Extracting the square root of a number is not possible!'] :
-            [mathFunctions[actionIndex](Number).toFixed(2), ''];
+    let tmp = mathFunctions[actionIndex](number).toFixed(2)
+    return (kindOfAction === 'sqrt' && number < 0) ? [null, 'Extracting the square root of a number is not possible!'] :
+        [mathFunctions[actionIndex](number).toFixed(2), ''];
 }
 
 
