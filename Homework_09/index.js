@@ -2,70 +2,60 @@
 
 alert('Welcome to calculator!');
 
-let firstNumber, secondNumber, kindOfAction, nextAction, cancelAction, mathSymbol, cond, result='', errorMes='';
+let firstNumber, secondNumber, kindOfAction, nextAction, cancelAction, calcRes='';
 const arActions = ['add', 'diff', 'mult', 'div',];
 const algActions = ['sqrt', 'exp', 'sin', 'cos',];
-const serviceAction = ['history',]
-const logArray = [];
+const serviceAction = ['history',], logArray = [];
 
 do {
-    cancelAction = false;
-    do {
-        kindOfAction = prompt(`What action do you want to do? Add, Diff, Mult, Div, Sqrt, Exp, Sin, Cos${logArray.length?', History':''}`);
-        if (kindOfAction !== null) kindOfAction = kindOfAction.toLowerCase();
-        else {
-            cancelAction = true;
-            break;
-        }
-        cond = !arActions.includes(kindOfAction) && !algActions.includes(kindOfAction) &&
-            !serviceAction.includes(kindOfAction) && kindOfAction !== null;
-        if (cond) {
-            alert("I don't recognize your operation. Please choose a correct operation like: Add, Diff, Mult, Div, Sqrt, Exp, Sin, Cos or History");
-        }
-    } while (cond);
+    kindOfAction = getActionType();
+    kindOfAction === null ? cancelAction =true : cancelAction = false;
 
-
-    const Number = getUserNumber(kindOfAction)
-    firstNumber = Number[0];
-    secondNumber = Number[1];
+    const number = getUserNumber(kindOfAction)
+    firstNumber = number[0];
+    secondNumber = number[1];
     if (firstNumber === null || secondNumber === null) cancelAction = true
 
     if (cancelAction === false) {
-        let calcRes;
         if (arActions.includes(kindOfAction)){
-            calcRes = arithmCalc(kindOfAction, firstNumber, secondNumber);
-            calcRes[1] ? (result = calcRes[1], alert(calcRes[1])) :
-                (result = calcRes[0], alert(`${kindOfAction} of ${firstNumber} and ${secondNumber} is ${calcRes[0]}`))
+            showActionRes(calcRes = arithmCalc(kindOfAction, firstNumber, secondNumber), firstNumber, secondNumber);
         } else if (algActions.includes(kindOfAction)){
-            calcRes = mathCalc(kindOfAction, firstNumber);
-            calcRes[1] ? (result = calcRes[1], alert(calcRes[1])) :
-                (result = calcRes[0], alert(`${kindOfAction} of ${firstNumber} is ${calcRes[0]}`));
+            showActionRes(calcRes = mathCalc(kindOfAction, firstNumber), firstNumber);
         } else {
-            if (!logArray.length) {
-                alert('You haven\'t done any operations yet!');
-            } else {
-                const historyArr = logArray.map((value, index) => `${index+1}. ${value}`);
-                alert(`Your operation history:\n${historyArr.join('\n')}`);
-            }
+            showHistory()
         }
         nextAction = confirm('Do you want to continue working with me?');
     }
 
-    if (errorMes) {
-        logArray.push(`${kindOfAction} : ${errorMes}`);
-    } else if (firstNumber || firstNumber === 0) {
+    if (firstNumber || firstNumber === 0) {
         if (secondNumber || secondNumber === 0) {
-            logArray.push(`${kindOfAction} :  ${firstNumber} and ${secondNumber} = ${result }`);
+            logArray.push(`${kindOfAction} :  ${firstNumber} and ${secondNumber} = ${calcRes }`);
         } else {
-            logArray.push(`${kindOfAction} (${firstNumber}) = ${result }`);
+            logArray.push(`${kindOfAction} (${firstNumber}) = ${calcRes }`);
         }
     }
 
-    firstNumber = secondNumber = errorMes = result = '';
+    firstNumber = secondNumber = calcRes = '';
 
 }   while (cancelAction === false && nextAction )
 
 alert('Goodbye, see you later.');
+
+
+function getActionType(){
+    let typeOfAction, cond;
+    do {
+        typeOfAction = prompt(`What action do you want to do? ${[...arActions, ...algActions, logArray.length?'History':''].join(', ')}`);
+        if (typeOfAction !== null) typeOfAction = typeOfAction.toLowerCase();
+
+        cond = !arActions.includes(typeOfAction) && !algActions.includes(typeOfAction) &&
+            !serviceAction.includes(typeOfAction) && typeOfAction !== null;
+        if (cond) {
+            alert(`I don't recognize your operation. Please choose a correct operation like: ${[...arActions, ...algActions, logArray.length?'History':''].join(', ')}`);
+        }
+    } while (cond);
+    return typeOfAction
+}
 
 function getUserNumber(kindOfAction){
     let fNumber, sNumber
@@ -95,7 +85,6 @@ function getUserNumber(kindOfAction){
     }
 }
 
-
 function arithmCalc (kindOfAction, number1, number2) {
     switch (kindOfAction) {
         case 'add':
@@ -110,13 +99,9 @@ function arithmCalc (kindOfAction, number1, number2) {
     }
 }
 
-
 function mathCalc(kindOfAction, number){
     const mathFunctions = [
-        Math.sqrt,
-        Math.exp,
-        Math.sin,
-        Math.cos,
+        Math.sqrt, Math.exp, Math.sin, Math.cos,
     ]
     const actionIndex = ['sqrt','exp', 'sin', 'cos'].indexOf(kindOfAction);
     let tmp = mathFunctions[actionIndex](number).toFixed(2)
@@ -124,6 +109,20 @@ function mathCalc(kindOfAction, number){
         [mathFunctions[actionIndex](number).toFixed(2), ''];
 }
 
+function showActionRes(calcRes, firstNumber, secondNumber =''){
+    const a = 1;
+    if(secondNumber !== ''){
+        calcRes[1] ? (alert(calcRes[1])) : (alert(`${kindOfAction} of ${firstNumber} and ${secondNumber} is ${calcRes[0]}`))
+    } else calcRes[1] ? (alert(calcRes[1])) : (alert(`${kindOfAction} of ${firstNumber} is ${calcRes[0]}`))
+}
 
+function showHistory() {
+    if (!logArray.length) {
+        alert('You haven\'t done any operations yet!');
+    } else {
+        const historyArr = logArray.map((value, index) => `${index+1}. ${value}`);
+        alert(`Your operation history:\n${historyArr.join('\n')}`);
+    }
+}
 
 
