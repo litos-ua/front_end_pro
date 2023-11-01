@@ -80,7 +80,7 @@ function getUserNumber(kindOfAction){
                 number = null;
                 break;
             }
-        } while (isNaN(number) && (numberStr !== null));
+        } while (isNaN(number));
         return number;
     }
 }
@@ -104,13 +104,12 @@ function mathCalc(kindOfAction, number){
         Math.sqrt, Math.exp, Math.sin, Math.cos,
     ]
     const actionIndex = ['sqrt','exp', 'sin', 'cos'].indexOf(kindOfAction);
-    let tmp = mathFunctions[actionIndex](number).toFixed(2)
-    return (kindOfAction === 'sqrt' && number < 0) ? [null, 'Extracting the square root of a number is not possible!'] :
-        [mathFunctions[actionIndex](number).toFixed(2), ''];
+
+    if(kindOfAction === 'sqrt' && number < 0) return [null, 'Extracting the square root of a number is not possible!'];
+        else return [mathFunctions[actionIndex](number).toFixed(2), ''];
 }
 
 function showActionRes(calcRes, firstNumber, secondNumber =''){
-    const a = 1;
     if(secondNumber !== ''){
         calcRes[1] ? (alert(calcRes[1])) : (alert(`${kindOfAction} of ${firstNumber} and ${secondNumber} is ${calcRes[0]}`))
     } else calcRes[1] ? (alert(calcRes[1])) : (alert(`${kindOfAction} of ${firstNumber} is ${calcRes[0]}`))
