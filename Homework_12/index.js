@@ -24,8 +24,8 @@ console.log(`coddingResult = ${String.fromCodePoint(...createHash("2someSecret!"
 
 function createHash (key, secret){
 
-    const keyPoints = []; //Строка для кодирования
-    const secretPoints = []; //Кодовое слово
+    const keyPoints = [];
+    const secretPoints = [];
 
     for (let i = 0; i < secret.length; i++) {
         secretPoints.push(secret.charCodeAt(i));
