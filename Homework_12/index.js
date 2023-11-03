@@ -6,15 +6,22 @@ const inputSecretString = "someSecret";
 const res = createHash(inputKeyString,inputSecretString);
 //console.log(`res = ${res}`)
 const coddingResult = String.fromCodePoint(...res)
+console.log('фраза "qwertyuiopasdfghjklzxcvbnm1234567890" секрет "someSecret"');
 console.log(`coddingResult = ${coddingResult}`);
-
 console.log(`coddingResult = ${String.fromCodePoint(...createHash("qwertyuiopasdfghjklzxcvbnm1234567890","someSecret"))}`);
 console.log('\n');
-console.log(`coddingResult = ${String.fromCodePoint(...createHash("qwertyuiopasdfghjklzxcvbnm1234567890","2someSecret!"))}`);
-console.log(`coddingResult = ${String.fromCodePoint(...createHash("qwertyuiopasdfghjklzxcvbnm1234567890","2someSecret!"))}`);
-console.log('\n')
+console.log('фраза та же "qwertyuiopasdfghjklzxcvbnm1234567890" секрет другой\n');
+console.log(`coddingResult = ${String.fromCodePoint(...createHash("!@##$%^%&^&*cvbnm1234567890","yRR24!!@86"))}`);
+console.log(`coddingResult = ${String.fromCodePoint(...createHash("!@##$%^%&^&*cvbnm1234567890","yRR24!!@86"))}`);
+console.log('\n');
+console.log('фраза другая "It is a wonderfull day" секрет как и в самом первом варианте\n');
 console.log(`coddingResult = ${String.fromCodePoint(...createHash("It is a wonderfull day","someSecret"))}`);
 console.log(`coddingResult = ${String.fromCodePoint(...createHash("It is a wonderfull day","someSecret"))}`);
+console.log('\n');
+console.log('две разных фразы одинаковой длины с одинаковым секретом\n');
+console.log(`coddingResult = ${String.fromCodePoint(...createHash("slhdLJLJ6876LiLJ,rpy","2someSecret!"))}`);
+console.log(`coddingResult = ${String.fromCodePoint(...createHash("2ldaLg5T6a717f5r$g#f","2someSecret!"))}`)
+
 
 function createHash (key, secret){
     const keyPoints = []; //Строка для кодирования
@@ -30,7 +37,7 @@ function createHash (key, secret){
     }
     //console.log(`secretPoints = ${secretPoints}`);
     //Вычитаем из кодов кодового слова 105
-    secretPoints = secretPoints.map((num) => num - 80)
+    secretPoints = secretPoints.map((num) => num - 60)
     //console.log(`newSecretPoints = ${secretPoints}`)
     const result = [];
     let secretIndex = 0;
