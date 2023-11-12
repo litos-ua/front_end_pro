@@ -1,26 +1,24 @@
 "use strict"
 
-let human = [
-    ["Natasha", "Smirska", "woman"],
-    ["Mark", "Smirsky", "man"],
-    ["Iwona", "Kolodzejska", "woman"],
-    ["Oksana", "Szewchenko", "woman"],
-    ["Yaroslaw", "Szewczenko", "man"],
-    ["Alexander", "Kolodzejsky", "man"],
-    ["Boris", "Olpinsky", "man"],
-    ["Irena", "Olpinska", "woman"],
-    ["Kateryna", "Kravchenko"],
-    ["Vasyl","Sokolov","man"],
+let humanProperty = [
+    ["Natasha", "woman"],
+    ["Mark", "man"],
+    ["Iwona", "woman"],
+    ["Oksana", "woman"],
+    ["Yaroslaw", "man"],
+    ["Alexander", "man"],
+    ["Boris", "man"],
+    ["Irena", "woman"],
+    ["Kateryna", ],
+    ["Vasyl", "man"],
 ];
 
-human = human.map(humanData => new Humanoid(...humanData));
+const human = humanProperty.map(humanData => new Humanoid(...humanData));
 
 const flat = [];
 for (let i = 0; i < 5; i++) {
     flat.push(new Flat());
 }
-
-const home = new Building(4);
 
 flat[0].addHumanoidToFlat(human[0], human[1]);
 flat[1].addHumanoidToFlat(human[2], human[3], human[4], human[5]);
@@ -33,28 +31,28 @@ for (let i = 0; i < flat.length; i++) {
     console.log(flat[i]);
 }
 
+const home = new Building(4);
 home.addFlatToBuilding(flat[0],flat[1],flat[2]);
 home.addFlatToBuilding(flat[3]);
 home.addFlatToBuilding(flat[4]);
 
-
-
 console.log(home);
 
-function Humanoid(name, secondname, sex) {
+
+
+function Humanoid(name, sex) {
     this.name = name;
-    this.secondname = secondname;
     this.sex = sex || "unknown";
 }
 
 function Flat() {
 
-    if (!Flat.instanceCounter) {
-        Flat.instanceCounter = 0;
+    if (!Flat.flatNumberCounter) {
+        Flat.flatNumberCounter = 0;
     }
-    Flat.instanceCounter++;
+    Flat.flatNumberCounter++;
 
-    this.flatNumber = Flat.instanceCounter;
+    this.flatNumber = Flat.flatNumberCounter;
     this.inhabitants = [];
 
     this.addHumanoidToFlat = function (...humanoids) {
