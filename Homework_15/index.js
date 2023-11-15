@@ -40,9 +40,9 @@ console.log(home);
 
 
 
-function Humanoid(name, sex) {
+function Humanoid(name, gender) {
     this.name = name;
-    this.sex = sex || "unknown";
+    this.gender = gender || "unknown";
 }
 
 function Flat() {
@@ -92,4 +92,9 @@ function Building(maxQuarters) {
         });
     };
 }
+
+
+
+
+
 
