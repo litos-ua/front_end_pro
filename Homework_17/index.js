@@ -35,12 +35,12 @@ class Student {
         }
     )}
 
-    get studentName() {
-        return this.name;
+    get studentAge() {
+        return new Date().getFullYear() - this.yearOfBirth;
     }
 
-    estimate(attendance){
-       this.grade.push(attendance);
+    estimate(grade){
+       this.grade.push(grade);
     }
 
     averageGrade (){
@@ -58,15 +58,23 @@ class Student {
     }
 
     present() {
-        if (this.attendance.length === 25) {
-            console.log("You have already attended all classes.");
-        } this.attendance.push(true)
+        const firstIndex = this.attendance.findIndex(element => element === undefined);
+
+        if (firstIndex === -1) {
+            console.log("This student already has attended all classes.");
+        } else {
+            this.attendance[firstIndex] = true;
+        }
     }
 
     absent() {
-        if (this.attendance.length === 25) {
-            console.log("You have already attended all classes.");
-        } this.attendance.push(false)
+        const firstIndex = this.attendance.findIndex(element => element === undefined);
+
+        if (firstIndex === -1) {
+            console.log("This student already has attended all classes.");
+        } else {
+            this.attendance[firstIndex] = false;
+        }
     }
 
     summary() {
@@ -88,23 +96,26 @@ const student = studentProperty.map(studentData => new Student(...studentData))
 
 for (let i = 0; i < studentProperty.length; i++) {
     for (let j = 0; j < 50; j++) {
-        student[i].grade.push((Math.random() * (100 - 80) + 80));
+        student[i].estimate(Math.round(Math.random() * (100 - 80) + 80));
     }
 }
 
 for (let i = 0; i < studentProperty.length; i++) {
     for (let j = 0; j < 25; j++) {
-        student[i].attendance[j] = Math.random() < 0.93;
+        Math.random() < 0.93 ? student[i].present()  : student[i].absent();
     }
 }
 
-console.log(student[7].studentName);
+console.log(`Age of ${student[1].name} is ${student[1].studentAge}`);
+console.log(`Age of ${student[7].name} is ${student[7].studentAge}`);
 console.log(student);
 console.log(student[3].averageGrade());
 console.log(student[3].averageAttendance());
 console.log(student[7].averageGrade());
 console.log(student[7].averageAttendance());
 console.log(student[5].attendance);
-console.log(student[5].present());
-console.log(student[3].summary());
-console.log(student[7].summary());
+student[5].present();
+student[3].absent();
+student[3].summary();
+student[7].summary();
+
