@@ -40,7 +40,7 @@ class Student {
     }
 
     estimate(attendance){
-       this.grade = this.grade.push(attendance);
+       this.grade.push(attendance);
     }
 
     averageGrade (){
@@ -69,10 +69,17 @@ class Student {
         } this.attendance.push(false)
     }
 
-    summary(){
-        if (this.averageGrade() > 90 && this.averageAttendance() > 0.9) console.log("Молодець!")
-        else if (this.averageGrade() > 90 || this.averageAttendance() > 0.9) console.log("Добре, але можна краще.")
-             else console.log("Редиска!");
+    summary() {
+        const levelGrade = this.averageGrade() > 90;
+        const levelAttendance = this.averageAttendance() > 0.9;
+
+        if (levelGrade && levelAttendance) {
+            console.log("Молодець!");
+        } else if (levelGrade || levelAttendance) {
+            console.log("Добре, але можна краще.");
+        } else {
+            console.log("Редиска!");
+        }
     }
 
 }

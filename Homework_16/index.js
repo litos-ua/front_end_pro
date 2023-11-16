@@ -94,15 +94,15 @@ class Vehicle {
         if (owner instanceof Humanoid) {
             if (!this.owner) {
                 if (owner.age <= 18) {
-                    console.log("The owner of the car cannot be a person under 18.");
+                    console.log("The owner of the car cannot be a person under 18.\n");
                 } else {
                     this.owner = owner;
                 }
             } else {
-                console.log("The car already has an owner.");
+                console.log("The car already has an owner.\n");
             }
         } else {
-            console.log("Invalid argument. Instance isn't a Humanoid.");
+            console.log("Invalid argument. Instance isn't a Humanoid.\n");
         }
     }
 
@@ -110,15 +110,15 @@ class Vehicle {
         if (owner instanceof Humanoid) {
             if (this.owner === '') {
                 if (owner.age <= 18) {
-                    console.log("The owner of the car cannot be a person under 18.");
+                    console.log("The owner of the car cannot be a person under 18.\n");
                 } else {
                 this.owner = owner;
                 }
             } else {
-                console.log("The car already has an owner.");
+                console.log("The car already has an owner.\n");
             }
         } else {
-            console.log("Invalid argument. Instance isn't a Humanoid.");
+            console.log("Invalid argument. Instance isn't a Humanoid.\n");
         }
     }
 }
@@ -127,7 +127,7 @@ class Vehicle {
 const human = humanProperty.map(humanData => new Humanoid(...humanData));
 const vehicle = vehicleProperty.map(vehicleData => new Vehicle(...vehicleData));
 
-human[3].showHumanoid();
+human[5].showHumanoid();
 vehicle[7].showVehicle();
 vehicle[5].assignOwner(human[3]);
 vehicle[7].owner = human[7];
