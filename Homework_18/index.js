@@ -58,6 +58,7 @@ class Hamburger {
 
 const myHamburger1 = new Hamburger(configObj.size.small); // База заказа №1 - малий гамбургер;
 const myHamburger2 = new Hamburger(configObj.size.big);   // База заказа №2 - великий гамбургер;
+
 console.log(myHamburger1);
 myHamburger1.addStaffing(staffingKeys[0]); //Вибираємо сир у якості начинки;
 myHamburger1.addTopping(toppingKeys[1]); //Вибираємо майонез у якості добавки;
