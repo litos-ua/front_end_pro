@@ -13,12 +13,16 @@ class DoublyLinkedList {
         this.tail = null;
     }
 
-    length() {
+    size() {
         let count = 0;
         for (let tmpNode = this.head; tmpNode; count++) {
             tmpNode = tmpNode.next;
         }
         return count;
+    }
+
+    head() {
+        return this.head;
     }
 
     add(value) {
@@ -100,8 +104,9 @@ dataValues.forEach((value) => {
     doublyList2.add(value);
 });
 
-console.log('Length:', doublyList2.length());
+console.log('Number of nodes in the list:', doublyList2.size());
 console.log('List:', doublyList2.toArray());
+console.log('Head:', doublyList2.head);
 
 const searchData1 = 'data_03', searchData2 = 'data_55';
 let searchResult = doublyList2.search(searchData1);
@@ -118,6 +123,7 @@ if (doublyList2.remove(elementForRemoving2)) {
     console.log(`Element ${elementForRemoving2} has removed`);
     console.log(`List after removing ${elementForRemoving2}:`, doublyList2.toArray());
 }
+
 
 
 
