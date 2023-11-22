@@ -112,7 +112,7 @@ const SuperMathMix = new SuperMath();
 console.log(SuperMathMix.check(configObj.mathObj['3']));
 
 
-//console.log(SuperMathMix.check(configObj.mathObj['1']));
+// console.log(SuperMathMix.check(configObj.mathObj['1']));
 // console.log(SuperMathMix.check(configObj.mathObj['2']));
 // console.log(SuperMathMix.check(configObj.mathObj['4']));
 // console.log(SuperMathMix.check(configObj.mathObj['5']));
