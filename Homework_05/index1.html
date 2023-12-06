@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #slider-container {
+            width: 250px;
+            overflow: hidden;
+            margin: auto;
+        }
+
+        #slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            width: 400px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+    </style>
+    <title>Image Slider</title>
+</head>
+<body>
+
+    <div id="slider-container">
+        <div id="slider">
+            <img class="slide" src="../../../Photo_Base_new/small/Polska_Karkonosze_18_003.JPG" alt="Image 1">
+            <img class="slide" src="../../../Photo_Base_new/small/Polska_Karkonosze_18_006.JPG" alt="Image 2">
+            <img class="slide" src="../../../Photo_Base_new/small/Polska_Karkonosze_18_009.JPG" alt="Image 3">
+            <!-- Add more slides as needed -->
+        </div>
+    </div>
+    <div class="txt_exp">
+        <p></p>
+    </div>
+
+    <table>
+        <caption>
+            Dinosaurs in the Jurassic period (HTML Table)
+        </caption>
+        <thead>
+        <tr>
+            <th>Col_01</th>
+            <th>Col_02</th>
+            <th>Col_03</th>
+            <th>Col_04</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>I'm your 1_1 cell.</td>
+            <td>I'm your 1_2 cell.</td>
+            <td>I'm your 1_3 cell.</td>
+            <td>I'm your 1_4 cell.</td>
+        </tr>
+        <tr>
+            <td>I'm your 2_1 cell.</td>
+            <td>I'm your 2_2 cell.</td>
+            <td>I'm your 2_3 cell.</td>
+            <td>I'm your 2_4 cell.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button onclick="prevSlide()">Previous</button>
+    <button onclick="nextSlide()">Next</button>
+    <button onclick="updateSlider()">Update</button>
+
+    <script>
+        const slider = document.getElementById('slider');
+        const slides = document.querySelectorAll('.slide');
+        console.log(slider);
+        console.log(slides);
+        console.log(`windowHeight = ${window.innerHeight}`);
+        console.log(`clientHeight = ${document.documentElement.clientHeight}`);
+        console.log(`windowWidth = ${window.innerWidth}`);
+        console.log(`clientWidth = ${document.documentElement.clientWidth}`);
+        for (const node of document.body.childNodes){
+            console.log(node);
+        }
+        let buttons = document.querySelectorAll('button');
+        console.log(buttons);
+        let currentIndex = 0;
+        updateSlider();
+
+        function updateSlider() {
+            slider.style.transform = `translateX(${-currentIndex * 200}px)`;
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            updateSlider();
+        }
+    </script>
+
+</body>
+</html>
+
+
+
+
