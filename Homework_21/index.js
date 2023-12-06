@@ -1,6 +1,5 @@
 'use strict'
 
-//let table = document.createElement('table');
 const column = 10;
 const row = 10;
 const cssConst =
