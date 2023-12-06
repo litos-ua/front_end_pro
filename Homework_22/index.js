@@ -29,7 +29,7 @@ let rowDiv = document.createElement('div');
 rowDiv.classList.add('row');
 
 for (let i = 1; i <= 9; i++) {
-    let imageContainer = createImage(getRandomImageNumber(1,9));
+    let imageContainer = createImage(getRandomImageNumber(1,9), './images/');
     rowDiv.append(imageContainer);
 }
 
@@ -37,7 +37,7 @@ containerDiv.append(rowDiv);
 document.body.append(containerDiv);
 
 
-function createImage(num) {
+function createImage(num, path) {
     let colDiv = document.createElement('div');
     colDiv.classList.add('col-md-4');
 
@@ -45,7 +45,7 @@ function createImage(num) {
     cardDiv.classList.add('card');
 
     let imageElement = document.createElement('img');
-    imageElement.src = './images/' + num + '.jpg';
+    imageElement.src = path + num + '.jpg';
     imageElement.classList.add('card-img-top');
     imageElement.alt = 'Image ' + num;
 
