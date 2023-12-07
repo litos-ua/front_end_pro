@@ -1,41 +1,22 @@
 'use strict';
 
-let styleElement = document.createElement('style');
+const numOfPictures = 9;
 
-styleElement.textContent = `
-    .container {
-        margin-top: 5rem;
-    }
-    .card {
-        height: 100%;
-    }
-    .card-img-top {
-        object-fit: cover;
-        height: 200px;
-    }
-    .card-body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: 100%;
-    }
-`;
-
-document.head.append(styleElement);
 let containerDiv = document.createElement('div');
 containerDiv.classList.add('container', 'mt-5');
+containerDiv.style.marginTop = '5rem';
 
 let rowDiv = document.createElement('div');
 rowDiv.classList.add('row');
 
-for (let i = 1; i <= 9; i++) {
-    let imageContainer = createImage(getRandomImageNumber(1,9), './images/');
+for (let i = 1; i <= numOfPictures; i++) {
+    let imageContainer = createImage(getRandomImageNumber(1, numOfPictures), './images/');
     rowDiv.append(imageContainer);
 }
 
 containerDiv.append(rowDiv);
 document.body.append(containerDiv);
-
+document.body.style.backgroundColor = 'lightblue';
 
 function createImage(num, path) {
     let colDiv = document.createElement('div');
@@ -43,14 +24,18 @@ function createImage(num, path) {
 
     let cardDiv = document.createElement('div');
     cardDiv.classList.add('card');
+    cardDiv.style.cssText = 'height: 100%;';
 
     let imageElement = document.createElement('img');
     imageElement.src = path + num + '.jpg';
     imageElement.classList.add('card-img-top');
     imageElement.alt = 'Image ' + num;
+    imageElement.style.cssText = 'object-fit: cover; height: 200px;';
 
     let cardBodyDiv = document.createElement('div');
     cardBodyDiv.classList.add('card-body');
+    cardBodyDiv.style.cssText = 'display: flex; flex-direction: column; justify-content: center;' +
+                                ' height: 100%; background-color: #dded80;';
 
     let imageNumber = document.createElement('h5');
     imageNumber.classList.add('card-title');
@@ -71,7 +56,6 @@ function getRandomImageNumber(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
 
 
 
