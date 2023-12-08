@@ -21,21 +21,6 @@
         updateCounterDisplay(buttonId);
     }
 
-    // const tableBody = document.getElementById('counterTableBody');
-    // for (const buttonId in counters) {
-    //     const row = document.createElement('tr');
-    //
-    //     const buttonCell = document.createElement('th');
-    //     buttonCell.textContent = buttonId;
-    //     row.append(buttonCell);
-    //
-    //     const countCell = document.createElement('td');
-    //     countCell.id = `count${buttonId}`;
-    //     countCell.textContent = counters[buttonId];
-    //     row.append(countCell);
-    //
-    //     tableBody.append(row);
-    // }
 
     const tableBody = document.getElementById('counterTableBody');
     const tableHead = document.getElementById('counterTableHead');
@@ -45,12 +30,22 @@
     headerCell.textContent = 'Button';
     headerRow.append(headerCell);
 
+    // for (const buttonId in counters) {
+    //     const headerCell = document.createElement('th');
+    //     headerCell.textContent = buttonId;
+    //     headerRow.append(headerCell);
+    // }
+
     for (const buttonId in counters) {
         const headerCell = document.createElement('th');
-        headerCell.textContent = buttonId;
-        headerRow.append(headerCell);
+        const img = document.createElement('img');
+        img.src = `./images/${buttonId}.jpg`; // Set the path to your image
+        img.alt = buttonId;
+        headerCell.appendChild(img);
+        headerRow.appendChild(headerCell);
     }
-    tableHead.append(headerRow);
+
+tableHead.append(headerRow);
 
     const countRow = document.createElement('tr');
     const countHeaderCell = document.createElement('th');
