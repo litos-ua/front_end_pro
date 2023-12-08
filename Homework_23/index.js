@@ -21,23 +21,54 @@
         updateCounterDisplay(buttonId);
     }
 
+    // const tableBody = document.getElementById('counterTableBody');
+    // for (const buttonId in counters) {
+    //     const row = document.createElement('tr');
+    //
+    //     const buttonCell = document.createElement('th');
+    //     buttonCell.textContent = buttonId;
+    //     row.append(buttonCell);
+    //
+    //     const countCell = document.createElement('td');
+    //     countCell.id = `count${buttonId}`;
+    //     countCell.textContent = counters[buttonId];
+    //     row.append(countCell);
+    //
+    //     tableBody.append(row);
+    // }
+
     const tableBody = document.getElementById('counterTableBody');
+    const tableHead = document.getElementById('counterTableHead');
+
+    const headerRow = document.createElement('tr');
+    const headerCell = document.createElement('th');
+    headerCell.textContent = 'Button';
+    headerRow.append(headerCell);
+
     for (const buttonId in counters) {
-        const row = document.createElement('tr');
+        const headerCell = document.createElement('th');
+        headerCell.textContent = buttonId;
+        headerRow.append(headerCell);
+    }
+    tableHead.append(headerRow);
 
-        const buttonCell = document.createElement('td');
-        buttonCell.textContent = buttonId;
-        row.append(buttonCell);
+    const countRow = document.createElement('tr');
+    const countHeaderCell = document.createElement('th');
+    countHeaderCell.textContent = 'Count';
+    countRow.append(countHeaderCell);
 
+    for (const buttonId in counters) {
         const countCell = document.createElement('td');
         countCell.id = `count${buttonId}`;
         countCell.textContent = counters[buttonId];
-        row.append(countCell);
-
-        tableBody.append(row);
+        countRow.append(countCell);
     }
+    tableBody.append(countRow);
 
-    document.body.style.backgroundColor = 'lightblue';
+
+
+
+document.body.style.backgroundColor = 'lightblue';
     document.getElementById('btnVeryBad').addEventListener('click',
         () => handleButClickCount('btnVeryBad'));
     document.getElementById('btnPoor').addEventListener('click',
