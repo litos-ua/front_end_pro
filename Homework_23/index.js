@@ -8,30 +8,6 @@ const counters = {
     btnExcellent: 0,
 };
 
-function updateCounterDisplay(buttonId) {
-    const countElement = document.getElementById(`count${buttonId}`);
-    if (countElement) {
-        countElement.textContent = counters[buttonId].toString();
-    }
-}
-
-function handleVoteButtonClick(event) {
-    const buttonId = event.target.id;
-    if (buttonId in counters) {
-        counters[buttonId]++;
-        console.log(`${buttonId}: ${counters[buttonId]}`);
-        updateCounterDisplay(buttonId);
-    }
-}
-
-function handleResetButtonClick() {
-    for (const buttonId in counters) {
-        counters[buttonId] = 0;
-        updateCounterDisplay(buttonId);
-    }
-    console.log('Counters reset');
-}
-
 const btnDiv = document.createElement('div');
 btnDiv.classList.add('d-flex', 'gap-2', 'justify-content-center', 'py-5');
 btnDiv.id = 'btnDiv';
@@ -101,13 +77,34 @@ document.body.append(table);
 
 document.body.style.backgroundColor = 'lightblue';
 
-//const btnDiv = document.getElementById('btnDiv');
 btnDiv.addEventListener('click', handleVoteButtonClick);
 
 const btnReset = document.getElementById('btnReset');
 btnReset.addEventListener('click', handleResetButtonClick);
 
+function updateCounterDisplay(buttonId) {
+    const countElement = document.getElementById(`count${buttonId}`);
+    if (countElement) {
+        countElement.textContent = counters[buttonId].toString();
+    }
+}
 
+function handleVoteButtonClick(event) {
+    const buttonId = event.target.id;
+    if (buttonId in counters) {
+        counters[buttonId]++;
+        console.log(`${buttonId}: ${counters[buttonId]}`);
+        updateCounterDisplay(buttonId);
+    }
+}
+
+function handleResetButtonClick() {
+    for (const buttonId in counters) {
+        counters[buttonId] = 0;
+        updateCounterDisplay(buttonId);
+    }
+    console.log('Counters reset');
+}
 
 
 
