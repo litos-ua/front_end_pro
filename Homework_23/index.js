@@ -28,21 +28,18 @@
     const headerRow = document.createElement('tr');
     const headerCell = document.createElement('th');
     headerCell.textContent = 'Button';
+    headerCell.style.cssText = 'text-align: center; font-size: 20px;'
     headerRow.append(headerCell);
 
-    // for (const buttonId in counters) {
-    //     const headerCell = document.createElement('th');
-    //     headerCell.textContent = buttonId;
-    //     headerRow.append(headerCell);
-    // }
 
     for (const buttonId in counters) {
         const headerCell = document.createElement('th');
+        headerCell.style.textAlign = 'center';
         const img = document.createElement('img');
-        img.src = `./images/${buttonId}.jpg`; // Set the path to your image
+        img.src = `./images/${buttonId}.jpg`;
         img.alt = buttonId;
-        headerCell.appendChild(img);
-        headerRow.appendChild(headerCell);
+        headerCell.append(img);
+        headerRow.append(headerCell);
     }
 
 tableHead.append(headerRow);
@@ -50,12 +47,14 @@ tableHead.append(headerRow);
     const countRow = document.createElement('tr');
     const countHeaderCell = document.createElement('th');
     countHeaderCell.textContent = 'Count';
+    countHeaderCell.style.cssText = 'text-align: center; font-size: 20px;';
     countRow.append(countHeaderCell);
 
     for (const buttonId in counters) {
         const countCell = document.createElement('td');
         countCell.id = `count${buttonId}`;
         countCell.textContent = counters[buttonId];
+        countCell.style.cssText = 'text-align: center; font-size:18px;';
         countRow.append(countCell);
     }
     tableBody.append(countRow);
