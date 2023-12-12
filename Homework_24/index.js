@@ -88,13 +88,24 @@ const configObj = {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    const divCategory = document.getElementById("div-category");
-    const divProducts = document.getElementById("div-product");
-    const divCharacteristics = document.getElementById("div-characteristics");
+    const mainContainer = document.createElement('main');
+
+    mainContainer.classList.add('d-flex', 'flex-wrap', 'align-items-center', 'justify-content-center', 'justify-content-md-between', 'py-3', 'mb-4', 'border-bottom');
+
+    const divCategory = createSubContainer('div-category', 'Category');
+    const divProducts = createSubContainer('div-product', 'Product');
+    const divCharacteristics = createSubContainer('div-characteristics', 'Characteristics');
+
+    [divCategory, divProducts, divCharacteristics].forEach(container => {
+        mainContainer.append(container);
+    });
 
     [divCategory, divProducts, divCharacteristics].forEach(container => {
         container.style.cssText = 'display: flex; flex-direction: column; margin-bottom: 10px;';
     });
+
+    const containerDiv = document.querySelector('.container');
+    containerDiv.append(mainContainer);
 
     for (const category in configObj) {
         createButton(divCategory, category, 'btn-primary', () => showProducts(category));
@@ -109,6 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+
     function showCharacteristics(category, product) {
         divCharacteristics.innerText = '';
 
@@ -121,7 +133,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         divCharacteristics.append(characteristicsList);
-        createButton(divCharacteristics, 'Buy', 'btn-primary', () => handleBuyButtonClick(category, product));
+
+        const buttonWrapper = document.createElement('div');
+        buttonWrapper.style.textAlign = 'center';
+        createButton(buttonWrapper, 'Buy', 'btn-primary', () => handleBuyButtonClick(category, product));
+
+        divCharacteristics.append(buttonWrapper);
+        divCharacteristics.style.cssText = 'font-size: 16px; text-align: left;';
     }
 
     function createButton(container, text, style, clickHandler) {
@@ -141,4 +159,15 @@ document.addEventListener('DOMContentLoaded', function () {
         divProducts.append(header4Products);
     }
 
+    function createSubContainer(id, headingText) {
+        const subContainer = document.createElement('div');
+        subContainer.classList.add('col-md-4', 'col-lg-auto');
+        subContainer.id = id;
+
+        const heading = document.createElement('h4');
+        heading.textContent = headingText;
+        subContainer.append(heading);
+
+        return subContainer;
+    }
 });
