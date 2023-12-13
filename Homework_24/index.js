@@ -88,24 +88,54 @@ const configObj = {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    const mainContainer = document.createElement('main');
+    const containerDiv = document.querySelector('.container');
 
-    mainContainer.classList.add('d-flex', 'flex-wrap', 'align-items-center', 'justify-content-center', 'justify-content-md-between', 'py-3', 'mb-4', 'border-bottom');
+    const headerContainer = document.createElement('header');
+    headerContainer.classList.add('d-flex', 'flex-wrap', 'align-items-center', 'justify-content-center', 'justify-content-md-between', 'py-3', 'mb-4', 'border-bottom');
+
+    const headerDiv1 = createSubContainer('col-md-4 col-lg-auto', 'Product list');
+    const headerDiv2 = createSubContainer('col-md-4 col-lg-auto', 'Search');
+    const headerDiv3 = createSubContainer('col-md-4 text-end', '');
+
+    const searchForm = document.createElement('form');
+    searchForm.classList.add('col-md-4', 'col-lg-auto');
+    searchForm.setAttribute('role', 'search');
+    const searchInput = document.createElement('input');
+    searchInput.setAttribute('type', 'search');
+    searchInput.classList.add('form-control');
+    searchInput.setAttribute('placeholder', 'Search...');
+    searchInput.setAttribute('aria-label', 'Search');
+    searchForm.append(searchInput);
+    headerDiv2.append(searchForm);
+
+    const loginButtonContainer = createSubContainer('col-md-4 text-end', '');
+    const loginButton = createButton(loginButtonContainer, 'Login', 'btn-info', () => {});
+    const signupButton = createButton(loginButtonContainer, 'Sign-up', 'btn-warning', () => {});
+    headerDiv3.append(loginButtonContainer);
+
+    [headerDiv1, headerDiv2, headerDiv3].forEach(container => {
+        headerContainer.append(container);
+    });
+    containerDiv.append(headerContainer);
+
+    const main = document.createElement('main');
+
+    main.classList.add('d-flex', 'flex-wrap', 'align-items-center', 'justify-content-center', 'justify-content-md-between', 'py-3', 'mb-4', 'border-bottom');
 
     const divCategory = createSubContainer('div-category', 'Category');
     const divProducts = createSubContainer('div-product', 'Product');
     const divCharacteristics = createSubContainer('div-characteristics', 'Characteristics');
 
     [divCategory, divProducts, divCharacteristics].forEach(container => {
-        mainContainer.append(container);
+        main.append(container);
     });
 
     [divCategory, divProducts, divCharacteristics].forEach(container => {
         container.style.cssText = 'display: flex; flex-direction: column; margin-bottom: 10px;';
     });
 
-    const containerDiv = document.querySelector('.container');
-    containerDiv.append(mainContainer);
+    containerDiv.append(main);
+
 
     for (const category in configObj) {
         createButton(divCategory, category, 'btn-primary', () => showProducts(category));
@@ -123,9 +153,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showCharacteristics(category, product) {
         divCharacteristics.innerText = '';
-
         const characteristics = configObj[category][product];
         const characteristicsList = document.createElement('ul');
+
         for (const key in characteristics) {
             const characteristicItem = document.createElement('li');
             characteristicItem.textContent = `${key}: ${characteristics[key]}`;
@@ -134,11 +164,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         divCharacteristics.append(characteristicsList);
 
-        const buttonWrapper = document.createElement('div');
-        buttonWrapper.style.textAlign = 'center';
-        createButton(buttonWrapper, 'Buy', 'btn-primary', () => handleBuyButtonClick(category, product));
+        const buttonWrDiv = document.createElement('div');
+        buttonWrDiv.style.textAlign = 'center';
+        createButton(buttonWrDiv, 'Buy', 'btn-primary', () => handleBuyButtonClick(category, product));
 
-        divCharacteristics.append(buttonWrapper);
+        divCharacteristics.append(buttonWrDiv);
         divCharacteristics.style.cssText = 'font-size: 16px; text-align: left;';
     }
 
@@ -148,6 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
         button.textContent = text;
         button.addEventListener('click', clickHandler);
         container.append(button);
+        return button;
     }
 
     function handleBuyButtonClick(category, product) {
@@ -163,11 +194,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const subContainer = document.createElement('div');
         subContainer.classList.add('col-md-4', 'col-lg-auto');
         subContainer.id = id;
-
-        const heading = document.createElement('h4');
-        heading.textContent = headingText;
-        subContainer.append(heading);
-
+        if (headingText !== 'Search'){
+            const heading = document.createElement('h4');
+            heading.textContent = headingText;
+            subContainer.append(heading);
+        }
         return subContainer;
     }
 });
