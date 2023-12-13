@@ -86,8 +86,6 @@ const configObj = {
     },
 };
 
-
-document.addEventListener('DOMContentLoaded', function () {
     const containerDiv = document.createElement('div');
     containerDiv.classList.add('container');
 
@@ -137,6 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     containerDiv.append(main);
     document.body.append(containerDiv);
+    document.body.style.backgroundColor = 'lightblue';
 
     for (const category in configObj) {
         createButton(divCategory, category, 'btn-primary', () => showProducts(category));
@@ -202,4 +201,3 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         return subContainer;
     }
-});
