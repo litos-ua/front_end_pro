@@ -88,7 +88,8 @@ const configObj = {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    const containerDiv = document.querySelector('.container');
+    const containerDiv = document.createElement('div');
+    containerDiv.classList.add('container');
 
     const headerContainer = document.createElement('header');
     headerContainer.classList.add('d-flex', 'flex-wrap', 'align-items-center', 'justify-content-center', 'justify-content-md-between', 'py-3', 'mb-4', 'border-bottom');
@@ -135,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     containerDiv.append(main);
-
+    document.body.append(containerDiv);
 
     for (const category in configObj) {
         createButton(divCategory, category, 'btn-primary', () => showProducts(category));
