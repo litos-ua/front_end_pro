@@ -7,9 +7,9 @@ const contentDiv = document.createElement('div');
 contentDiv.classList.add('d-flex', 'flex-wrap', 'align-items-center', 'justify-content-center', 'justify-content-md-between', 'py-3', 'mb-4');
 containerDiv.append(contentDiv);
 
-let previousButtonClickCount = 9;
+let previousButtonClickCount = 3;
 let nextButtonClickCount = 0;
-let sumCount = 0;
+let sumCount = 3;
 
 const previousButton = createButton(contentDiv, {
     text: 'Previous',
@@ -19,7 +19,8 @@ const previousButton = createButton(contentDiv, {
 
 previousButton.addEventListener('click', () => {
     previousButtonClickCount--;
-    updateImage();
+    refreshImage();
+    refreshButtonVisibility();
     console.log('Sum of counters:', sumCount);
 });
 
@@ -33,8 +34,7 @@ card.style.width = '90%';
 cardDiv.append(card);
 
 const cardImage = document.createElement('img');
-//updateImage();
-cardImage.src = './images/3.jpg';
+refreshImage();
 cardImage.classList.add('card-img-top');
 cardImage.alt = '...';
 card.append(cardImage);
@@ -56,7 +56,8 @@ const nextButton = createButton(contentDiv, {
 
 nextButton.addEventListener('click', () => {
     nextButtonClickCount++;
-    updateImage();
+    refreshImage();
+    refreshButtonVisibility();
     console.log('Sum of counters:', sumCount);
 });
 
@@ -80,10 +81,20 @@ function createButton(container, options) {
     return button;
 }
 
-function updateImage() {
+function refreshImage() {
     sumCount = previousButtonClickCount + nextButtonClickCount;
     cardImage.src = `./images/${sumCount}.jpg`;
-    //sumCount === 10 ? cardImage.src = `./images/3.jpg`: cardImage.src = `./images/${sumCount}.jpg`;
 }
 
-
+function refreshButtonVisibility() {
+    if (sumCount <= 1) {
+        previousButton.style.display = 'none';
+    } else {
+        previousButton.style.display = 'block';
+    }
+    if (sumCount >= 9) {
+        nextButton.style.display = 'none';
+    } else {
+        nextButton.style.display = 'block';
+    }
+}
