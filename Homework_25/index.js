@@ -7,16 +7,20 @@ const contentDiv = document.createElement('div');
 contentDiv.classList.add('d-flex', 'flex-wrap', 'align-items-center', 'justify-content-center', 'justify-content-md-between', 'py-3', 'mb-4');
 containerDiv.append(contentDiv);
 
-let previousButtonClickCount = 0;
+let previousButtonClickCount = 9;
 let nextButtonClickCount = 0;
+let sumCount = 0;
 
-createButton(contentDiv, {
+const previousButton = createButton(contentDiv, {
     text: 'Previous',
     style: 'btn-primary',
     colClass: 'col-md-1'
-}, () => {
-    previousButtonClickCount++;
-    console.log('Previous button clicked:', previousButtonClickCount, 'times');
+});
+
+previousButton.addEventListener('click', () => {
+    previousButtonClickCount--;
+    updateImage();
+    console.log('Sum of counters:', sumCount);
 });
 
 const cardDiv = document.createElement('div');
@@ -29,6 +33,7 @@ card.style.width = '90%';
 cardDiv.append(card);
 
 const cardImage = document.createElement('img');
+//updateImage();
 cardImage.src = './images/3.jpg';
 cardImage.classList.add('card-img-top');
 cardImage.alt = '...';
@@ -38,23 +43,26 @@ const cardBody = document.createElement('div');
 cardBody.classList.add('card-body');
 card.append(cardBody);
 
-const cardText = document.createElement('p');
-cardText.classList.add('card-text');
-cardText.textContent = 'Текст';
-cardBody.append(cardText);
+// const cardText = document.createElement('p');
+// cardText.classList.add('card-text');
+// cardText.textContent = 'Текст';
+// cardBody.append(cardText);
 
-createButton(contentDiv, {
+const nextButton = createButton(contentDiv, {
     text: '&nbsp&nbspNext&nbsp&nbsp',
     style: 'btn-primary',
     colClass: 'col-md-1'
-}, () => {
-    nextButtonClickCount++;
-    console.log('Next button clicked:', nextButtonClickCount, 'times');
 });
 
-document.body.appendChild(containerDiv);
+nextButton.addEventListener('click', () => {
+    nextButtonClickCount++;
+    updateImage();
+    console.log('Sum of counters:', sumCount);
+});
 
-function createButton(container, options, clickHandler) {
+document.body.append(containerDiv);
+
+function createButton(container, options) {
     const buttonDiv = document.createElement('div');
     buttonDiv.classList.add('col-md-1');
 
@@ -66,11 +74,16 @@ function createButton(container, options, clickHandler) {
     button.type = 'button';
     button.classList.add('btn', options.style);
     button.innerHTML = options.text;
-    button.addEventListener('click', clickHandler);
     buttonDiv.append(button);
     container.append(buttonDiv);
 
     return button;
+}
+
+function updateImage() {
+    sumCount = previousButtonClickCount + nextButtonClickCount;
+    cardImage.src = `./images/${sumCount}.jpg`;
+    //sumCount === 10 ? cardImage.src = `./images/3.jpg`: cardImage.src = `./images/${sumCount}.jpg`;
 }
 
 
