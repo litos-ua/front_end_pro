@@ -12,7 +12,7 @@ let nextButtonClickCount = 1;
 let sumCount = previousButtonClickCount + nextButtonClickCount;
 
 const previousButton = createButton(contentDiv, {
-    text: 'Previous',
+    text: '&nbsp&nbspPrev&nbsp&nbsp',
     style: 'btn-primary',
     colClass: 'col-md-1'
 });
@@ -22,7 +22,6 @@ previousButton.addEventListener('click', () => {
     previousButtonClickCount--;
     refreshImage();
     refreshButtonVisibility();
-    console.log('Sum of counters:', sumCount);
 });
 
 const cardDiv = document.createElement('div');
@@ -55,7 +54,6 @@ nextButton.addEventListener('click', () => {
     nextButtonClickCount++;
     refreshImage();
     refreshButtonVisibility();
-    console.log('Sum of counters:', sumCount);
 });
 
 document.body.append(containerDiv);
@@ -83,7 +81,6 @@ function refreshImage() {
     sumCount = previousButtonClickCount + nextButtonClickCount;
     cardImage.src = `./images/${sumCount}.jpg`;
 }
-
 
 function refreshButtonVisibility() {
     if (sumCount <= 1) {
