@@ -7,15 +7,16 @@ const contentDiv = document.createElement('div');
 contentDiv.classList.add('d-flex', 'flex-wrap', 'align-items-center', 'justify-content-center', 'justify-content-md-between', 'py-3', 'mb-4');
 containerDiv.append(contentDiv);
 
-let previousButtonClickCount = 3;
-let nextButtonClickCount = 0;
-let sumCount = 3;
+let previousButtonClickCount = 0;
+let nextButtonClickCount = 1;
+let sumCount = previousButtonClickCount + nextButtonClickCount;
 
 const previousButton = createButton(contentDiv, {
     text: 'Previous',
     style: 'btn-primary',
     colClass: 'col-md-1'
 });
+if (sumCount <= 1) previousButton.style.display = 'none';
 
 previousButton.addEventListener('click', () => {
     previousButtonClickCount--;
@@ -43,16 +44,12 @@ const cardBody = document.createElement('div');
 cardBody.classList.add('card-body');
 card.append(cardBody);
 
-// const cardText = document.createElement('p');
-// cardText.classList.add('card-text');
-// cardText.textContent = 'Текст';
-// cardBody.append(cardText);
-
 const nextButton = createButton(contentDiv, {
     text: '&nbsp&nbspNext&nbsp&nbsp',
     style: 'btn-primary',
     colClass: 'col-md-1'
 });
+if (sumCount >= 9) nextButton.style.display = 'none'
 
 nextButton.addEventListener('click', () => {
     nextButtonClickCount++;
@@ -62,6 +59,7 @@ nextButton.addEventListener('click', () => {
 });
 
 document.body.append(containerDiv);
+
 
 function createButton(container, options) {
     const buttonDiv = document.createElement('div');
@@ -85,6 +83,7 @@ function refreshImage() {
     sumCount = previousButtonClickCount + nextButtonClickCount;
     cardImage.src = `./images/${sumCount}.jpg`;
 }
+
 
 function refreshButtonVisibility() {
     if (sumCount <= 1) {
