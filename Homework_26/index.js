@@ -203,11 +203,17 @@
 //     }
 
 class CustomForm {
-    constructor(action, method, name = 'userform') {
+    constructor(action, method, name , title = '') {
         this.form = document.createElement('form');
         this.form.action = action;
         this.form.method = method;
         this.form.name = name;
+
+        if (title) {
+            const formTitle = document.createElement('h4'); // You can use any heading level you prefer
+            formTitle.textContent = title;
+            this.form.appendChild(formTitle);
+        }
     }
 
     addInput(type, name, placeholder, label = '') {
@@ -278,7 +284,6 @@ class CustomForm {
             option.textContent = optionValue;
             select.append(option);
         });
-
         selectContainer.append(select);
         this.form.append(selectContainer);
     }
@@ -322,11 +327,13 @@ class CustomForm {
         this.form.append(textareaContainer);
     }
 
-    addButton(type, textContent, style) {
+    addButton(type, name, textContent, style) {
         const button = document.createElement('button');
         button.type = type;
         button.classList.add('btn', style, 'me-2', 'mb-2');
+        button.name = name;
         button.textContent = textContent;
+        button.style.cssText = 'width: 5%; margin-left:47%';
         this.form.append(button);
     }
 
@@ -338,7 +345,7 @@ class CustomForm {
     }
 }
 
-const myForm = new CustomForm('/submit', 'post');
+const myForm = new CustomForm('#', 'post','userform', 'Product and delivery information');
 
 myForm.form.name = 'buyForm';
 
@@ -356,19 +363,70 @@ inputContainer.append(inputWar);
 inputContainer.append(inputCity);
 myForm.form.append(inputContainer);
 
-// myForm.addCheckbox('myCheck', '');
 myForm.addRadio('paymentRadio', false, 'by credit card');
 myForm.addRadio('paymentRadio', false, 'upon receipt');
 myForm.addTextarea('comments', 'Enter your comments:', 'Comments:');
-myForm.addButton('submit', 'Submit', 'btn-primary');
+myForm.addButton('submit', 'submitButton','Submit', 'btn-primary');
 
 myForm.appendTo(document.body);
+const currentForm = document.forms.buyForm
 
+const name = document.forms.buyForm.username;
+const select = document.forms.buyForm.city;
+const warehouse = document.forms.buyForm.warehouse;
+const quantity = document.forms.buyForm.quantity;
+const comments = document.forms.buyForm.comments;
+const submitButton =document.forms.buyForm.submitButton;
+
+const data = {};
+
+name.addEventListener('change', e=> {
+    data[e.currentTarget.name] = e.currentTarget.value;
+});
+
+select.addEventListener('change', e=> {
+    data[e.currentTarget.name] = e.currentTarget.value;
+});
+warehouse.addEventListener('change', e=> {
+    data[e.currentTarget.name] = e.currentTarget.value;
+});
+
+quantity.addEventListener('change', e=> {
+    data[e.currentTarget.name] = e.currentTarget.value;
+});
+
+comments.addEventListener('change', e=> {
+    data[e.currentTarget.name] = e.currentTarget.value;
+});
+document.forms.buyForm.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    console.log('submited', data);
+});
+
+
+
+// const usernameInput = document.querySelector('input[name="username"]');
+//
+// usernameInput.addEventListener('input', (e) => {
+//     data[e.currentTarget.name] = e.currentTarget.value;
+//     console.log(data);
+// });
+//
+// document.forms.buyForm.addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     console.log('submitted', data);
+// });
+
+
+//console.log(submitButton);
+//console.log(name);
 //console.log(myForm);
 //console.log(document.forms);
 //console.log(document.forms.buyForm.elements.username.form);
-document.forms.buyForm.username.value = 123;
-console.log(document.forms.buyForm.username.value);
-// document.forms.example.name.value = 123;
-// console.log(document.forms.example.name.value);
+//document.forms.buyForm.username.value = 123;
+//console.log(document.forms.buyForm.username.value);
+//document.forms.example.name.value = 123;
+//console.log(document.forms.example.name.value);
 //const myCheckbox =
+//document.forms.buyForm.comments.value = 'GGGGGGGGGGGGGGGGGG'
+//console.log(document.forms.buyForm.city);
