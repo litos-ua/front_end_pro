@@ -202,26 +202,85 @@
 //         return subContainer;
 //     }
 
+
+const formConfig = {
+    main: {
+        action: '#',
+        method: 'post',
+        name: 'buyForm',
+        title: 'Product and delivery information',
+    },
+    inputUsername: {
+        type: 'text',
+        name: 'username',
+        placeholder: 'Username',
+        label: 'Name',
+    },
+    selectCity: {
+        name: 'city',
+        options: ['Kharkov', 'Odessa', 'Dnepr', 'Kiev', 'Lvov'],
+        label: 'City Label',
+    },
+    inputWarehouse: {
+        type: 'number',
+        name: 'warehouse',
+        placeholder: 'Warehouse for dispatch',
+        label: 'Warehouse Label',
+    },
+    inputQuantity: {
+        type: 'number',
+        name: 'quantity',
+        placeholder: 'quantity',
+        label: 'Quantity of product units',
+    },
+    radioByCreditCard: {
+        name: 'paymentRadio',
+        value: 'by credit card',
+        label: 'by credit card',
+    },
+    radioUponReceipt: {
+        name: 'paymentRadio',
+        value: 'upon receipt',
+        label: 'upon receipt',
+    },
+    textareaComments: {
+        name: 'comments',
+        placeholder: 'Enter your comments:',
+        label: 'Comments:',
+    },
+    buttonSubmit: {
+        type: 'submit',
+        name: 'submitButton',
+        textContent: 'Submit',
+        style: 'btn-primary',
+    },
+};
+
+
 class CustomForm {
-    constructor(action, method, name , title = '') {
+    constructor(configForm) {
+        const { action, method, name, title } = configForm;
         this.form = document.createElement('form');
         this.form.action = action;
         this.form.method = method;
         this.form.name = name;
 
         if (title) {
-            const formTitle = document.createElement('h4'); // You can use any heading level you prefer
+            const formTitle = document.createElement('h4');
             formTitle.textContent = title;
             this.form.appendChild(formTitle);
         }
     }
 
-    addInput(type, name, placeholder, label = '') {
+
+    addInput(configInputObj) {
+        const { type, name, placeholder, label } = configInputObj;
         const inputContainer = this.createInputContainer(type, name, placeholder, label);
         this.form.append(inputContainer);
     }
 
-    addInputReturn(type, name, placeholder, label = '') {
+    addInputReturn(configInputObj) {
+        const { type, name, placeholder, label } = configInputObj;
         return this.createInputContainer(type, name, placeholder, label);
     }
 
@@ -264,7 +323,9 @@ class CustomForm {
         this.form.append(checkboxContainer);
     }
 
-    addSelect(name, options, label) {
+    addSelect(configSelect) {
+        const { name, options, label } = configSelect;
+
         const selectContainer = document.createElement('div');
         selectContainer.classList.add('mb-3');
 
@@ -284,12 +345,15 @@ class CustomForm {
             option.textContent = optionValue;
             select.append(option);
         });
+
         selectContainer.append(select);
         this.form.append(selectContainer);
     }
 
 
-    addRadio(name, value, label) {
+    addRadio(configRadio) {
+        const { name, value, label } = configRadio;
+
         const radioContainer = document.createElement('div');
         radioContainer.classList.add('form-check', 'mb-3');
 
@@ -308,7 +372,9 @@ class CustomForm {
         this.form.append(radioContainer);
     }
 
-    addTextarea(name, placeholder, label) {
+    addTextarea(configTextarea) {
+        const { name, placeholder, label } = configTextarea;
+
         const textareaContainer = document.createElement('div');
         textareaContainer.classList.add('mb-3');
 
@@ -327,7 +393,8 @@ class CustomForm {
         this.form.append(textareaContainer);
     }
 
-    addButton(type, name, textContent, style) {
+    addButton(configButton) {
+        const { type, name, textContent, style } = configButton;
         const button = document.createElement('button');
         button.type = type;
         button.classList.add('btn', style, 'me-2', 'mb-2');
@@ -345,78 +412,85 @@ class CustomForm {
     }
 }
 
-const myForm = new CustomForm('#', 'post','userform', 'Product and delivery information');
 
-myForm.form.name = 'buyForm';
 
-myForm.addInput('text', 'username', 'Username', 'Name');
-myForm.addSelect('city', ['Kharkov', 'Odessa', 'Dnepr', 'Kiev', 'Lvov'], 'City');
+const myForm = new CustomForm(formConfig.main);
+
+//myForm.form.name = 'buyForm';
+
+myForm.addInput(formConfig.inputUsername);
+myForm.addSelect(formConfig.selectCity);
 
 const inputContainer = document.createElement('div');
-const inputWar = myForm.addInputReturn('number', 'warehouse', 'warehouse', 'Warehouse for dispatch');
-const inputCity = myForm.addInputReturn('number', 'quantity', 'quantity', 'Quantity of product units');
+const inputWar = myForm.addInputReturn(formConfig.inputWarehouse);
+const inputQuantity = myForm.addInputReturn(formConfig.inputQuantity);
 inputWar.style.cssText = 'flex: 1; margin-right: 10px';
-inputCity.style.cssText = 'flex: 1';
+inputQuantity.style.cssText = 'flex: 1';
 
 inputContainer.style.cssText = 'display: flex; align-items: center;';
 inputContainer.append(inputWar);
-inputContainer.append(inputCity);
+inputContainer.append(inputQuantity);
 myForm.form.append(inputContainer);
 
-myForm.addRadio('paymentRadio', false, 'by credit card');
-myForm.addRadio('paymentRadio', false, 'upon receipt');
-myForm.addTextarea('comments', 'Enter your comments:', 'Comments:');
-myForm.addButton('submit', 'submitButton','Submit', 'btn-primary');
+myForm.addRadio(formConfig.radioByCreditCard);
+myForm.addRadio(formConfig.radioUponReceipt);
+myForm.addTextarea(formConfig.textareaComments);
+myForm.addButton(formConfig.buttonSubmit);
 
 myForm.appendTo(document.body);
-const currentForm = document.forms.buyForm
-
-const name = document.forms.buyForm.username;
-const select = document.forms.buyForm.city;
-const warehouse = document.forms.buyForm.warehouse;
-const quantity = document.forms.buyForm.quantity;
-const comments = document.forms.buyForm.comments;
-const submitButton =document.forms.buyForm.submitButton;
+//const currentForm = document.forms.buyForm;
+const currentForm = document.forms[formConfig.main.name];
 
 const data = {};
 
-name.addEventListener('change', e=> {
-    data[e.currentTarget.name] = e.currentTarget.value;
-});
 
-select.addEventListener('change', e=> {
-    data[e.currentTarget.name] = e.currentTarget.value;
-});
-warehouse.addEventListener('change', e=> {
-    data[e.currentTarget.name] = e.currentTarget.value;
-});
 
-quantity.addEventListener('change', e=> {
-    data[e.currentTarget.name] = e.currentTarget.value;
-});
+for (const element of currentForm.elements) {
+    if (element.type !== 'submit') {
+        element.addEventListener('change', (e) => {
+            data[e.currentTarget.name] = e.currentTarget.value;
+        });
+    }
+}
 
-comments.addEventListener('change', e=> {
-    data[e.currentTarget.name] = e.currentTarget.value;
-});
-document.forms.buyForm.addEventListener('submit', (e)=>{
+currentForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log('submited', data);
+    console.log('submitted', data);
 });
 
 
 
-// const usernameInput = document.querySelector('input[name="username"]');
-//
-// usernameInput.addEventListener('input', (e) => {
-//     data[e.currentTarget.name] = e.currentTarget.value;
-//     console.log(data);
-// });
-//
-// document.forms.buyForm.addEventListener('submit', (e) => {
-//     e.preventDefault();
-//     console.log('submitted', data);
-// });
+// const name = document.forms.buyForm.username;
+// const select = document.forms.buyForm.city;
+// const warehouse = document.forms.buyForm.warehouse;
+// const quantity = document.forms.buyForm.quantity;
+// const comments = document.forms.buyForm.comments;
+// const submitButton =document.forms.buyForm.submitButton;
 
+// name.addEventListener('change', e=> {
+//     data[e.currentTarget.name] = e.currentTarget.value;
+// });
+//
+// select.addEventListener('change', e=> {
+//     data[e.currentTarget.name] = e.currentTarget.value;
+// });
+// warehouse.addEventListener('change', e=> {
+//     data[e.currentTarget.name] = e.currentTarget.value;
+// });
+//
+// quantity.addEventListener('change', e=> {
+//     data[e.currentTarget.name] = e.currentTarget.value;
+// });
+//
+// comments.addEventListener('change', e=> {
+//     data[e.currentTarget.name] = e.currentTarget.value;
+// });
+//
+//
+// document.forms.buyForm.addEventListener('submit', (e)=>{
+//     e.preventDefault();
+//     console.log('submited', data);
+// });
 
 //console.log(submitButton);
 //console.log(name);
