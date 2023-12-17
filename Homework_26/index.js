@@ -203,58 +203,7 @@
 //     }
 
 
-const formConfig = {
-    main: {
-        action: '#',
-        method: 'post',
-        name: 'buyForm',
-        title: 'Product and delivery information',
-    },
-    inputUsername: {
-        type: 'text',
-        name: 'username',
-        placeholder: 'Username',
-        label: 'Name',
-    },
-    selectCity: {
-        name: 'city',
-        options: ['Kharkov', 'Odessa', 'Dnepr', 'Kiev', 'Lvov'],
-        label: 'City Label',
-    },
-    inputWarehouse: {
-        type: 'number',
-        name: 'warehouse',
-        placeholder: 'Warehouse for dispatch',
-        label: 'Warehouse Label',
-    },
-    inputQuantity: {
-        type: 'number',
-        name: 'quantity',
-        placeholder: 'quantity',
-        label: 'Quantity of product units',
-    },
-    radioByCreditCard: {
-        name: 'paymentRadio',
-        value: 'by credit card',
-        label: 'by credit card',
-    },
-    radioUponReceipt: {
-        name: 'paymentRadio',
-        value: 'upon receipt',
-        label: 'upon receipt',
-    },
-    textareaComments: {
-        name: 'comments',
-        placeholder: 'Enter your comments:',
-        label: 'Comments:',
-    },
-    buttonSubmit: {
-        type: 'submit',
-        name: 'submitButton',
-        textContent: 'Submit',
-        style: 'btn-primary',
-    },
-};
+
 
 
 class CustomForm {
@@ -305,7 +254,8 @@ class CustomForm {
     }
 
 
-    addCheckbox(name, label) {
+    addCheckbox(configSelect) {
+        const { name, label } = configSelect;
         const checkboxContainer = document.createElement('div');
         checkboxContainer.classList.add('form-check', 'mb-3');
 
@@ -337,7 +287,12 @@ class CustomForm {
         select.name = name;
         select.classList.add('form-select', 'mb-3');
 
-        select.setAttribute('aria-label', 'Default select example');
+        select.setAttribute('aria-label', '');
+
+        const emptyOption = document.createElement('option');
+        emptyOption.value = '';
+        emptyOption.textContent = '';
+        select.append(emptyOption);
 
         options.forEach(optionValue => {
             const option = document.createElement('option');
@@ -416,8 +371,6 @@ class CustomForm {
 
 const myForm = new CustomForm(formConfig.main);
 
-//myForm.form.name = 'buyForm';
-
 myForm.addInput(formConfig.inputUsername);
 myForm.addSelect(formConfig.selectCity);
 
@@ -438,12 +391,9 @@ myForm.addTextarea(formConfig.textareaComments);
 myForm.addButton(formConfig.buttonSubmit);
 
 myForm.appendTo(document.body);
-//const currentForm = document.forms.buyForm;
+
 const currentForm = document.forms[formConfig.main.name];
-
 const data = {};
-
-
 
 for (const element of currentForm.elements) {
     if (element.type !== 'submit') {
