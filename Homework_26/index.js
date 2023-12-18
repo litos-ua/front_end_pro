@@ -323,24 +323,32 @@ const requiredFields = [
     formConfig.radioByCreditCard.name
 ];
 
-for (const element of currentForm.elements) {
-    if (element.type !== 'submit') {
-        const eventType = element.type === 'checkbox' || element.type === 'radio' ? 'change' : 'input';
-        element.addEventListener(eventType, (e) => {
-            data[e.currentTarget.name] = e.currentTarget.value;
-        });
+//const maxLengthFields = [formConfig.inputWarehouse.name];
+maxLengthFields([formConfig.inputWarehouse.name]);
+function maxLengthFields(maxLength){
+    for (const element of currentForm.elements) {
+        if (element.type !== 'submit') {
+            const eventType = element.type === 'checkbox' || element.type === 'radio' ? 'change' : 'input';
+            element.addEventListener(eventType, (e) => {
+                data[e.currentTarget.name] = e.currentTarget.value;
+
+                if (maxLength.includes(e.currentTarget.name)) {
+                    if (e.currentTarget.value.length > 3) {
+                        e.currentTarget.classList.add('invalid');
+                        alert(`${e.currentTarget.name} must not exceed 3 characters.`);
+                        e.currentTarget.value = e.currentTarget.value.slice(0, -1);
+                    } else {
+                        e.currentTarget.classList.remove('invalid');
+                    }
+                }
+            });
+        }
     }
 }
-
-
 currentForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    console.log('formConfig:', formConfig);
-    console.log('data:', data);
-
     const emptyFields = requiredFields.filter(fieldName => !data[fieldName]);
-    console.log(emptyFields);
 
     if (emptyFields.length > 0) {
         const emptyFieldsMessage = emptyFields
