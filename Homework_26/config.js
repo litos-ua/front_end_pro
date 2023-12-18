@@ -95,34 +95,34 @@ const formConfig = {
         type: 'text',
         name: 'username',
         placeholder: 'Username',
-        label: 'Name',
+        label: 'Name *',
     },
     selectCity: {
         name: 'city',
         options: ['Kharkov', 'Odessa', 'Dnepr', 'Kiev', 'Lvov'],
-        label: 'City Label',
+        label: 'City *',
     },
     inputWarehouse: {
         type: 'number',
         name: 'warehouse',
         placeholder: 'Warehouse for dispatch',
-        label: 'Warehouse Label',
+        label: 'Warehouse *',
     },
     inputQuantity: {
         type: 'number',
         name: 'quantityOfProduct',
         placeholder: 'quantity',
-        label: 'Quantity of product units',
+        label: 'Quantity of product units *',
     },
     radioByCreditCard: {
         name: 'paymentForm',
         value: 'by credit card',
-        label: 'by credit card',
+        label: 'By credit card *',
     },
     radioUponReceipt: {
         name: 'paymentForm',
         value: 'upon receipt',
-        label: 'upon receipt',
+        label: 'Upon receipt *',
     },
     textareaComments: {
         name: 'comments',
@@ -131,7 +131,7 @@ const formConfig = {
     },
     checkBox: {
         name: 'comments',
-        label: 'Comments:',
+        label: 'Check:',
     },
     buttonSubmit: {
         type: 'submit',

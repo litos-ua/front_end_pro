@@ -311,29 +311,17 @@ myForm.appendTo(document.body);
 const currentForm = document.forms[formConfig.main.name];
 const data = {};
 
-// for (const element of currentForm.elements) {
-//     if (element.type !== 'submit') {
-//         element.addEventListener('change', (e) => {
-//             data[e.currentTarget.name] = e.currentTarget.value;
-//         });
-//     }
-// }
-//
-// currentForm.addEventListener('submit', (e) => {
-//     e.preventDefault();
-//     console.log('submitted', data);
-// });
-
 const displayDataDiv = document.createElement('div');
 document.body.append(displayDataDiv);
-const requiredFields = ['username', 'city', 'warehouse', 'quantityOfProduct', 'paymentForm'];
-// for (const element of currentForm.elements) {
-//     if (element.type !== 'submit') {
-//         element.addEventListener('input', (e) => {
-//             data[e.currentTarget.name] = e.currentTarget.value;
-//         });
-//     }
-// }
+
+
+const requiredFields = [
+    formConfig.inputUsername.name,
+    formConfig.selectCity.name,
+    formConfig.inputWarehouse.name,
+    formConfig.inputQuantity.name,
+    formConfig.radioByCreditCard.name
+];
 
 for (const element of currentForm.elements) {
     if (element.type !== 'submit') {
@@ -344,14 +332,24 @@ for (const element of currentForm.elements) {
     }
 }
 
+
 currentForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const isEmpty = requiredFields.some(fieldName => !data[fieldName]);
 
-    if (isEmpty) {
-        alert('Please fill in all required fields.');
+    console.log('formConfig:', formConfig);
+    console.log('data:', data);
+
+    const emptyFields = requiredFields.filter(fieldName => !data[fieldName]);
+    console.log(emptyFields);
+
+    if (emptyFields.length > 0) {
+        const emptyFieldsMessage = emptyFields
+            .map(fieldName => Object.values(formConfig).find(obj => obj.name === fieldName)?.label || '')
+            .join(', ');
+        alert(`Please fill in all required fields: ${emptyFieldsMessage}`);
         return;
     }
+
     updateDisplayData();
 });
 
