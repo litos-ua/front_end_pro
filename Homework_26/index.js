@@ -271,13 +271,13 @@ class CustomForm {
         button.classList.add('btn', style, 'me-2', 'mb-2');
         button.name = name;
         button.textContent = textContent;
-        button.style.cssText = 'width: 5%; margin-left:47%';
+        button.style.cssText = 'width: 10%; margin-left:45%';
         this.form.append(button);
     }
 
     appendTo(container) {
-        this.form.style.cssText = 'margin-left: 5%; margin-right: 5%; margin-top: 5px; margin-bottom: 5px; ' +
-            'background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 10px; padding: 10px;';
+        this.form.style.cssText = 'margin-left: 15%; margin-right: 5%; margin-top: 5px; margin-bottom: 5px; ' +
+            'background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 10px; padding: 10px;width: 70%';
 
         container.append(this.form);
     }
@@ -285,112 +285,6 @@ class CustomForm {
 
 
 
-const myForm = new CustomForm(formConfig.main);
-
-myForm.addInput(formConfig.inputUsername);
-myForm.addSelect(formConfig.selectCity);
-
-const inputContainer = document.createElement('div');
-const inputWar = myForm.addInputReturn(formConfig.inputWarehouse);
-const inputQuantity = myForm.addInputReturn(formConfig.inputQuantity);
-inputWar.style.cssText = 'flex: 1; margin-right: 10px';
-inputQuantity.style.cssText = 'flex: 1';
-
-inputContainer.style.cssText = 'display: flex; align-items: center;';
-inputContainer.append(inputWar);
-inputContainer.append(inputQuantity);
-myForm.form.append(inputContainer);
-
-myForm.addRadio(formConfig.radioByCreditCard);
-myForm.addRadio(formConfig.radioUponReceipt);
-myForm.addTextarea(formConfig.textareaComments);
-myForm.addButton(formConfig.buttonSubmit);
-
-myForm.appendTo(document.body);
-
-const currentForm = document.forms[formConfig.main.name];
-const data = {};
-
-const displayDataDiv = document.createElement('div');
-document.body.append(displayDataDiv);
-
-
-const requiredFields = [
-    formConfig.inputUsername.name,
-    formConfig.selectCity.name,
-    formConfig.inputWarehouse.name,
-    formConfig.inputQuantity.name,
-    formConfig.radioByCreditCard.name
-];
-// const inputUsernameElement = currentForm.elements[formConfig.inputUsername.name];
-//
-// checkInputUsername(inputUsernameElement,/^[a-zA-Z\s-]+$/);
-// maxLengthFields([formConfig.inputWarehouse.name]);
-// checkEmptyValue();
-//
-// function maxLengthFields(maxLength){
-//     for (const element of currentForm.elements) {
-//         if (element.type !== 'submit') {
-//             const eventType = element.type === 'checkbox' || element.type === 'radio' ? 'change' : 'input';
-//             element.addEventListener(eventType, (e) => {
-//                 data[e.currentTarget.name] = e.currentTarget.value;
-//
-//                 if (maxLength.includes(e.currentTarget.name)) {
-//                     if (e.currentTarget.value.length > 3) {
-//                         e.currentTarget.classList.add('invalid');
-//                         alert(`${e.currentTarget.name} must not exceed 3 characters.`);
-//                         e.currentTarget.value = e.currentTarget.value.slice(0, -1);
-//                     } else {
-//                         e.currentTarget.classList.remove('invalid');
-//                     }
-//                 }
-//             });
-//         }
-//     }
-// }
-//
-//
-//
-// function checkInputUsername (inputUsernameElement,regex){
-//     inputUsernameElement.addEventListener('keypress', (e) => {
-//         const inputValue = e.key;
-//         if (!regex.test(inputValue)) {
-//             e.preventDefault();
-//         }
-//     });
-// }
-//
-//
-//
-// function  checkEmptyValue() {
-//     currentForm.addEventListener('submit', (e) => {
-//         e.preventDefault();
-//
-//         const emptyFields = requiredFields.filter(fieldName => !data[fieldName]);
-//
-//         if (emptyFields.length > 0) {
-//             const emptyFieldsMessage = emptyFields
-//                 .map(fieldName => Object.values(formConfig).find(obj => obj.name === fieldName)?.label || '')
-//                 .join(', ');
-//             alert(`Please fill in all required fields: ${emptyFieldsMessage}`);
-//             return;
-//         }
-//
-//         updateDisplayData();
-//     });
-// }
-// function updateDisplayData() {
-//     displayDataDiv.innerText = '';
-//     const dataList = document.createElement('ul');
-//
-//     for (const key in data) {
-//         const listItem = document.createElement('li');
-//         listItem.textContent = `${key}: ${data[key]}`;
-//         dataList.append(listItem);
-//     }
-//
-//     displayDataDiv.append(dataList);
-// }
 class FormValidator {
     static checkInputUsername(inputElement, regex) {
         inputElement.addEventListener('keypress', (e) => {
@@ -454,7 +348,52 @@ class FormValidator {
     }
 }
 
-// Usage
+
+
+
+
+
+const myForm = new CustomForm(formConfig.main);
+
+myForm.addInput(formConfig.inputUsername);
+myForm.addSelect(formConfig.selectCity);
+
+const inputContainer = document.createElement('div');
+const inputWar = myForm.addInputReturn(formConfig.inputWarehouse);
+const inputQuantity = myForm.addInputReturn(formConfig.inputQuantity);
+inputWar.style.cssText = 'flex: 1; margin-right: 10px';
+inputQuantity.style.cssText = 'flex: 1';
+
+inputContainer.style.cssText = 'display: flex; align-items: center;';
+inputContainer.append(inputWar);
+inputContainer.append(inputQuantity);
+myForm.form.append(inputContainer);
+
+myForm.addRadio(formConfig.radioByCreditCard);
+myForm.addRadio(formConfig.radioUponReceipt);
+myForm.addTextarea(formConfig.textareaComments);
+myForm.addButton(formConfig.buttonSubmit);
+
+myForm.appendTo(document.body);
+
+const currentForm = document.forms[formConfig.main.name];
+const data = {};
+
+const displayDataDiv = document.createElement('div');
+document.body.append(displayDataDiv);
+
+
+const requiredFields = [
+    formConfig.inputUsername.name,
+    formConfig.selectCity.name,
+    formConfig.inputWarehouse.name,
+    formConfig.inputQuantity.name,
+    formConfig.radioByCreditCard.name
+];
+
+
+
+
 const inputUsernameElement = currentForm.elements[formConfig.inputUsername.name];
 FormValidator.checkInputUsername(inputUsernameElement, /^[a-zA-Z\s-]+$/);
 
