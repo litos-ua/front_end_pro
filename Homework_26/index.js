@@ -1,123 +1,178 @@
 "use strict"
 
 
-//     const containerDiv = document.createElement('div');
-//     containerDiv.classList.add('container');
-//
-//     const headerContainer = document.createElement('header');
-//     headerContainer.classList.add('d-flex', 'flex-wrap', 'align-items-center', 'justify-content-center', 'justify-content-md-between', 'py-3', 'mb-4', 'border-bottom');
-//
-//     const headerDiv1 = createSubContainer('col-md-4 col-lg-auto', 'Product list');
-//     const headerDiv2 = createSubContainer('col-md-4 col-lg-auto', 'Search');
-//     const headerDiv3 = createSubContainer('col-md-4 text-end', '');
-//
-//     const searchForm = document.createElement('form');
-//     searchForm.classList.add('col-md-4', 'col-lg-auto');
-//     searchForm.setAttribute('role', 'search');
-//     const searchInput = document.createElement('input');
-//     searchInput.setAttribute('type', 'search');
-//     searchInput.classList.add('form-control');
-//     searchInput.setAttribute('placeholder', 'Search...');
-//     searchInput.setAttribute('aria-label', 'Search');
-//     searchForm.append(searchInput);
-//     headerDiv2.append(searchForm);
-//
-//     const loginButtonContainer = createSubContainer('col-md-4 text-end', '');
-//     const loginButton = createButton(loginButtonContainer, 'Login', 'btn-info', () => {});
-//     const signupButton = createButton(loginButtonContainer, 'Sign-up', 'btn-warning', () => {});
-//     headerDiv3.append(loginButtonContainer);
-//
-//     [headerDiv1, headerDiv2, headerDiv3].forEach(container => {
-//         headerContainer.append(container);
-//     });
-//     containerDiv.append(headerContainer);
-//
-//     const main = document.createElement('main');
-//
-//     main.classList.add('d-flex', 'flex-wrap', 'align-items-center', 'justify-content-center', 'justify-content-md-between', 'py-3', 'mb-4', 'border-bottom');
-//
-//     const divCategory = createSubContainer('div-category', 'Category');
-//     const divProducts = createSubContainer('div-product', 'Product');
-//     const divCharacteristics = createSubContainer('div-characteristics', 'Characteristics');
-//
-//     [divCategory, divProducts, divCharacteristics].forEach(container => {
-//         main.append(container);
-//     });
-//
-//     [divCategory, divProducts, divCharacteristics].forEach(container => {
-//         container.style.cssText = 'display: flex; flex-direction: column; margin-bottom: 10px;';
-//     });
-//
-//     containerDiv.append(main);
-//     document.body.append(containerDiv);
-//     document.body.style.backgroundColor = 'lightblue';
-//
-//     for (const category in configObj) {
-//         createButton(divCategory, category, 'btn-primary', () => showProducts(category));
-//     }
-//
-//     function showProducts(category) {
-//         divProducts.innerText = '';
-//         divCharacteristics.innerText = '';
-//         const products = configObj[category];
-//         for (const product in products) {
-//             createButton(divProducts, product, 'btn-success', () => showCharacteristics(category, product));
-//         }
-//     }
-//
-//
-//     function showCharacteristics(category, product) {
-//         divCharacteristics.innerText = '';
-//         const characteristics = configObj[category][product];
-//         const characteristicsList = document.createElement('ul');
-//
-//         for (const key in characteristics) {
-//             const characteristicItem = document.createElement('li');
-//             characteristicItem.textContent = `${key}: ${characteristics[key]}`;
-//             characteristicsList.append(characteristicItem);
-//         }
-//
-//         divCharacteristics.append(characteristicsList);
-//
-//         const buttonWrDiv = document.createElement('div');
-//         buttonWrDiv.style.textAlign = 'center';
-//         createButton(buttonWrDiv, 'Buy', 'btn-primary', () => handleBuyButtonClick(category, product));
-//
-//         divCharacteristics.append(buttonWrDiv);
-//         divCharacteristics.style.cssText = 'font-size: 16px; text-align: left;';
-//     }
-//
-//     function createButton(container, text, style, clickHandler) {
-//         const button = document.createElement('button');
-//         button.classList.add('btn', style, 'me-2', 'mb-2');
-//         button.textContent = text;
-//         button.addEventListener('click', clickHandler);
-//         container.append(button);
-//         return button;
-//     }
-//
-//     function handleBuyButtonClick(category, product) {
-//         divProducts.innerText = '';
-//         divCharacteristics.innerText = `Product ${product} in category: ${category} has bought`;
-//         divCharacteristics.style.cssText = 'font-weight: bold; font-size: 18px; text-align: center;';
-//         const header4Products = document.createElement('h4');
-//         header4Products.innerText = 'Product';
-//         divProducts.append(header4Products);
-//     }
-//
-//     function createSubContainer(id, headingText) {
-//         const subContainer = document.createElement('div');
-//         subContainer.classList.add('col-md-4', 'col-lg-auto');
-//         subContainer.id = id;
-//         if (headingText !== 'Search'){
-//             const heading = document.createElement('h4');
-//             heading.textContent = headingText;
-//             subContainer.append(heading);
-//         }
-//         return subContainer;
-//     }
+    const containerDiv = document.createElement('div');
+    containerDiv.classList.add('container');
+
+    const headerContainer = document.createElement('header');
+    headerContainer.classList.add('d-flex', 'flex-wrap', 'align-items-center', 'justify-content-center', 'justify-content-md-between', 'py-3', 'mb-4', 'border-bottom');
+
+    const headerDiv1 = createSubContainer('col-md-4 col-lg-auto', 'Product list');
+    const headerDiv2 = createSubContainer('col-md-4 col-lg-auto', 'Search');
+    const headerDiv3 = createSubContainer('col-md-4 text-end', '');
+
+    const searchForm = document.createElement('form');
+    searchForm.classList.add('col-md-4', 'col-lg-auto');
+    searchForm.setAttribute('role', 'search');
+    const searchInput = document.createElement('input');
+    searchInput.setAttribute('type', 'search');
+    searchInput.classList.add('form-control');
+    searchInput.setAttribute('placeholder', 'Search...');
+    searchInput.setAttribute('aria-label', 'Search');
+    searchForm.append(searchInput);
+    headerDiv2.append(searchForm);
+
+    const loginButtonContainer = createSubContainer('col-md-4 text-end', '');
+    const loginButton = createButton(loginButtonContainer, 'Login', 'btn-info', () => {});
+    const signupButton = createButton(loginButtonContainer, 'Sign-up', 'btn-warning', () => {});
+    headerDiv3.append(loginButtonContainer);
+
+    [headerDiv1, headerDiv2, headerDiv3].forEach(container => {
+        headerContainer.append(container);
+    });
+    containerDiv.append(headerContainer);
+
+    const main = document.createElement('main');
+
+    main.classList.add('d-flex', 'flex-wrap', 'align-items-center', 'justify-content-center', 'justify-content-md-between', 'py-3', 'mb-4', 'border-bottom');
+
+    const divCategory = createSubContainer('div-category', 'Category');
+    const divProducts = createSubContainer('div-product', 'Product');
+    const divCharacteristics = createSubContainer('div-characteristics', 'Characteristics');
+
+    [divCategory, divProducts, divCharacteristics].forEach(container => {
+        main.append(container);
+    });
+
+    [divCategory, divProducts, divCharacteristics].forEach(container => {
+        container.style.cssText = 'display: flex; flex-direction: column; margin-bottom: 10px;';
+    });
+
+    containerDiv.append(main);
+    document.body.append(containerDiv);
+    document.body.style.backgroundColor = 'lightblue';
+
+    for (const category in configObj) {
+        createButton(divCategory, category, 'btn-primary', () => showProducts(category));
+    }
+
+    function showProducts(category) {
+        divProducts.innerText = '';
+        divCharacteristics.innerText = '';
+        const products = configObj[category];
+        for (const product in products) {
+            createButton(divProducts, product, 'btn-success', () => showCharacteristics(category, product));
+        }
+    }
 
 
+    function showCharacteristics(category, product) {
+        divCharacteristics.innerText = '';
+        const characteristics = configObj[category][product];
+        const characteristicsList = document.createElement('ul');
+
+        for (const key in characteristics) {
+            const characteristicItem = document.createElement('li');
+            characteristicItem.textContent = `${key}: ${characteristics[key]}`;
+            characteristicsList.append(characteristicItem);
+        }
+
+        divCharacteristics.append(characteristicsList);
+
+        const buttonWrDiv = document.createElement('div');
+        buttonWrDiv.style.textAlign = 'center';
+//        createButton(buttonWrDiv, 'Buy', 'btn-primary', () => handleBuyButtonClick(category, product));
+        createButton(buttonWrDiv, 'Buy', 'btn-primary', () => handleFormButtonClick());
+        divCharacteristics.append(buttonWrDiv);
+        divCharacteristics.style.cssText = 'font-size: 16px; text-align: left;';
+    }
+
+    function createButton(container, text, style, clickHandler) {
+        const button = document.createElement('button');
+        button.classList.add('btn', style, 'me-2', 'mb-2');
+        button.textContent = text;
+        button.addEventListener('click', clickHandler);
+        container.append(button);
+        return button;
+    }
+
+    function handleBuyButtonClick(category, product) {
+        divProducts.innerText = '';
+        divCharacteristics.innerText = `Product ${product} in category: ${category} has bought`;
+        divCharacteristics.style.cssText = 'font-weight: bold; font-size: 18px; text-align: center;';
+        const header4Products = document.createElement('h4');
+        header4Products.innerText = 'Product';
+        divProducts.append(header4Products);
+    }
+
+
+
+
+    function createSubContainer(id, headingText) {
+        const subContainer = document.createElement('div');
+        subContainer.classList.add('col-md-4', 'col-lg-auto');
+        subContainer.id = id;
+        if (headingText !== 'Search'){
+            const heading = document.createElement('h4');
+            heading.textContent = headingText;
+            subContainer.append(heading);
+        }
+        return subContainer;
+    }
+
+function handleFormButtonClick() {
+    const myForm = new CustomForm(formConfig.main);
+
+    myForm.addInput(formConfig.inputUsername);
+    myForm.addSelect(formConfig.selectCity);
+
+    const inputContainer = document.createElement('div');
+    const inputWar = myForm.addInputReturn(formConfig.inputWarehouse);
+    const inputQuantity = myForm.addInputReturn(formConfig.inputQuantity);
+    inputWar.style.cssText = 'flex: 1; margin-right: 10px';
+    inputQuantity.style.cssText = 'flex: 1';
+
+    inputContainer.style.cssText = 'display: flex; align-items: center;';
+    inputContainer.append(inputWar);
+    inputContainer.append(inputQuantity);
+    myForm.form.append(inputContainer);
+
+    myForm.addRadio(formConfig.radioByCreditCard);
+    myForm.addRadio(formConfig.radioUponReceipt);
+    myForm.addTextarea(formConfig.textareaComments);
+    myForm.addButton(formConfig.buttonSubmit);
+
+    myForm.appendTo(document.body);
+
+    const currentForm = document.forms[formConfig.main.name];
+    const data = {};
+
+    const displayDataDiv = document.createElement('div');
+    document.body.append(displayDataDiv);
+
+
+    const requiredFields = [
+        formConfig.inputUsername.name,
+        formConfig.selectCity.name,
+        formConfig.inputWarehouse.name,
+        formConfig.inputQuantity.name,
+        formConfig.radioByCreditCard.name
+    ];
+
+
+
+
+    const inputUsernameElement = currentForm.elements[formConfig.inputUsername.name];
+    FormValidator.checkInputUsername(inputUsernameElement, /^[a-zA-Z\s-]+$/);
+
+    FormValidator.maxLengthFields(
+        [formConfig.inputWarehouse.name],
+        data,
+        currentForm
+    );
+
+    FormValidator.checkEmptyValue(requiredFields, data, currentForm);
+}
 
 
 
@@ -335,74 +390,26 @@ class FormValidator {
     }
 
     static updateDisplayData(data) {
-        displayDataDiv.innerText = '';
-        const dataList = document.createElement('ul');
 
+        const outInfContainer = document.createElement('div');
+        outInfContainer.style.cssText =
+            'margin-left: 40%; margin-right: 40%; background-color: lightyellow; font-size: 18px;';
+        const titleElement = document.createElement('h4');
+        titleElement.textContent = 'Information for placing an order';
+        titleElement.style.marginLeft = '10px';
+        outInfContainer.append(titleElement);
+
+        const dataList = document.createElement('ul');
+        dataList.style.marginLeft = '50px';
         for (const key in data) {
             const listItem = document.createElement('li');
             listItem.textContent = `${key}: ${data[key]}`;
             dataList.append(listItem);
         }
-
-        displayDataDiv.append(dataList);
+        outInfContainer.append(dataList);
+        document.body.append(outInfContainer);
     }
 }
 
-
-
-
-
-
-const myForm = new CustomForm(formConfig.main);
-
-myForm.addInput(formConfig.inputUsername);
-myForm.addSelect(formConfig.selectCity);
-
-const inputContainer = document.createElement('div');
-const inputWar = myForm.addInputReturn(formConfig.inputWarehouse);
-const inputQuantity = myForm.addInputReturn(formConfig.inputQuantity);
-inputWar.style.cssText = 'flex: 1; margin-right: 10px';
-inputQuantity.style.cssText = 'flex: 1';
-
-inputContainer.style.cssText = 'display: flex; align-items: center;';
-inputContainer.append(inputWar);
-inputContainer.append(inputQuantity);
-myForm.form.append(inputContainer);
-
-myForm.addRadio(formConfig.radioByCreditCard);
-myForm.addRadio(formConfig.radioUponReceipt);
-myForm.addTextarea(formConfig.textareaComments);
-myForm.addButton(formConfig.buttonSubmit);
-
-myForm.appendTo(document.body);
-
-const currentForm = document.forms[formConfig.main.name];
-const data = {};
-
-const displayDataDiv = document.createElement('div');
-document.body.append(displayDataDiv);
-
-
-const requiredFields = [
-    formConfig.inputUsername.name,
-    formConfig.selectCity.name,
-    formConfig.inputWarehouse.name,
-    formConfig.inputQuantity.name,
-    formConfig.radioByCreditCard.name
-];
-
-
-
-
-const inputUsernameElement = currentForm.elements[formConfig.inputUsername.name];
-FormValidator.checkInputUsername(inputUsernameElement, /^[a-zA-Z\s-]+$/);
-
-FormValidator.maxLengthFields(
-    [formConfig.inputWarehouse.name],
-    data,
-    currentForm
-);
-
-FormValidator.checkEmptyValue(requiredFields, data, currentForm);
 
 
