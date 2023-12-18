@@ -81,8 +81,7 @@
 
         const buttonWrDiv = document.createElement('div');
         buttonWrDiv.style.textAlign = 'center';
-//        createButton(buttonWrDiv, 'Buy', 'btn-primary', () => handleBuyButtonClick(category, product));
-        createButton(buttonWrDiv, 'Buy', 'btn-primary', () => handleFormButtonClick());
+        createButton(buttonWrDiv, 'Buy', 'btn-primary', () => handleFormButtonClick(product));
         divCharacteristics.append(buttonWrDiv);
         divCharacteristics.style.cssText = 'font-size: 16px; text-align: left;';
     }
@@ -120,7 +119,7 @@
         return subContainer;
     }
 
-function handleFormButtonClick() {
+function handleFormButtonClick(selectedProduct) {
     const myForm = new CustomForm(formConfig.main);
 
     myForm.addInput(formConfig.inputUsername);
@@ -172,6 +171,7 @@ function handleFormButtonClick() {
     );
 
     FormValidator.checkEmptyValue(requiredFields, data, currentForm);
+    FormValidator.updateDisplayData(data, selectedProduct);
 }
 
 
@@ -389,15 +389,17 @@ class FormValidator {
         });
     }
 
-    static updateDisplayData(data) {
-
+    static updateDisplayData(data, selectedProduct) {
         const outInfContainer = document.createElement('div');
         outInfContainer.style.cssText =
             'margin-left: 40%; margin-right: 40%; background-color: lightyellow; font-size: 18px;';
         const titleElement = document.createElement('h4');
-        titleElement.textContent = 'Information for placing an order';
+        if (typeof (selectedProduct) !== "undefined") {
+            titleElement.textContent = `Information for placing an order selected Product: ${selectedProduct}`;
+        }
         titleElement.style.marginLeft = '10px';
         outInfContainer.append(titleElement);
+
 
         const dataList = document.createElement('ul');
         dataList.style.marginLeft = '50px';
