@@ -322,54 +322,148 @@ const requiredFields = [
     formConfig.inputQuantity.name,
     formConfig.radioByCreditCard.name
 ];
+// const inputUsernameElement = currentForm.elements[formConfig.inputUsername.name];
+//
+// checkInputUsername(inputUsernameElement,/^[a-zA-Z\s-]+$/);
+// maxLengthFields([formConfig.inputWarehouse.name]);
+// checkEmptyValue();
+//
+// function maxLengthFields(maxLength){
+//     for (const element of currentForm.elements) {
+//         if (element.type !== 'submit') {
+//             const eventType = element.type === 'checkbox' || element.type === 'radio' ? 'change' : 'input';
+//             element.addEventListener(eventType, (e) => {
+//                 data[e.currentTarget.name] = e.currentTarget.value;
+//
+//                 if (maxLength.includes(e.currentTarget.name)) {
+//                     if (e.currentTarget.value.length > 3) {
+//                         e.currentTarget.classList.add('invalid');
+//                         alert(`${e.currentTarget.name} must not exceed 3 characters.`);
+//                         e.currentTarget.value = e.currentTarget.value.slice(0, -1);
+//                     } else {
+//                         e.currentTarget.classList.remove('invalid');
+//                     }
+//                 }
+//             });
+//         }
+//     }
+// }
+//
+//
+//
+// function checkInputUsername (inputUsernameElement,regex){
+//     inputUsernameElement.addEventListener('keypress', (e) => {
+//         const inputValue = e.key;
+//         if (!regex.test(inputValue)) {
+//             e.preventDefault();
+//         }
+//     });
+// }
+//
+//
+//
+// function  checkEmptyValue() {
+//     currentForm.addEventListener('submit', (e) => {
+//         e.preventDefault();
+//
+//         const emptyFields = requiredFields.filter(fieldName => !data[fieldName]);
+//
+//         if (emptyFields.length > 0) {
+//             const emptyFieldsMessage = emptyFields
+//                 .map(fieldName => Object.values(formConfig).find(obj => obj.name === fieldName)?.label || '')
+//                 .join(', ');
+//             alert(`Please fill in all required fields: ${emptyFieldsMessage}`);
+//             return;
+//         }
+//
+//         updateDisplayData();
+//     });
+// }
+// function updateDisplayData() {
+//     displayDataDiv.innerText = '';
+//     const dataList = document.createElement('ul');
+//
+//     for (const key in data) {
+//         const listItem = document.createElement('li');
+//         listItem.textContent = `${key}: ${data[key]}`;
+//         dataList.append(listItem);
+//     }
+//
+//     displayDataDiv.append(dataList);
+// }
+class FormValidator {
+    static checkInputUsername(inputElement, regex) {
+        inputElement.addEventListener('keypress', (e) => {
+            const inputValue = e.key;
+            if (!regex.test(inputValue)) {
+                e.preventDefault();
+            }
+        });
+    }
 
-//const maxLengthFields = [formConfig.inputWarehouse.name];
-maxLengthFields([formConfig.inputWarehouse.name]);
-function maxLengthFields(maxLength){
-    for (const element of currentForm.elements) {
-        if (element.type !== 'submit') {
-            const eventType = element.type === 'checkbox' || element.type === 'radio' ? 'change' : 'input';
-            element.addEventListener(eventType, (e) => {
-                data[e.currentTarget.name] = e.currentTarget.value;
+    static maxLengthFields(maxLength, data, currentForm) {
+        for (const element of currentForm.elements) {
+            if (element.type !== 'submit') {
+                const eventType = element.type === 'checkbox' || element.type === 'radio' ? 'change' : 'input';
+                element.addEventListener(eventType, (e) => {
+                    data[e.currentTarget.name] = e.currentTarget.value;
 
-                if (maxLength.includes(e.currentTarget.name)) {
-                    if (e.currentTarget.value.length > 3) {
-                        e.currentTarget.classList.add('invalid');
-                        alert(`${e.currentTarget.name} must not exceed 3 characters.`);
-                        e.currentTarget.value = e.currentTarget.value.slice(0, -1);
-                    } else {
-                        e.currentTarget.classList.remove('invalid');
+                    if (maxLength.includes(e.currentTarget.name)) {
+                        if (e.currentTarget.value.length > 3) {
+                            e.currentTarget.classList.add('invalid');
+                            alert(`${e.currentTarget.name} must not exceed 3 characters.`);
+                            e.currentTarget.value = e.currentTarget.value.slice(0, -1);
+                        } else {
+                            e.currentTarget.classList.remove('invalid');
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
-}
-currentForm.addEventListener('submit', (e) => {
-    e.preventDefault();
 
-    const emptyFields = requiredFields.filter(fieldName => !data[fieldName]);
+    static checkEmptyValue(requiredFields, data, currentForm) {
+        currentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-    if (emptyFields.length > 0) {
-        const emptyFieldsMessage = emptyFields
-            .map(fieldName => Object.values(formConfig).find(obj => obj.name === fieldName)?.label || '')
-            .join(', ');
-        alert(`Please fill in all required fields: ${emptyFieldsMessage}`);
-        return;
+            const emptyFields = requiredFields.filter(fieldName => !data[fieldName]);
+
+            if (emptyFields.length > 0) {
+                const emptyFieldsMessage = emptyFields
+                    .map(fieldName => Object.values(formConfig).find(obj => obj.name === fieldName)?.label || '')
+                    .join(', ');
+                alert(`Please fill in all required fields: ${emptyFieldsMessage}`);
+                return;
+            }
+
+            FormValidator.updateDisplayData(data);
+        });
     }
 
-    updateDisplayData();
-});
+    static updateDisplayData(data) {
+        displayDataDiv.innerText = '';
+        const dataList = document.createElement('ul');
 
-function updateDisplayData() {
-    displayDataDiv.innerText = '';
-    const dataList = document.createElement('ul');
+        for (const key in data) {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${key}: ${data[key]}`;
+            dataList.append(listItem);
+        }
 
-    for (const key in data) {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${key}: ${data[key]}`;
-        dataList.append(listItem);
+        displayDataDiv.append(dataList);
     }
-
-    displayDataDiv.append(dataList);
 }
+
+// Usage
+const inputUsernameElement = currentForm.elements[formConfig.inputUsername.name];
+FormValidator.checkInputUsername(inputUsernameElement, /^[a-zA-Z\s-]+$/);
+
+FormValidator.maxLengthFields(
+    [formConfig.inputWarehouse.name],
+    data,
+    currentForm
+);
+
+FormValidator.checkEmptyValue(requiredFields, data, currentForm);
+
+
