@@ -52,14 +52,16 @@ containerDiv.append(main);
 document.body.append(containerDiv);
 document.body.style.backgroundColor = 'lightblue';
 
-for (const category in configObj) {
+
+
+for (const category in configObj.categories) {
     createButton(divCategory, category, 'btn-primary', () => showProducts(category));
 }
 
 function showProducts(category) {
     divProducts.innerText = '';
     divCharacteristics.innerText = '';
-    const products = configObj[category];
+    const products = configObj.categories[category].Products;
     for (const product in products) {
         createButton(divProducts, product, 'btn-success', () => showCharacteristics(category, product));
     }
@@ -68,7 +70,7 @@ function showProducts(category) {
 
 function showCharacteristics(category, product) {
     divCharacteristics.innerText = '';
-    const characteristics = configObj[category][product];
+    const characteristics = configObj.categories[category].Products[product];
     const characteristicsList = document.createElement('ul');
 
     for (const key in characteristics) {
@@ -97,14 +99,12 @@ function createButton(container, text, style, clickHandler) {
 
 function handleBuyButtonClick(category, product) {
     divProducts.innerText = '';
-    divCharacteristics.innerText = `Product ${product} in category: ${category} has bought`;
+    divCharacteristics.innerText = `Product ${product} in category: ${category} has been bought`;
     divCharacteristics.style.cssText = 'font-weight: bold; font-size: 18px; text-align: center;';
     const header4Products = document.createElement('h4');
     header4Products.innerText = 'Product';
     divProducts.append(header4Products);
 }
-
-
 
 
 function createSubContainer(id, headingText) {
@@ -159,20 +159,96 @@ function handleFormButtonClick(selectedProduct) {
     ];
 
 
-
-
     const inputUsernameElement = currentForm.elements[formConfig.inputUsername.name];
-    FormValidator.checkInputUsername(inputUsernameElement, /^[a-zA-Z\s-]+$/);
 
+    FormValidator.checkInputUsername(inputUsernameElement, /^[a-zA-Z\s-]+$/);
     FormValidator.maxLengthFields(
         [formConfig.inputWarehouse.name],
         data,
         currentForm
     );
+    FormValidator.checkEmptyValue(requiredFields, data, currentForm, selectedProduct);
 
-    FormValidator.checkEmptyValue(requiredFields, data, currentForm);
-    FormValidator.updateDisplayData(data, selectedProduct);
+
+    currentForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const allFieldsExist = requiredFields.every(fieldName => data.hasOwnProperty(fieldName))
+        let fieldsExist;
+        allFieldsExist ? fieldsExist = true : fieldsExist = false;
+
+        if (fieldsExist) {
+            setTimeout(() => {
+                FormValidator.updateDisplayData(data, selectedProduct);
+                myForm.closeForm();
+            }, 1000);
+        }
+    });
 }
+
+
+
+// function handleFormPopupButtonClick(selectedProduct) {
+//
+//     const popupWindow = window.open('', '_blank', 'width=1200, height=500, ' +
+//         'top=100, left=300');
+//
+//     const myForm = new CustomForm(formConfig.main);
+//     myForm.form.style.width = '90%';
+//     myForm.form.style.height = '70%';
+//     myForm.form.style.backgroundColor = 'yellow';
+//     myForm.addInput(formConfig.inputUsername);
+//     myForm.addSelect(formConfig.selectCity);
+//
+//     const inputContainer = document.createElement('div');
+//     const inputWar = myForm.addInputReturn(formConfig.inputWarehouse);
+//     const inputQuantity = myForm.addInputReturn(formConfig.inputQuantity);
+//     inputWar.style.cssText = 'flex: 1; margin-right: 10px';
+//     inputQuantity.style.cssText = 'flex: 1';
+//
+//     inputContainer.style.cssText = 'display: flex; align-items: center;';
+//     inputContainer.append(inputWar);
+//     inputContainer.append(inputQuantity);
+//     myForm.form.append(inputContainer);
+//
+//     myForm.addRadio(formConfig.radioByCreditCard);
+//     myForm.addRadio(formConfig.radioUponReceipt);
+//     myForm.addTextarea(formConfig.textareaComments);
+//     myForm.addButton(formConfig.buttonSubmit);
+//
+//     myForm.appendTo(popupWindow.document.body);
+//
+//     const closeButton = document.createElement('button');
+//     closeButton.textContent = 'Close';
+//     closeButton.addEventListener('click', () => popupWindow.close());
+//     popupWindow.document.body.appendChild(closeButton);
+//
+//     const currentForm = popupWindow.document.forms[formConfig.main.name];
+//     const data = {};
+//
+//     const displayDataDiv = popupWindow.document.createElement('div');
+//     popupWindow.document.body.append(displayDataDiv);
+//
+//     const requiredFields = [
+//         formConfig.inputUsername.name,
+//         formConfig.selectCity.name,
+//         formConfig.inputWarehouse.name,
+//         formConfig.inputQuantity.name,
+//         formConfig.radioByCreditCard.name
+//     ];
+//
+//     const inputUsernameElement = currentForm.elements[formConfig.inputUsername.name];
+//     FormValidator.checkInputUsername(inputUsernameElement, /^[a-zA-Z\s-]+$/);
+//
+//     FormValidator.maxLengthFields(
+//         [formConfig.inputWarehouse.name],
+//         data,
+//         currentForm
+//     );
+//
+//     FormValidator.checkEmptyValue(requiredFields, data, currentForm);
+//     FormValidator.updateDisplayData(data, selectedProduct);
+// }
+
 
 
 
@@ -336,6 +412,11 @@ class CustomForm {
 
         container.append(this.form);
     }
+
+    closeForm() {
+        this.form.remove();
+    }
+
 }
 
 
@@ -362,6 +443,7 @@ class FormValidator {
                             e.currentTarget.classList.add('invalid');
                             alert(`${e.currentTarget.name} must not exceed 3 characters.`);
                             e.currentTarget.value = e.currentTarget.value.slice(0, -1);
+                            data[e.currentTarget.name] = e.currentTarget.value
                         } else {
                             e.currentTarget.classList.remove('invalid');
                         }
@@ -371,10 +453,9 @@ class FormValidator {
         }
     }
 
-    static checkEmptyValue(requiredFields, data, currentForm) {
+    static checkEmptyValue(requiredFields, data, currentForm,selectedProduct) {
         currentForm.addEventListener('submit', (e) => {
             e.preventDefault();
-
             const emptyFields = requiredFields.filter(fieldName => !data[fieldName]);
 
             if (emptyFields.length > 0) {
@@ -384,25 +465,28 @@ class FormValidator {
                 alert(`Please fill in all required fields: ${emptyFieldsMessage}`);
                 return;
             }
-
-            FormValidator.updateDisplayData(data);
+//            FormValidator.updateDisplayData(data, selectedProduct);
         });
+
     }
+
 
     static updateDisplayData(data, selectedProduct) {
         const outInfContainer = document.createElement('div');
         outInfContainer.style.cssText =
             'margin-left: 40%; margin-right: 40%; background-color: lightyellow; font-size: 18px;';
         const titleElement = document.createElement('h4');
-        if (typeof (selectedProduct) !== "undefined") {
+
+        titleElement.style.marginLeft = '10px';
+
+        if (typeof (selectedProduct) !== "undefined" &&  typeof (data['city']) !== "undefined") {
             titleElement.textContent = `Information for placing an order selected Product: ${selectedProduct}`;
         }
-        titleElement.style.marginLeft = '10px';
         outInfContainer.append(titleElement);
-
 
         const dataList = document.createElement('ul');
         dataList.style.marginLeft = '50px';
+
         for (const key in data) {
             const listItem = document.createElement('li');
             listItem.textContent = `${key}: ${data[key]}`;
@@ -410,8 +494,6 @@ class FormValidator {
         }
         outInfContainer.append(dataList);
         document.body.append(outInfContainer);
+
     }
 }
-
-
-
