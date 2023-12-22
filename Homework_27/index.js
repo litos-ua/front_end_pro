@@ -439,7 +439,6 @@ class FormValidator {
         const price = configObj.categories[selectedCategory].Products[selectedProduct].Price;
         const margWidth = (window.screen.availWidth * 10) / 100;
         const margHeight = (window.screen.availHeight * 10) / 100
-//        console.log('Width = ',window.screen.availWidth , 'Height = ', margHeight);
         const popupWindow = window.open('', '_blank', 'width=500, height=400, ' +
          `top=${margHeight}, left=${margWidth}`);
         const outInfContainer = document.createElement('div');
@@ -455,18 +454,36 @@ class FormValidator {
         }
         outInfContainer.append(titleElement);
 
+        let orderCounter = localStorage.getItem('orderCounter');
+        if (!orderCounter) {
+            orderCounter = 0; // Set to 1 if not exists
+        } else {
+            orderCounter = parseInt(orderCounter, 10);
+        }
+        // Save the current orderCounter to localStorage
+        localStorage.setItem('orderCounter', (orderCounter + 1).toString());
+
         const dataList = document.createElement('ul');
         dataList.style.marginLeft = '50px';
+
+        const counterDateList = document.createElement('li');
+        counterDateList.textContent = `Number of order: ${orderCounter+1}`
+        dataList.append(counterDateList);
 
         for (const key in data) {
             const listItem = document.createElement('li');
             listItem.textContent = `${key}: ${data[key]}`;
             dataList.append(listItem);
         }
-        // Add price information
         const priceListItem = document.createElement('li');
-        priceListItem.textContent = `Price: ${price}`;
+        priceListItem.textContent = `Total price: ${price*data['quantityOfProduct']}`;
         dataList.append(priceListItem);
+
+        const currentDate = new Date();
+        const dateListItem = document.createElement('li');
+        dateListItem.textContent = `Order Date: ${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}` +
+        ` ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+        dataList.append(dateListItem);
 
         outInfContainer.append(dataList);
         popupWindow.document.body.append(outInfContainer);
