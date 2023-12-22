@@ -1,0 +1,64 @@
+<!--<!doctype html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport"-->
+<!--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+<!--    <title>Document</title>-->
+<!--    <script src="./t_01.js" defer></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h2>Lessons_22</h2>-->
+<!--        <h3>Experiment</h3>-->
+<!--            <p id = "display1"> </p>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Storage Example</title>
+</head>
+<body>
+
+<h1>Local Storage Example</h1>
+
+<button id="saveDataBtn">Save Data</button>
+<button id="retrieveDataBtn">Retrieve Data</button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const saveDataBtn = document.getElementById('saveDataBtn');
+        const retrieveDataBtn = document.getElementById('retrieveDataBtn');
+
+        saveDataBtn.addEventListener('click', function () {
+            const data = {
+                name: 'John Doe',
+                age: 30,
+                city: 'Example City'
+            };
+
+            // Save data to local storage
+            localStorage.setItem('userData', JSON.stringify(data));
+
+            alert('Data saved to local storage!');
+        });
+
+        retrieveDataBtn.addEventListener('click', function () {
+            // Retrieve data from local storage
+            const storedData = localStorage.getItem('userData');
+
+            if (storedData) {
+                const data = JSON.parse(storedData);
+                alert('Retrieved data:\n' + JSON.stringify(data, null, 2));
+            } else {
+                alert('No data found in local storage.');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

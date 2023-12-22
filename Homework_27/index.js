@@ -83,7 +83,7 @@ function showCharacteristics(category, product) {
 
     const buttonWrDiv = document.createElement('div');
     buttonWrDiv.style.textAlign = 'center';
-    createButton(buttonWrDiv, 'Buy', 'btn-primary', () => handleFormButtonClick(product));
+    createButton(buttonWrDiv, 'Buy', 'btn-primary', () => handleFormButtonClick(category, product));
     divCharacteristics.append(buttonWrDiv);
     divCharacteristics.style.cssText = 'font-size: 16px; text-align: left;';
 }
@@ -119,7 +119,7 @@ function createSubContainer(id, headingText) {
     return subContainer;
 }
 
-function handleFormButtonClick(selectedProduct) {
+function handleFormButtonClick(selectedCategory, selectedProduct) {
     const myForm = new CustomForm(formConfig.main);
 
     myForm.addInput(formConfig.inputUsername);
@@ -178,76 +178,14 @@ function handleFormButtonClick(selectedProduct) {
 
         if (fieldsExist) {
             setTimeout(() => {
-                FormValidator.updateDisplayData(data, selectedProduct);
+                console.log('data = ', data, 'selectedCategory =', selectedCategory, 'selectedProduct =', selectedProduct);
+                FormValidator.updateDisplayData(data, selectedCategory,selectedProduct);
                 myForm.closeForm();
             }, 1000);
         }
     });
 }
 
-
-
-// function handleFormPopupButtonClick(selectedProduct) {
-//
-//     const popupWindow = window.open('', '_blank', 'width=1200, height=500, ' +
-//         'top=100, left=300');
-//
-//     const myForm = new CustomForm(formConfig.main);
-//     myForm.form.style.width = '90%';
-//     myForm.form.style.height = '70%';
-//     myForm.form.style.backgroundColor = 'yellow';
-//     myForm.addInput(formConfig.inputUsername);
-//     myForm.addSelect(formConfig.selectCity);
-//
-//     const inputContainer = document.createElement('div');
-//     const inputWar = myForm.addInputReturn(formConfig.inputWarehouse);
-//     const inputQuantity = myForm.addInputReturn(formConfig.inputQuantity);
-//     inputWar.style.cssText = 'flex: 1; margin-right: 10px';
-//     inputQuantity.style.cssText = 'flex: 1';
-//
-//     inputContainer.style.cssText = 'display: flex; align-items: center;';
-//     inputContainer.append(inputWar);
-//     inputContainer.append(inputQuantity);
-//     myForm.form.append(inputContainer);
-//
-//     myForm.addRadio(formConfig.radioByCreditCard);
-//     myForm.addRadio(formConfig.radioUponReceipt);
-//     myForm.addTextarea(formConfig.textareaComments);
-//     myForm.addButton(formConfig.buttonSubmit);
-//
-//     myForm.appendTo(popupWindow.document.body);
-//
-//     const closeButton = document.createElement('button');
-//     closeButton.textContent = 'Close';
-//     closeButton.addEventListener('click', () => popupWindow.close());
-//     popupWindow.document.body.append(closeButton);
-//
-//     const currentForm = popupWindow.document.forms[formConfig.main.name];
-//     const data = {};
-//
-//     const displayDataDiv = popupWindow.document.createElement('div');
-//     popupWindow.document.body.append(displayDataDiv);
-//
-//     const requiredFields = [
-//         formConfig.inputUsername.name,
-//         formConfig.selectCity.name,
-//         formConfig.inputWarehouse.name,
-//         formConfig.inputQuantity.name,
-//         formConfig.radioByCreditCard.name
-//     ];
-//
-//     const inputUsernameElement = currentForm.elements[formConfig.inputUsername.name];
-//     FormValidator.checkInputUsername(inputUsernameElement, /^[a-zA-Z\s-]+$/);
-//
-//     FormValidator.maxLengthFields(
-//         [formConfig.inputWarehouse.name],
-//         data,
-//         currentForm
-//     );
-//
-//     FormValidator.checkEmptyValue(requiredFields, data, currentForm);
-//     FormValidator.updateDisplayData(data, selectedProduct);
-// }
 
 
 
@@ -453,7 +391,7 @@ class FormValidator {
         }
     }
 
-    static checkEmptyValue(requiredFields, data, currentForm,selectedProduct) {
+    static checkEmptyValue(requiredFields, data, currentForm) {
         currentForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const emptyFields = requiredFields.filter(fieldName => !data[fieldName]);
@@ -471,38 +409,43 @@ class FormValidator {
     }
 
 
-    static updateDisplayData1(data, selectedProduct) {
-        const outInfContainer = document.createElement('div');
-        outInfContainer.style.cssText =
-            'margin-left: 40%; margin-right: 40%; background-color: lightyellow; font-size: 18px;';
-        const titleElement = document.createElement('h4');
+    // static updateDisplayDataDiv(data, selectedProduct) {
+    //     const outInfContainer = document.createElement('div');
+    //     outInfContainer.style.cssText =
+    //         'margin-left: 40%; margin-right: 40%; background-color: lightyellow; font-size: 18px;';
+    //     const titleElement = document.createElement('h4');
+    //
+    //     titleElement.style.marginLeft = '10px';
+    //
+    //     if (typeof (selectedProduct) !== "undefined" &&  typeof (data['city']) !== "undefined") {
+    //         titleElement.textContent = `Information for placing an order selected Product: ${selectedProduct}`;
+    //     }
+    //     outInfContainer.append(titleElement);
+    //
+    //     const dataList = document.createElement('ul');
+    //     dataList.style.marginLeft = '50px';
+    //
+    //     for (const key in data) {
+    //         const listItem = document.createElement('li');
+    //         listItem.textContent = `${key}: ${data[key]}`;
+    //         dataList.append(listItem);
+    //     }
+    //     outInfContainer.append(dataList);
+    //     document.body.append(outInfContainer);
+    //
+    // }
 
-        titleElement.style.marginLeft = '10px';
-
-        if (typeof (selectedProduct) !== "undefined" &&  typeof (data['city']) !== "undefined") {
-            titleElement.textContent = `Information for placing an order selected Product: ${selectedProduct}`;
-        }
-        outInfContainer.append(titleElement);
-
-        const dataList = document.createElement('ul');
-        dataList.style.marginLeft = '50px';
-
-        for (const key in data) {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${key}: ${data[key]}`;
-            dataList.append(listItem);
-        }
-        outInfContainer.append(dataList);
-        document.body.append(outInfContainer);
-
-    }
-
-    static updateDisplayData(data, selectedProduct) {
+    static updateDisplayData(data, selectedCategory,selectedProduct) {
+        const price = configObj.categories[selectedCategory].Products[selectedProduct].Price;
+        const margWidth = (window.screen.availWidth * 10) / 100;
+        const margHeight = (window.screen.availHeight * 10) / 100
+//        console.log('Width = ',window.screen.availWidth , 'Height = ', margHeight);
         const popupWindow = window.open('', '_blank', 'width=500, height=400, ' +
-         'top=1, left=3');
+         `top=${margHeight}, left=${margWidth}`);
         const outInfContainer = document.createElement('div');
-        outInfContainer.style.cssText =
-            'margin-left: 5%; margin-right: 5%; background-color: lightyellow; font-size: 24px;';
+        // outInfContainer.style.cssText = 'margin-left: 5%; margin-right: 5%; background-color: lightyellow; font-size: 24px;';
+        popupWindow.document.body.style.cssText = `margin-left: 1%; padding-left: 1%; ` +
+            `background-color: lightyellow; font-size: 24px;`; //; margin-right: ${margWidth}
         const titleElement = document.createElement('h4');
 
         titleElement.style.marginLeft = '10px';
@@ -520,9 +463,31 @@ class FormValidator {
             listItem.textContent = `${key}: ${data[key]}`;
             dataList.append(listItem);
         }
+        // Add price information
+        const priceListItem = document.createElement('li');
+        priceListItem.textContent = `Price: ${price}`;
+        dataList.append(priceListItem);
+
         outInfContainer.append(dataList);
         popupWindow.document.body.append(outInfContainer);
 
     }
 
+}
+
+
+class MyStorage {
+    static getData(storageKey) {
+        const storedData = localStorage.getItem(storageKey);
+        return storedData ? JSON.parse(storedData) : null;
+    }
+
+    static setData(storageKey, data) {
+        const jsonString = JSON.stringify(data);
+        localStorage.setItem(storageKey, jsonString);
+    }
+
+    static clearData(storageKey) {
+        localStorage.removeItem(storageKey);
+    }
 }
