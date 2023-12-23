@@ -480,7 +480,6 @@ class FormValidator {
             dataList.append(listItem);
         }
 
-
         outInfContainer.append(dataList);
 
         const recordButton = document.createElement('button');
@@ -490,6 +489,9 @@ class FormValidator {
             'height: 10%; width: 15%; font-size: 16px;';
         recordButton.addEventListener('click', () => {
             // Add logic for 'Record' button click
+            MyStorage.setData(orderCounter.toString(), newData);
+            alert(`Data recorded with key: ${orderCounter}`);
+            popupWindow.close();
         });
         outInfContainer.append(recordButton);
 
