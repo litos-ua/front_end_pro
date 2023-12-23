@@ -178,7 +178,7 @@ function handleFormButtonClick(selectedCategory, selectedProduct) {
 
         if (fieldsExist) {
             setTimeout(() => {
-                console.log('data = ', data, 'selectedCategory =', selectedCategory, 'selectedProduct =', selectedProduct);
+//                console.log('data = ', data, 'selectedCategory =', selectedCategory, 'selectedProduct =', selectedProduct);
                 FormValidator.updateDisplayData(data, selectedCategory,selectedProduct);
                 myForm.closeForm();
             }, 1000);
@@ -439,10 +439,9 @@ class FormValidator {
         const price = configObj.categories[selectedCategory].Products[selectedProduct].Price;
         const margWidth = (window.screen.availWidth * 10) / 100;
         const margHeight = (window.screen.availHeight * 10) / 100
-        const popupWindow = window.open('', '_blank', 'width=500, height=400, ' +
+        const popupWindow = window.open('', '_blank', 'width=500, height=450, ' +
          `top=${margHeight}, left=${margWidth}`);
         const outInfContainer = document.createElement('div');
-        // outInfContainer.style.cssText = 'margin-left: 5%; margin-right: 5%; background-color: lightyellow; font-size: 24px;';
         popupWindow.document.body.style.cssText = `margin-left: 1%; padding-left: 1%; ` +
             `background-color: lightyellow; font-size: 24px;`; //; margin-right: ${margWidth}
         const titleElement = document.createElement('h4');
@@ -456,36 +455,57 @@ class FormValidator {
 
         let orderCounter = localStorage.getItem('orderCounter');
         if (!orderCounter) {
-            orderCounter = 0; // Set to 1 if not exists
+            orderCounter = 0;
         } else {
             orderCounter = parseInt(orderCounter, 10);
         }
-        // Save the current orderCounter to localStorage
-        localStorage.setItem('orderCounter', (orderCounter + 1).toString());
+
+        localStorage.setItem('orderCounter', (++orderCounter).toString());
+
+        const currentDate = new Date();
+        const newData = {
+            'Number of order': orderCounter,
+            ...data,
+            'Total price': price * data['quantityOfProduct'],
+            'Order Date': `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`
+        };
 
         const dataList = document.createElement('ul');
         dataList.style.marginLeft = '50px';
 
-        const counterDateList = document.createElement('li');
-        counterDateList.textContent = `Number of order: ${orderCounter+1}`
-        dataList.append(counterDateList);
 
-        for (const key in data) {
+        for (const key in newData) {
             const listItem = document.createElement('li');
-            listItem.textContent = `${key}: ${data[key]}`;
+            listItem.textContent = `${key}: ${newData[key]}`;
             dataList.append(listItem);
         }
-        const priceListItem = document.createElement('li');
-        priceListItem.textContent = `Total price: ${price*data['quantityOfProduct']}`;
-        dataList.append(priceListItem);
 
-        const currentDate = new Date();
-        const dateListItem = document.createElement('li');
-        dateListItem.textContent = `Order Date: ${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}` +
-        ` ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
-        dataList.append(dateListItem);
 
         outInfContainer.append(dataList);
+
+        const recordButton = document.createElement('button');
+        recordButton.textContent = 'Record';
+        recordButton.style.cssText = 'margin-right: 10%; margin-left: 20%; margin-bottom: 2%;' +
+            'background-color: #5bc0de; color: #fff; border: 1px solid #5bc0de; border-radius: 10px;' +
+            'height: 10%; width: 15%; font-size: 16px;';
+        recordButton.addEventListener('click', () => {
+            // Add logic for 'Record' button click
+        });
+        outInfContainer.append(recordButton);
+
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = 'Cancel';
+        cancelButton.style.cssText = 'margin-left: 20%; background-color: #f8f9fa; color: #000;' +
+            'border: 1px solid #dee2e6; border-radius: 10px; height: 10%; width: 15%; font-size: 16px;';
+        cancelButton.addEventListener('click', () => {
+
+            popupWindow.close();
+        });
+        outInfContainer.append(cancelButton);
+
+
+
+
         popupWindow.document.body.append(outInfContainer);
 
     }
