@@ -48,15 +48,19 @@ const divCharacteristics = createSubContainer('div-characteristics', 'Characteri
     container.style.cssText = 'display: flex; flex-direction: column; margin-bottom: 10px;';
 });
 
+
 containerDiv.append(main);
 document.body.append(containerDiv);
 document.body.style.backgroundColor = 'lightblue';
 
 
-
 for (const category in configObj.categories) {
     createButton(divCategory, category, 'btn-primary', () => showProducts(category));
 }
+
+const orderListButton = createButton(divCategory, 'Orders', 'btn-warning',
+    () => handleOrdersButtonClick());
+orderListButton.style.marginTop = '30px';
 
 function showProducts(category) {
     divProducts.innerText = '';
@@ -88,6 +92,26 @@ function showCharacteristics(category, product) {
     divCharacteristics.style.cssText = 'font-size: 16px; text-align: left;';
 }
 
+function showOrderDetails(storageKey) {
+    // Retrieve order details from localStorage
+    const orderData = MyStorage.getData(storageKey);
+
+    // Display order details in a popup window
+    const popupWindow = window.open('', '_blank', 'width=500, height=400');
+
+    // Add your logic to display orderData in the popup window
+    // For example, create a div and append order details as list items
+    const orderDetailsContainer = document.createElement('div');
+
+    for (const key in orderData) {
+        const listItem = document.createElement('div');
+        listItem.textContent = `${key}: ${orderData[key]}`;
+        orderDetailsContainer.append(listItem);
+    }
+
+    popupWindow.document.body.append(orderDetailsContainer);
+}
+
 function createButton(container, text, style, clickHandler) {
     const button = document.createElement('button');
     button.classList.add('btn', style, 'me-2', 'mb-2');
@@ -104,6 +128,27 @@ function handleBuyButtonClick(category, product) {
     const header4Products = document.createElement('h4');
     header4Products.innerText = 'Product';
     divProducts.append(header4Products);
+}
+
+function handleOrdersButtonClick() {
+    divProducts.innerText = '';
+    divCharacteristics.innerText = '';
+
+
+    for (let i = 0; i < localStorage.length; i++) {
+        const storageKey = localStorage.key(i);
+
+        if (/^\d+$/.test(storageKey)) {
+            const orderData = MyStorage.getData(storageKey);
+
+            const orderListItem = document.createElement('li');
+//            orderListItem.textContent = `Order ${storageKey}: ${JSON.stringify(orderData)}`;
+            orderListItem.textContent = `Order ${storageKey}`;
+            orderListItem.style.cssText = 'font-size: 18px; color: blue; font-weight: bold;';
+            orderListItem.addEventListener('click', () => showOrderDetails(storageKey));
+            divProducts.append(orderListItem);
+        }
+    }
 }
 
 
@@ -465,8 +510,9 @@ class FormValidator {
         const currentDate = new Date();
         const newData = {
             'Number of order': orderCounter,
-            ...data,
+            'ProductItem' : selectedProduct,
             'Total price': price * data['quantityOfProduct'],
+            ...data,
             'Order Date': `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`
         };
 
