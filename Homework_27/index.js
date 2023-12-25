@@ -53,17 +53,6 @@ containerDiv.append(main);
 document.body.append(containerDiv);
 document.body.style.backgroundColor = 'lightblue';
 
-const cartContainer = document.createElement('div');
-const cartH4 = document.createElement('h4');
-cartH4.textContent = 'User\'s shopping cart';
-cartContainer.append(cartH4);
-document.body.append(cartContainer);
-
-
-
-
-
-
 
 for (const category in configObj.categories) {
     createButton(divCategory, category, 'btn-primary', () => showProducts(category));
@@ -72,6 +61,12 @@ for (const category in configObj.categories) {
 const orderListButton = createButton(divCategory, 'Orders', 'btn-warning',
     () => handleOrdersButtonClick());
 orderListButton.style.marginTop = '30px';
+
+
+
+
+
+
 
 function showProducts(category) {
     divProducts.innerText = '';
@@ -107,6 +102,8 @@ function showOrderDetails(storageKey) {
 
     const orderData = MyStorage.getData(storageKey);
     const popupWindow = window.open('', '_blank', 'width=500, height=400');
+    popupWindow.document.body.style.cssText = `margin-left: 1%; padding-left: 5%; ` +
+        `background-color: lightyellow; font-size: 24px;`;
     const orderDetailsContainer = document.createElement('div');
 
     for (const key in orderData) {
@@ -114,6 +111,21 @@ function showOrderDetails(storageKey) {
         listItem.textContent = `${key}: ${orderData[key]}`;
         orderDetailsContainer.append(listItem);
     }
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.style.cssText = 'margin-right: 10%; margin-left: 20%; margin-bottom: 2%; margin-top: 5%;' +
+        'background-color: red; color: #fff; border: 1px solid #5bc0de; border-radius: 10px;' +
+        'height: 10%; width: 15%; font-size: 16px;';
+    deleteButton.addEventListener('click', () => MyStorage.clearData(storageKey));
+    orderDetailsContainer.appendChild(deleteButton);
+
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'Close';
+    closeButton.style.cssText = 'margin-left: 20%; margin-bottom: 2%; margin-top: 5%; background-color: #f8f9fa;' +
+        'color: #000; border: 1px solid #dee2e6; border-radius: 10px; height: 10%; width: 15%; font-size: 16px;'
+    closeButton.addEventListener('click', () => popupWindow.close());
+    orderDetailsContainer.appendChild(closeButton);
 
     popupWindow.document.body.append(orderDetailsContainer);
 }
@@ -148,11 +160,14 @@ function handleOrdersButtonClick() {
             const orderData = MyStorage.getData(storageKey);
 
             const orderListItem = document.createElement('li');
-// //            orderListItem.textContent = `Order ${storageKey}: ${JSON.stringify(orderData)}`;
-// //            orderListItem.textContent = `Order ${storageKey}`;
-//               orderListItem.textContent = `Order: ${orderData['Number of order']}  ` +
-//                 `(Total price: ${orderData['Total price']}, Order Date: ${orderData['Order Date']})`;
-//             orderListItem.style.cssText = 'font-size: 18px; color: blue; font-weight: bold;';
+            orderListItem.addEventListener('mouseenter', () => {
+                orderListItem.style.backgroundColor = 'lightyellow';
+            });
+
+            orderListItem.addEventListener('mouseleave', () => {
+                orderListItem.style.backgroundColor = '';
+            });
+
             orderListItem.addEventListener('click', () => showOrderDetails(storageKey));
 
             orderListItem.innerText = `Order: ${orderData['Number of order']} `;
@@ -244,6 +259,8 @@ function handleFormButtonClick(selectedCategory, selectedProduct) {
             }, 1000);
         }
     });
+
+    createButton(currentForm, 'Close', formConfig.buttonClose.style, () => myForm.closeForm() );
 }
 
 
@@ -478,7 +495,7 @@ class FormValidator {
          `top=${margHeight}, left=${margWidth}`);
         const outInfContainer = document.createElement('div');
         popupWindow.document.body.style.cssText = `margin-left: 1%; padding-left: 1%; ` +
-            `background-color: lightyellow; font-size: 24px;`; //; margin-right: ${margWidth}
+            `background-color: lightyellow; font-size: 24px;`;
         const titleElement = document.createElement('h4');
 
         titleElement.style.marginLeft = '10px';
@@ -524,9 +541,8 @@ class FormValidator {
             'background-color: #5bc0de; color: #fff; border: 1px solid #5bc0de; border-radius: 10px;' +
             'height: 10%; width: 15%; font-size: 16px;';
         recordButton.addEventListener('click', () => {
-            // Add logic for 'Record' button click
+
             MyStorage.setData(orderCounter.toString(), newData);
-            alert(`Data recorded with key: ${orderCounter}`);
             popupWindow.close();
         });
         outInfContainer.append(recordButton);
@@ -540,9 +556,6 @@ class FormValidator {
             popupWindow.close();
         });
         outInfContainer.append(cancelButton);
-
-
-
 
         popupWindow.document.body.append(outInfContainer);
 
@@ -558,11 +571,29 @@ class MyStorage {
     }
 
     static setData(storageKey, data) {
-        const jsonString = JSON.stringify(data);
-        localStorage.setItem(storageKey, jsonString);
+        try {
+            const jsonString = JSON.stringify(data);
+            localStorage.setItem(storageKey, jsonString);
+            alert(`Data stored successfully with key: ${storageKey}`);
+        } catch (error) {
+            console.error(`An error storing data with key ${storageKey}:`, error);
+            alert(`An error storing data with key ${storageKey}. Please try again.`);
+        }
     }
 
     static clearData(storageKey) {
-        localStorage.removeItem(storageKey);
+        try {
+            const confirmed = window.confirm(`Are you sure you want to delete order ${storageKey}?`);
+
+            if (confirmed) {
+                localStorage.removeItem(storageKey);
+                alert(`Order ${storageKey} deleted successfully.`);
+            } else {
+                alert(`Deletion of order ${storageKey} canceled.`);
+            }
+        } catch (error) {
+            console.error(`An error while deleting order ${storageKey}:`, error);
+            alert(`An error while deleting order ${storageKey}. Please try again.`);
+        }
     }
 }

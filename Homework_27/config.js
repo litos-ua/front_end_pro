@@ -152,4 +152,10 @@ const formConfig = {
         textContent: 'Submit',
         style: 'btn-primary',
     },
+    buttonClose: {
+        type: 'button',
+        name: 'closeButton',
+        textContent: 'Close',
+        style: 'btn-secondary',
+    },
 };
