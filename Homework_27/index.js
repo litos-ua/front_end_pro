@@ -62,7 +62,8 @@ for (const category in configObj.categories) {
 }
 
 const orderListButton = createButton(divCategory, 'Orders', 'btn-warning',
-    true,() => handleOrdersButtonClick());
+//    true,() => handleOrdersButtonClick());
+             true,() => handleOrdersSortButtonClick());
 orderListButton.style.marginTop = '30px';
 
 
@@ -117,20 +118,6 @@ function showOrderDetails(storageKey) {
         orderDetailsContainer.append(listItem);
     }
 
-    // const deleteButton = document.createElement('button');
-    // deleteButton.textContent = 'Delete';
-    // deleteButton.style.cssText = 'margin-right: 10%; margin-left: 20%; margin-bottom: 2%; margin-top: 5%;' +
-    //     'background-color: red; color: #fff; border: 1px solid #5bc0de; border-radius: 10px;' +
-    //     'height: 10%; width: 15%; font-size: 16px;';
-    // deleteButton.addEventListener('click', () => MyStorage.deleteData(storageKey));
-    // orderDetailsContainer.append(deleteButton);
-    //
-    // const closeButton = document.createElement('button');
-    // closeButton.textContent = 'Close';
-    // closeButton.style.cssText = 'margin-left: 20%; margin-bottom: 2%; margin-top: 5%; background-color: #f8f9fa;' +
-    //     'color: #000; border: 1px solid #dee2e6; border-radius: 10px; height: 10%; width: 15%; font-size: 16px;'
-    // closeButton.addEventListener('click', () => popupWindow.close());
-    // orderDetailsContainer.append(closeButton);
 
     createButton(orderDetailsContainer, 'Delete', 'margin-right: 10%; margin-left: 20%; ' +
         'margin-bottom: 2%; margin-top: 5%; background-color: red; color: #fff; border: 1px solid #5bc0de;' +
@@ -149,23 +136,6 @@ function showOrderDetails(storageKey) {
 
     popupWindow.document.body.append(orderDetailsContainer);
 }
-
-// function createButton(container, text, styleClass, clickHandler) {
-//     const button = document.createElement('button');
-//     button.classList.add('btn', styleClass, 'me-2', 'mb-2');
-//     button.textContent = text;
-//     button.addEventListener('click', clickHandler);
-//     container.append(button);
-//     return button;
-// }
-//
-// function createButtonOnPopup(container, text,  styles, clickHandler) {
-//     const button = document.createElement('button');
-//     button.textContent = text;
-//     button.style.cssText = styles;
-//     button.addEventListener('click', clickHandler);
-//     container.append(button);
-// }
 
 
 function createButton(container, text,  styles, bootstrap = true,clickHandler) {
@@ -218,6 +188,45 @@ function handleOrdersButtonClick() {
 
             divProducts.append(orderListItem);
         }
+    }
+}
+
+
+function handleOrdersSortButtonClick() {
+    divProducts.innerText = '';
+    divCharacteristics.innerText = '';
+
+    const orderDataArray = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const storageKey = localStorage.key(i);
+        if (/^\d+$/.test(storageKey)) {
+            const orderData = MyStorage.getData(storageKey);
+            orderDataArray.push({ storageKey, orderData });
+        }
+    }
+
+    orderDataArray.sort((a, b) => a.orderData['Number of order'] - b.orderData['Number of order']);
+
+    for (const { storageKey, orderData } of orderDataArray) {
+        const orderListItem = document.createElement('li');
+        orderListItem.addEventListener('mouseenter', () => {
+            orderListItem.style.backgroundColor = 'lightyellow';
+        });
+
+        orderListItem.addEventListener('mouseleave', () => {
+            orderListItem.style.backgroundColor = '';
+        });
+
+        orderListItem.addEventListener('click', () => showOrderDetails(storageKey));
+
+        orderListItem.innerText = `Order: ${orderData['Number of order']} `;
+        const priceDateSpan = document.createElement('span');
+        priceDateSpan.innerText = `(Total price: ${orderData['Total price']}, Order Date: ${orderData['Order Date']})`;
+        priceDateSpan.style.cssText = 'font-size: 16px; font-weight: normal; color: black;';
+        orderListItem.append(priceDateSpan);
+        orderListItem.style.cssText = 'font-size: 18px; color: blue; font-weight: bold;';
+
+        divProducts.append(orderListItem);
     }
 }
 
@@ -573,29 +582,6 @@ class FormValidator {
 
         outInfContainer.append(dataList);
 
-        // const recordButton = document.createElement('button');
-        // recordButton.textContent = 'Record';
-        // recordButton.style.cssText = 'margin-right: 10%; margin-left: 20%; margin-bottom: 2%;' +
-        //     'background-color: #5bc0de; color: #fff; border: 1px solid #5bc0de; border-radius: 10px;' +
-        //     'height: 10%; width: 15%; font-size: 16px;';
-        // recordButton.addEventListener('click', () => {
-        //
-        //     MyStorage.setData(orderCounter.toString(), newData);
-        //     popupWindow.close();
-        // });
-        // outInfContainer.append(recordButton);
-
-
-
-        // const cancelButton = document.createElement('button');
-        // cancelButton.textContent = 'Cancel';
-        // cancelButton.style.cssText = 'margin-left: 20%; background-color: #f8f9fa; color: #000;' +
-        //     'border: 1px solid #dee2e6; border-radius: 10px; height: 10%; width: 15%; font-size: 16px;';
-        // cancelButton.addEventListener('click', () => {
-        //
-        //     popupWindow.close();
-        // });
-        // outInfContainer.append(cancelButton);
 
         createButton(outInfContainer, 'Record',  'margin-right: 10%; margin-left: 20%; margin-bottom: 2%; background-color: #5bc0de; color: #fff;' +
             ' border: 1px solid #5bc0de; border-radius: 10px; height: 10%; width: 15%; font-size: 16px;', false,
@@ -617,8 +603,13 @@ class FormValidator {
 
 class MyStorage {
     static getData(storageKey) {
-        const storedData = localStorage.getItem(storageKey);
-        return storedData ? JSON.parse(storedData) : null;
+        try {
+            const storedData = localStorage.getItem(storageKey);
+            return storedData ? JSON.parse(storedData) : null;
+        } catch (error) {
+            console.error(`An error while parsing data with key ${storageKey}:`, error);
+            return null;
+        }
     }
 
     static setData(storageKey, data) {
