@@ -23,8 +23,10 @@ searchForm.append(searchInput);
 headerDiv2.append(searchForm);
 
 const loginButtonContainer = createSubContainer('col-md-4 text-end', '');
-const loginButton = createButton(loginButtonContainer, 'Login', 'btn-info', () => {});
-const signupButton = createButton(loginButtonContainer, 'Sign-up', 'btn-warning', () => {});
+const loginButton = createButton(loginButtonContainer, 'Login', 'btn-info',
+    true, () => {});
+const signupButton = createButton(loginButtonContainer, 'Sign-up', 'btn-warning',
+    true, () => {});
 headerDiv3.append(loginButtonContainer);
 
 [headerDiv1, headerDiv2, headerDiv3].forEach(container => {
@@ -55,11 +57,12 @@ document.body.style.backgroundColor = 'lightblue';
 
 
 for (const category in configObj.categories) {
-    createButton(divCategory, category, 'btn-primary', () => showProducts(category));
+    createButton(divCategory, category, 'btn-primary',
+        true, () => showProducts(category));
 }
 
 const orderListButton = createButton(divCategory, 'Orders', 'btn-warning',
-    () => handleOrdersButtonClick());
+    true,() => handleOrdersButtonClick());
 orderListButton.style.marginTop = '30px';
 
 
@@ -73,7 +76,8 @@ function showProducts(category) {
     divCharacteristics.innerText = '';
     const products = configObj.categories[category].Products;
     for (const product in products) {
-        createButton(divProducts, product, 'btn-success', () => showCharacteristics(category, product));
+        createButton(divProducts, product, 'btn-success', true,
+            () => showCharacteristics(category, product));
     }
 }
 
@@ -93,7 +97,8 @@ function showCharacteristics(category, product) {
 
     const buttonWrDiv = document.createElement('div');
     buttonWrDiv.style.textAlign = 'center';
-    createButton(buttonWrDiv, 'Buy', 'btn-primary', () => handleFormButtonClick(category, product));
+    createButton(buttonWrDiv, 'Buy', 'btn-primary', true,
+        () => handleFormButtonClick(category, product));
     divCharacteristics.append(buttonWrDiv);
     divCharacteristics.style.cssText = 'font-size: 16px; text-align: left;';
 }
@@ -112,32 +117,66 @@ function showOrderDetails(storageKey) {
         orderDetailsContainer.append(listItem);
     }
 
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Delete';
-    deleteButton.style.cssText = 'margin-right: 10%; margin-left: 20%; margin-bottom: 2%; margin-top: 5%;' +
-        'background-color: red; color: #fff; border: 1px solid #5bc0de; border-radius: 10px;' +
-        'height: 10%; width: 15%; font-size: 16px;';
-    deleteButton.addEventListener('click', () => MyStorage.clearData(storageKey));
-    orderDetailsContainer.appendChild(deleteButton);
+    // const deleteButton = document.createElement('button');
+    // deleteButton.textContent = 'Delete';
+    // deleteButton.style.cssText = 'margin-right: 10%; margin-left: 20%; margin-bottom: 2%; margin-top: 5%;' +
+    //     'background-color: red; color: #fff; border: 1px solid #5bc0de; border-radius: 10px;' +
+    //     'height: 10%; width: 15%; font-size: 16px;';
+    // deleteButton.addEventListener('click', () => MyStorage.deleteData(storageKey));
+    // orderDetailsContainer.append(deleteButton);
+    //
+    // const closeButton = document.createElement('button');
+    // closeButton.textContent = 'Close';
+    // closeButton.style.cssText = 'margin-left: 20%; margin-bottom: 2%; margin-top: 5%; background-color: #f8f9fa;' +
+    //     'color: #000; border: 1px solid #dee2e6; border-radius: 10px; height: 10%; width: 15%; font-size: 16px;'
+    // closeButton.addEventListener('click', () => popupWindow.close());
+    // orderDetailsContainer.append(closeButton);
 
-    const closeButton = document.createElement('button');
-    closeButton.textContent = 'Close';
-    closeButton.style.cssText = 'margin-left: 20%; margin-bottom: 2%; margin-top: 5%; background-color: #f8f9fa;' +
-        'color: #000; border: 1px solid #dee2e6; border-radius: 10px; height: 10%; width: 15%; font-size: 16px;'
-    closeButton.addEventListener('click', () => popupWindow.close());
-    orderDetailsContainer.appendChild(closeButton);
+    createButton(orderDetailsContainer, 'Delete', 'margin-right: 10%; margin-left: 20%; ' +
+        'margin-bottom: 2%; margin-top: 5%; background-color: red; color: #fff; border: 1px solid #5bc0de;' +
+        ' border-radius: 10px; height: 10%; width: 15%; font-size: 16px;',false ,() =>
+        {
+            MyStorage.deleteData(storageKey);
+            popupWindow.close()
+        },
+        );
+    createButton(orderDetailsContainer, 'Close',
+        'margin-left: 20%; margin-bottom: 2%; margin-top: 5%; background-color: #f8f9fa; color: #000;' +
+        ' border: 1px solid #dee2e6; border-radius: 10px; height: 10%; width: 15%; font-size: 16px;',
+        false, () => popupWindow.close(),);
+
+
 
     popupWindow.document.body.append(orderDetailsContainer);
 }
 
-function createButton(container, text, style, clickHandler) {
+// function createButton(container, text, styleClass, clickHandler) {
+//     const button = document.createElement('button');
+//     button.classList.add('btn', styleClass, 'me-2', 'mb-2');
+//     button.textContent = text;
+//     button.addEventListener('click', clickHandler);
+//     container.append(button);
+//     return button;
+// }
+//
+// function createButtonOnPopup(container, text,  styles, clickHandler) {
+//     const button = document.createElement('button');
+//     button.textContent = text;
+//     button.style.cssText = styles;
+//     button.addEventListener('click', clickHandler);
+//     container.append(button);
+// }
+
+
+function createButton(container, text,  styles, bootstrap = true,clickHandler) {
     const button = document.createElement('button');
-    button.classList.add('btn', style, 'me-2', 'mb-2');
     button.textContent = text;
+    bootstrap ? button.classList.add('btn', styles, 'me-2', 'mb-2') : button.style.cssText = styles;
     button.addEventListener('click', clickHandler);
     container.append(button);
     return button;
 }
+
 
 function handleBuyButtonClick(category, product) {
     divProducts.innerText = '';
@@ -260,7 +299,7 @@ function handleFormButtonClick(selectedCategory, selectedProduct) {
         }
     });
 
-    createButton(currentForm, 'Close', formConfig.buttonClose.style, () => myForm.closeForm() );
+    createButton(currentForm, 'Close', formConfig.buttonClose.style, true,() => myForm.closeForm() );
 }
 
 
@@ -480,7 +519,6 @@ class FormValidator {
                 alert(`Please fill in all required fields: ${emptyFieldsMessage}`);
                 return;
             }
-//            FormValidator.updateDisplayData(data, selectedProduct);
         });
 
     }
@@ -535,27 +573,40 @@ class FormValidator {
 
         outInfContainer.append(dataList);
 
-        const recordButton = document.createElement('button');
-        recordButton.textContent = 'Record';
-        recordButton.style.cssText = 'margin-right: 10%; margin-left: 20%; margin-bottom: 2%;' +
-            'background-color: #5bc0de; color: #fff; border: 1px solid #5bc0de; border-radius: 10px;' +
-            'height: 10%; width: 15%; font-size: 16px;';
-        recordButton.addEventListener('click', () => {
+        // const recordButton = document.createElement('button');
+        // recordButton.textContent = 'Record';
+        // recordButton.style.cssText = 'margin-right: 10%; margin-left: 20%; margin-bottom: 2%;' +
+        //     'background-color: #5bc0de; color: #fff; border: 1px solid #5bc0de; border-radius: 10px;' +
+        //     'height: 10%; width: 15%; font-size: 16px;';
+        // recordButton.addEventListener('click', () => {
+        //
+        //     MyStorage.setData(orderCounter.toString(), newData);
+        //     popupWindow.close();
+        // });
+        // outInfContainer.append(recordButton);
 
-            MyStorage.setData(orderCounter.toString(), newData);
-            popupWindow.close();
-        });
-        outInfContainer.append(recordButton);
 
-        const cancelButton = document.createElement('button');
-        cancelButton.textContent = 'Cancel';
-        cancelButton.style.cssText = 'margin-left: 20%; background-color: #f8f9fa; color: #000;' +
-            'border: 1px solid #dee2e6; border-radius: 10px; height: 10%; width: 15%; font-size: 16px;';
-        cancelButton.addEventListener('click', () => {
 
-            popupWindow.close();
-        });
-        outInfContainer.append(cancelButton);
+        // const cancelButton = document.createElement('button');
+        // cancelButton.textContent = 'Cancel';
+        // cancelButton.style.cssText = 'margin-left: 20%; background-color: #f8f9fa; color: #000;' +
+        //     'border: 1px solid #dee2e6; border-radius: 10px; height: 10%; width: 15%; font-size: 16px;';
+        // cancelButton.addEventListener('click', () => {
+        //
+        //     popupWindow.close();
+        // });
+        // outInfContainer.append(cancelButton);
+
+        createButton(outInfContainer, 'Record',  'margin-right: 10%; margin-left: 20%; margin-bottom: 2%; background-color: #5bc0de; color: #fff;' +
+            ' border: 1px solid #5bc0de; border-radius: 10px; height: 10%; width: 15%; font-size: 16px;', false,
+            () => {
+                MyStorage.setData(orderCounter.toString(), newData);
+                popupWindow.close();
+            });
+        createButton(outInfContainer, 'Cancel',
+            'margin-left: 20%; background-color: #f8f9fa; color: #000; border: 1px solid #dee2e6;' +
+            ' border-radius: 10px; height: 10%; width: 15%; font-size: 16px;', false,() => popupWindow.close());
+
 
         popupWindow.document.body.append(outInfContainer);
 
@@ -581,7 +632,7 @@ class MyStorage {
         }
     }
 
-    static clearData(storageKey) {
+    static deleteData(storageKey) {
         try {
             const confirmed = window.confirm(`Are you sure you want to delete order ${storageKey}?`);
 
