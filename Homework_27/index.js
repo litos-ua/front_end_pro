@@ -53,6 +53,17 @@ containerDiv.append(main);
 document.body.append(containerDiv);
 document.body.style.backgroundColor = 'lightblue';
 
+const cartContainer = document.createElement('div');
+const cartH4 = document.createElement('h4');
+cartH4.textContent = 'User\'s shopping cart';
+cartContainer.append(cartH4);
+document.body.append(cartContainer);
+
+
+
+
+
+
 
 for (const category in configObj.categories) {
     createButton(divCategory, category, 'btn-primary', () => showProducts(category));
@@ -93,14 +104,9 @@ function showCharacteristics(category, product) {
 }
 
 function showOrderDetails(storageKey) {
-    // Retrieve order details from localStorage
+
     const orderData = MyStorage.getData(storageKey);
-
-    // Display order details in a popup window
     const popupWindow = window.open('', '_blank', 'width=500, height=400');
-
-    // Add your logic to display orderData in the popup window
-    // For example, create a div and append order details as list items
     const orderDetailsContainer = document.createElement('div');
 
     for (const key in orderData) {
@@ -142,10 +148,20 @@ function handleOrdersButtonClick() {
             const orderData = MyStorage.getData(storageKey);
 
             const orderListItem = document.createElement('li');
-//            orderListItem.textContent = `Order ${storageKey}: ${JSON.stringify(orderData)}`;
-            orderListItem.textContent = `Order ${storageKey}`;
-            orderListItem.style.cssText = 'font-size: 18px; color: blue; font-weight: bold;';
+// //            orderListItem.textContent = `Order ${storageKey}: ${JSON.stringify(orderData)}`;
+// //            orderListItem.textContent = `Order ${storageKey}`;
+//               orderListItem.textContent = `Order: ${orderData['Number of order']}  ` +
+//                 `(Total price: ${orderData['Total price']}, Order Date: ${orderData['Order Date']})`;
+//             orderListItem.style.cssText = 'font-size: 18px; color: blue; font-weight: bold;';
             orderListItem.addEventListener('click', () => showOrderDetails(storageKey));
+
+            orderListItem.innerText = `Order: ${orderData['Number of order']} `;
+            const priceDateSpan = document.createElement('span');
+            priceDateSpan.innerText = `(Total price: ${orderData['Total price']}, Order Date: ${orderData['Order Date']})`;
+            priceDateSpan.style.cssText = 'font-size: 16px; font-weight: normal; color: black;';
+            orderListItem.appendChild(priceDateSpan);
+            orderListItem.style.cssText = 'font-size: 18px; color: blue; font-weight: bold;';
+
             divProducts.append(orderListItem);
         }
     }
@@ -223,7 +239,6 @@ function handleFormButtonClick(selectedCategory, selectedProduct) {
 
         if (fieldsExist) {
             setTimeout(() => {
-//                console.log('data = ', data, 'selectedCategory =', selectedCategory, 'selectedProduct =', selectedProduct);
                 FormValidator.updateDisplayData(data, selectedCategory,selectedProduct);
                 myForm.closeForm();
             }, 1000);
@@ -454,31 +469,6 @@ class FormValidator {
     }
 
 
-    // static updateDisplayDataDiv(data, selectedProduct) {
-    //     const outInfContainer = document.createElement('div');
-    //     outInfContainer.style.cssText =
-    //         'margin-left: 40%; margin-right: 40%; background-color: lightyellow; font-size: 18px;';
-    //     const titleElement = document.createElement('h4');
-    //
-    //     titleElement.style.marginLeft = '10px';
-    //
-    //     if (typeof (selectedProduct) !== "undefined" &&  typeof (data['city']) !== "undefined") {
-    //         titleElement.textContent = `Information for placing an order selected Product: ${selectedProduct}`;
-    //     }
-    //     outInfContainer.append(titleElement);
-    //
-    //     const dataList = document.createElement('ul');
-    //     dataList.style.marginLeft = '50px';
-    //
-    //     for (const key in data) {
-    //         const listItem = document.createElement('li');
-    //         listItem.textContent = `${key}: ${data[key]}`;
-    //         dataList.append(listItem);
-    //     }
-    //     outInfContainer.append(dataList);
-    //     document.body.append(outInfContainer);
-    //
-    // }
 
     static updateDisplayData(data, selectedCategory,selectedProduct) {
         const price = configObj.categories[selectedCategory].Products[selectedProduct].Price;
