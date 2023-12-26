@@ -62,7 +62,6 @@ for (const category in configObj.categories) {
 }
 
 const orderListButton = createButton(divCategory, 'Orders', 'btn-warning',
-//    true,() => handleOrdersButtonClick());
              true,() => handleOrdersSortButtonClick());
 orderListButton.style.marginTop = '30px';
 
@@ -124,7 +123,9 @@ function showOrderDetails(storageKey) {
         ' border-radius: 10px; height: 10%; width: 15%; font-size: 16px;',false ,() =>
         {
             MyStorage.deleteData(storageKey);
+            handleOrdersSortButtonClick();
             popupWindow.close()
+
         },
         );
     createButton(orderDetailsContainer, 'Close',
