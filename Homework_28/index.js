@@ -153,6 +153,7 @@ class CustomForm {
         button.textContent = textContent;
         button.style.cssText = 'width: 10%; margin-left:45%';
         this.form.append(button);
+        return button;
     }
 
     appendTo(container) {
@@ -174,38 +175,62 @@ resultDiv.classList.add('text-center');
 
 document.body.append(resultDiv);
 
-getOpenWeatherData().then(data => {
-    if (data) {
-        resultDiv.innerText = `Coordinates: (${data.coord.lon}, ${data.coord.lat})\n` + `Name: ${data.name}\n`
-            + `Weather: ${data.weather[0].main}, ${data.weather[0].description}, ${data.weather[0].icon}\n`
-            + `Main: Temperature - ${data.main.temp}, Pressure - ${data.main.pressure}, Humidity - ${data.main.humidity}\n`
-            + `Wind: Speed - ${data.wind.speed}, Degree - ${data.wind.deg}`;
-    }
-});
+// getOpenWeatherData().then(data => {
+//     if (data) {
+//         resultDiv.innerText = `Coordinates: (${data.coord.lon}, ${data.coord.lat})\n` + `Name: ${data.name}\n`
+//             + `Weather: ${data.weather[0].main}, ${data.weather[0].description}, ${data.weather[0].icon}\n`
+//             + `Main: Temperature - ${data.main.temp}, Pressure - ${data.main.pressure}, Humidity - ${data.main.humidity}\n`
+//             + `Wind: Speed - ${data.wind.speed}, Degree - ${data.wind.deg}`;
+//     }
+// });
 
 const myForm = new CustomForm(formConfig.mainParam);
-console.log(myForm);
+
 myForm.addSelect(formConfig.selectCity);
-myForm.addButton(formConfig.buttonSubmit);
+
+const selectCityElement = myForm.form.querySelector('select[name="city"]');
+selectCityElement.addEventListener('change', async () => {
+    const selectedCity = selectCityElement.value;
+    const weatherData = await getOpenWeatherData(selectedCity);
+    console.log(selectedCity);
+    updateWeatherInfo(weatherData);
+});
+
+
+const submitButton = myForm.addButton(formConfig.buttonSubmit);
 myForm.addButton(formConfig.buttonClose);
 myForm.appendTo(document.body);
 
 
+submitButton.addEventListener('click', async () => {
+    const selectedCity = selectCityElement.value;
+    console.log(selectedCity)
+    const weatherData = await getOpenWeatherData(selectedCity);
+//    alert(weatherData);
+    await updateWeatherInfo(weatherData);
+});
 
 
-
-async function getOpenWeatherData() {
+async function getOpenWeatherData(city) {
 
     try {
-        const response = await fetch('https://api.openweathermap.org/data/2.5/weather?' +
-            'q=Warszawa&appid=3ed5bec8217638d36046427c3b4a06d6&units=metric');
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?` +
+            `q=${city}&appid=3ed5bec8217638d36046427c3b4a06d6&units=metric`);
         return await response.json();
     } catch (error) {
         console.error(error);
     }
 }
 
-
+function updateWeatherInfo(data) {
+    if (data) {
+        resultDiv.innerText = `Coordinates: (${data.coord.lon}, ${data.coord.lat})\n`
+            + `Name: ${data.name}\n`
+            + `Weather: ${data.weather[0].main}, ${data.weather[0].description}, ${data.weather[0].icon}\n`
+            + `Main: Temperature - ${data.main.temp}, Pressure - ${data.main.pressure}, Humidity - ${data.main.humidity}\n`
+            + `Wind: Speed - ${data.wind.speed}, Degree - ${data.wind.deg}`;
+    }
+}
 
 
 
