@@ -10,7 +10,7 @@ const formConfig = {
 
     selectCity: {
         name: 'city',
-        options: ['Kharkov', 'Odessa', 'Dnepr', 'Kiev', 'Lvov', 'Warszawa'],
+        options: ['Kharkov', 'Odessa', 'Dnepr', 'Kiev', 'Lviv', 'Warszawa'],
         label: 'City *',
     },
 

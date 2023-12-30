@@ -12,8 +12,13 @@ class CustomForm {
         if (title) {
             const formTitle = document.createElement('h4');
             formTitle.textContent = title;
-            this.form.appendChild(formTitle);
+            this.form.append(formTitle);
         }
+
+    }
+
+    getFormElements() {
+        return this.form.elements;
     }
 
 
@@ -98,6 +103,8 @@ class CustomForm {
 
         selectContainer.append(select);
         this.form.append(selectContainer);
+
+        this.selectCityElement = select;
     }
 
 
@@ -170,6 +177,11 @@ class CustomForm {
 }
 
 
+
+
+
+
+
 const resultDiv = document.createElement('div');
 resultDiv.classList.add('text-center');
 
@@ -188,11 +200,15 @@ const myForm = new CustomForm(formConfig.mainParam);
 
 myForm.addSelect(formConfig.selectCity);
 
-const selectCityElement = myForm.form.querySelector('select[name="city"]');
+//const selectCityElement = myForm.form.querySelector('select[name="city"]');
+const selectCityElement = myForm.getFormElements()[formConfig.selectCity.name];
+console.log(selectCityElement);
 selectCityElement.addEventListener('change', async () => {
-    const selectedCity = selectCityElement.value;
-    const weatherData = await getOpenWeatherData(selectedCity);
-    console.log(selectedCity);
+    // const selectedCity = selectCityElement.value;
+    // const weatherData = await getOpenWeatherData(selectedCity);
+    // console.log(selectedCity);
+
+    const weatherData = await getOpenWeatherData(selectCityElement.value)
     updateWeatherInfo(weatherData);
 });
 
@@ -206,7 +222,6 @@ submitButton.addEventListener('click', async () => {
     const selectedCity = selectCityElement.value;
     console.log(selectedCity)
     const weatherData = await getOpenWeatherData(selectedCity);
-//    alert(weatherData);
     await updateWeatherInfo(weatherData);
 });
 
@@ -216,6 +231,9 @@ async function getOpenWeatherData(city) {
     try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?` +
             `q=${city}&appid=3ed5bec8217638d36046427c3b4a06d6&units=metric`);
+        if (!response.ok) {
+            throw new Error('Error in fetch request: ' + response.status);
+        }
         return await response.json();
     } catch (error) {
         console.error(error);
