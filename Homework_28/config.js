@@ -8,16 +8,41 @@ const formConfig = {
 
     main: ['temp', 'pressure', 'humidity'],
 
+    radioCity: {
+        name: 'locationType',
+        value: 'city',
+        label: 'City *',
+    },
+    radioCoordinates: {
+        name: 'locationType',
+        value: 'coordinates',
+        label: 'Longitude & Latitude *',
+    },
+
+
     selectCity: {
+        type: '',
         name: 'city',
         options: ['Kharkov', 'Odessa', 'Dnepr', 'Kiev', 'Lviv', 'Warszawa'],
         label: 'City *',
     },
 
-    inputLocation: {
-        name: 'location',
-        options: ['Longitude', 'Latitude'],
-        label: 'City *',
+    inputLongitude: {
+        type: 'number',
+        name: 'longitude',
+        placeholder: 'Enter Longitude',
+        label: 'Longitude *',
+        min: -180,
+        max: 180,
+    },
+
+    inputLatitude: {
+        type: 'number',
+        name: 'latitude',
+        placeholder: 'Enter Latitude',
+        label: 'Latitude *',
+        min: -90,
+        max: 90,
     },
 
     weather: ['main', 'description', 'icon'],
@@ -29,10 +54,10 @@ const formConfig = {
         style: 'btn-primary',
     },
 
-    buttonClose: {
+    buttonReset: {
         type: 'button',
-        name: 'closeButton',
-        textContent: 'Close',
+        name: 'resetButton',
+        textContent: 'Reset',
         style: 'btn-secondary',
     },
 
