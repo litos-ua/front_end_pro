@@ -160,7 +160,7 @@ class CustomForm {
         button.classList.add('btn', style, 'me-2', 'mb-2');
         button.name = name;
         button.textContent = textContent;
-        button.style.cssText = 'width: 10%; margin-left:45%';
+        button.style.cssText = 'width: 10%; margin-left:25%';
         this.form.append(button);
         return button;
     }
@@ -172,6 +172,16 @@ class CustomForm {
         container.append(this.form);
     }
 
+
+    resetInput() {
+        const inputElements = this.form.querySelectorAll('input, textarea, select');
+        inputElements.forEach(input => {
+            if (input.type !== 'radio') {
+                input.value = '';
+            }
+        });
+    }
+
     closeForm() {
         this.form.remove();
     }
@@ -179,7 +189,21 @@ class CustomForm {
 }
 
 
+class FormValidator {
+    static isValidLongitude(value) {
+        const numericValue = parseFloat(value);
+        return !isNaN(numericValue) && numericValue >= -180 && numericValue <= 180;
+    }
 
+    static isValidLatitude(value) {
+        const numericValue = parseFloat(value);
+        return !isNaN(numericValue) && numericValue >= -90 && numericValue <= 90;
+    }
+
+    static isEmpty(value) {
+        return value.trim() === '';
+    }
+}
 
 
 
@@ -210,7 +234,7 @@ const inputLatitude = myForm.addInputReturn(formConfig.inputLatitude);
 inputLatitude.style.cssText = 'width: 25%; margin-left: 2%';
 
 
-inputLocationDiv.style.cssText = 'display: flex; align-items: center;'
+inputLocationDiv.style.cssText = 'display: flex; align-items: center;';
 inputLocationDiv.append(inputSelectCity);
 inputLocationDiv.append(inputLongitude);
 inputLocationDiv.append(inputLatitude);
@@ -220,15 +244,15 @@ myForm.form.append(inputLocationDiv);
 
 const selectCityElement = myForm.getFormElements()[formConfig.selectCity.name];
 console.log(selectCityElement);
-// selectCityElement.addEventListener('change', async () => {
-//     const weatherData = await getOpenWeatherData(selectCityElement.value)
-//     updateWeatherInfo(weatherData);
-// });
 
-
+const submitResetDiv = createSubContainer('submitReset')
+submitResetDiv.style.cssText = 'display: flex; align-items: center;';
 const submitButton = myForm.addButton(formConfig.buttonSubmit);
-myForm.addButton(formConfig.buttonReset);
+const resetButton = myForm.addButton(formConfig.buttonReset);
+submitResetDiv.append(submitButton, resetButton);
+myForm.form.append(submitResetDiv);
 myForm.appendTo(document.body);
+
 
 setTimeout(function() {
     document.querySelector('input[name="locationType"][value="city"]').checked = true;
@@ -241,38 +265,35 @@ submitButton.addEventListener('click', async (event) => {
 
     const longitudeValue = inputLongitude.querySelector('input').value.trim();
     const latitudeValue = inputLatitude.querySelector('input').value.trim();
+    const validLocation = FormValidator.isValidLongitude(longitudeValue) && FormValidator.isValidLatitude(latitudeValue);
+    
 
+    console.log('radioCity =', radioCityElement.checked, 'radioLocation', radioCoordinatesElement.checked);
 
-    if (isValidLongitude(longitudeValue) && isValidLatitude(latitudeValue)) {
+    if(radioCityElement.checked){
+        if(!FormValidator.isEmpty(selectedCity)){
+            const weatherData = await getCityWeatherData(selectedCity);
+            await updateWeatherInfo(weatherData);
+        } else alert('City input is empty. Please fill this field.');
+    }
 
-        console.log('Longitude:', longitudeValue);
-        console.log('Latitude:', latitudeValue);
+    if(radioCoordinatesElement.checked){
+        if(validLocation){
+            const weatherData = await getLocationWeatherData(latitudeValue,longitudeValue);
+            await updateWeatherInfo(weatherData);
+        } else alert('Longitude or latitude input is empty or false. Check filling this fields');
+    }
 
-        // const weatherData = await getOpenWeatherData(selectedCity);
-        // await updateWeatherInfo(weatherData);
-
-    } else console.log('Longitude or latitude input is empty or false');
-
-
-    const weatherData = await getOpenWeatherData(selectedCity);
-    await updateWeatherInfo(weatherData);
 });
 
 
 
+resetButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    myForm.resetInput();
+});
 
-function isValidLongitude(value) {
 
-    const numericValue = parseFloat(value);
-    return !isNaN(numericValue) && numericValue >= -180 && numericValue <= 180;
-}
-
-// Function to validate latitude
-function isValidLatitude(value) {
-
-    const numericValue = parseFloat(value);
-    return !isNaN(numericValue) && numericValue >= -90 && numericValue <= 90;
-}
 
 function createSubContainer(id) {
     const subContainer = document.createElement('div');
@@ -282,11 +303,25 @@ function createSubContainer(id) {
     return subContainer;
 }
 
-async function getOpenWeatherData(city) {
+async function getCityWeatherData(city) {
 
     try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?` +
             `q=${city}&appid=3ed5bec8217638d36046427c3b4a06d6&units=metric`);
+        if (!response.ok) {
+            throw new Error('Error in fetch request: ' + response.status);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function getLocationWeatherData(latitude, longitude) {
+
+    try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?` +
+            `lat=${latitude}&lon=${longitude}&appid=3ed5bec8217638d36046427c3b4a06d6&units=metric`);
         if (!response.ok) {
             throw new Error('Error in fetch request: ' + response.status);
         }
