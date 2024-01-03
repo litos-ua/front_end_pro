@@ -243,7 +243,7 @@ myForm.form.append(inputLocationDiv);
 
 
 const selectCityElement = myForm.getFormElements()[formConfig.selectCity.name];
-console.log(selectCityElement);
+//console.log(selectCityElement);
 
 const submitResetDiv = createSubContainer('submitReset')
 submitResetDiv.style.cssText = 'display: flex; align-items: center;';
@@ -255,20 +255,24 @@ myForm.appendTo(document.body);
 
 
 setTimeout(function() {
-    document.querySelector('input[name="locationType"][value="city"]').checked = true;
+    // document.querySelector('input[name="locationType"][value="city"]').checked = true;
+    myForm.form.elements[formConfig.radioCity.name][0].checked = true;
+
 }, 1000);
 
 submitButton.addEventListener('click', async (event) => {
     event.preventDefault();
     const selectedCity = selectCityElement.value;
-    console.log(selectedCity)
+//    console.log(selectedCity)
 
-    const longitudeValue = inputLongitude.querySelector('input').value.trim();
-    const latitudeValue = inputLatitude.querySelector('input').value.trim();
+    // const longitudeValue = inputLongitude.querySelector('input').value.trim();
+    const longitudeValue = myForm.form.elements[formConfig.inputLongitude.name].value.trim();
+    // const latitudeValue = inputLatitude.querySelector('input').value.trim();
+    const latitudeValue = myForm.form.elements[formConfig.inputLatitude.name].value.trim();
     const validLocation = FormValidator.isValidLongitude(longitudeValue) && FormValidator.isValidLatitude(latitudeValue);
     
 
-    console.log('radioCity =', radioCityElement.checked, 'radioLocation', radioCoordinatesElement.checked);
+//    console.log('radioCity =', radioCityElement.checked, 'radioLocation', radioCoordinatesElement.checked);
 
     if(radioCityElement.checked){
         if(!FormValidator.isEmpty(selectedCity)){
@@ -335,7 +339,7 @@ function updateWeatherInfo(data) {
     if (data) {
         resultDiv.innerText = `Coordinates: (${data.coord.lon}, ${data.coord.lat})\n`
             + `Name: ${data.name}\n`
-            + `Weather: ${data.weather[0].main}, ${data.weather[0].description}, ${data.weather[0].icon}\n`
+            + `Weather: Main: ${data.weather[0].main}, Description: ${data.weather[0].description}, Icon: ${data.weather[0].icon}\n`
             + `Main: Temperature - ${data.main.temp}, Pressure - ${data.main.pressure}, Humidity - ${data.main.humidity}\n`
             + `Wind: Speed - ${data.wind.speed}, Degree - ${data.wind.deg}`;
     }

@@ -23,7 +23,9 @@ const formConfig = {
     selectCity: {
         type: '',
         name: 'city',
-        options: ['Kharkov', 'Odessa', 'Dnepr', 'Kiev', 'Lviv', 'Zaporizhia', 'Gdańsk', 'Warszawa', 'Wrocław'],
+        options: ['Kharkiv', 'Odessa', 'Dnipro', 'Kiev', 'Lviv', 'Zaporizhia',
+                  'Gdańsk', 'Warszawa', 'Wrocław',
+                  'Vancouver'],
         label: 'City *',
     },
 
