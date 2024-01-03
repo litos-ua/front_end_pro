@@ -190,17 +190,17 @@ class CustomForm {
 
 
 class FormValidator {
-    static isValidLongitude(value) {
+    static checkValidLongitude(value) {
         const numericValue = parseFloat(value);
         return !isNaN(numericValue) && numericValue >= -180 && numericValue <= 180;
     }
 
-    static isValidLatitude(value) {
+    static checkValidLatitude(value) {
         const numericValue = parseFloat(value);
         return !isNaN(numericValue) && numericValue >= -90 && numericValue <= 90;
     }
 
-    static isEmpty(value) {
+    static checkEmpty(value) {
         return value.trim() === '';
     }
 }
@@ -209,6 +209,7 @@ class FormValidator {
 
 
 const resultDiv = document.createElement('div');
+resultDiv.id = 'resultDiv';
 resultDiv.classList.add('text-center');
 
 document.body.append(resultDiv);
@@ -220,7 +221,6 @@ myForm.addRadio(formConfig.radioCoordinates);
 const radioCityElement = myForm.form.elements[formConfig.radioCity.name][0];
 const radioCoordinatesElement = myForm.form.elements[formConfig.radioCoordinates.name][1];
 document.addEventListener('DOMContentLoaded', function () {
-//    document.querySelector('input[name="locationType"][value="city"]').checked = true;
     radioCityElement.checked = true;
 });
 
@@ -243,7 +243,6 @@ myForm.form.append(inputLocationDiv);
 
 
 const selectCityElement = myForm.getFormElements()[formConfig.selectCity.name];
-//console.log(selectCityElement);
 
 const submitResetDiv = createSubContainer('submitReset')
 submitResetDiv.style.cssText = 'display: flex; align-items: center;';
@@ -255,7 +254,6 @@ myForm.appendTo(document.body);
 
 
 setTimeout(function() {
-    // document.querySelector('input[name="locationType"][value="city"]').checked = true;
     myForm.form.elements[formConfig.radioCity.name][0].checked = true;
 
 }, 1000);
@@ -263,19 +261,14 @@ setTimeout(function() {
 submitButton.addEventListener('click', async (event) => {
     event.preventDefault();
     const selectedCity = selectCityElement.value;
-//    console.log(selectedCity)
 
-    // const longitudeValue = inputLongitude.querySelector('input').value.trim();
     const longitudeValue = myForm.form.elements[formConfig.inputLongitude.name].value.trim();
-    // const latitudeValue = inputLatitude.querySelector('input').value.trim();
     const latitudeValue = myForm.form.elements[formConfig.inputLatitude.name].value.trim();
-    const validLocation = FormValidator.isValidLongitude(longitudeValue) && FormValidator.isValidLatitude(latitudeValue);
-    
+    const validLocation = FormValidator.checkValidLongitude(longitudeValue) && FormValidator.checkValidLatitude(latitudeValue);
 
-//    console.log('radioCity =', radioCityElement.checked, 'radioLocation', radioCoordinatesElement.checked);
 
     if(radioCityElement.checked){
-        if(!FormValidator.isEmpty(selectedCity)){
+        if(!FormValidator.checkEmpty(selectedCity)){
             const weatherData = await getCityWeatherData(selectedCity);
             await updateWeatherInfo(weatherData);
         } else alert('City input is empty. Please fill this field.');
@@ -337,12 +330,37 @@ async function getLocationWeatherData(latitude, longitude) {
 
 function updateWeatherInfo(data) {
     if (data) {
-        resultDiv.innerText = `Coordinates: (${data.coord.lon}, ${data.coord.lat})\n`
-            + `Name: ${data.name}\n`
-            + `Weather: Main: ${data.weather[0].main}, Description: ${data.weather[0].description}, Icon: ${data.weather[0].icon}\n`
-            + `Main: Temperature - ${data.main.temp}, Pressure - ${data.main.pressure}, Humidity - ${data.main.humidity}\n`
-            + `Wind: Speed - ${data.wind.speed}, Degree - ${data.wind.deg}`;
+        resultDiv.textContent = '';
+
+        const iconImg = document.createElement('img');
+        iconImg.src = `https://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+        iconImg.alt = 'Weather Icon';
+        iconImg.style.cssText = 'width: 5em; height: 5em;';
+
+        const cityIconDiv = document.createElement('div');
+        cityIconDiv.style.cssText = 'display: flex; justify-content: center; align-items: center;';
+        cityIconDiv.appendChild(iconImg);
+
+        const cityDiv = document.createElement('div');
+        cityDiv.textContent = `  Weather in  ${data.name}`;
+        cityDiv.style.cssText = 'font-size: 1.5em; font-weight: bold; padding-left: 5px';
+
+        cityIconDiv.append(cityDiv);
+
+        resultDiv.append(cityIconDiv);
+
+        const weatherDiv = document.createElement('div');
+        weatherDiv.style.whiteSpace = 'pre-line';
+        weatherDiv.textContent = `Coordinates: (${data.coord.lon}, ${data.coord.lat}) Name: ${data.name}\n`
+            + `Weather: Main: ${data.weather[0].main},  Description: ${data.weather[0].description}\n`
+            + `Main: Temperature  ${data.main.temp}, Pressure  ${data.main.pressure}, Humidity  ${data.main.humidity}\n`
+            + `Wind: Speed  ${data.wind.speed}, Degree  ${data.wind.deg}`
+
+        resultDiv.append(weatherDiv);
     }
+
+
+
 }
 
 
