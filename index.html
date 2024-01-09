@@ -20,45 +20,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Local Storage Example</title>
+    <script src="./t_01.js" defer></script>
 </head>
 <body>
 
 <h1>Local Storage Example</h1>
+<h2> Experiment </h2>
 
 <button id="saveDataBtn">Save Data</button>
 <button id="retrieveDataBtn">Retrieve Data</button>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const saveDataBtn = document.getElementById('saveDataBtn');
-        const retrieveDataBtn = document.getElementById('retrieveDataBtn');
+<label for="inputMes" class="form-label">Name</label>
+<input type="text" class="form-control" id="inputMes" name="message">
 
-        saveDataBtn.addEventListener('click', function () {
-            const data = {
-                name: 'John Doe',
-                age: 30,
-                city: 'Example City'
-            };
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function () {-->
+<!--        const saveDataBtn = document.getElementById('saveDataBtn');-->
+<!--        const retrieveDataBtn = document.getElementById('retrieveDataBtn');-->
 
-            // Save data to local storage
-            localStorage.setItem('userData', JSON.stringify(data));
+<!--        saveDataBtn.addEventListener('click', function () {-->
+<!--            const data = {-->
+<!--                name: 'John Doe',-->
+<!--                age: 30,-->
+<!--                city: 'Example City'-->
+<!--            };-->
 
-            alert('Data saved to local storage!');
-        });
+<!--            // Save data to local storage-->
+<!--            localStorage.setItem('userData', JSON.stringify(data));-->
 
-        retrieveDataBtn.addEventListener('click', function () {
-            // Retrieve data from local storage
-            const storedData = localStorage.getItem('userData');
+<!--            alert('Data saved to local storage!');-->
+<!--        });-->
 
-            if (storedData) {
-                const data = JSON.parse(storedData);
-                alert('Retrieved data:\n' + JSON.stringify(data, null, 2));
-            } else {
-                alert('No data found in local storage.');
-            }
-        });
-    });
-</script>
+<!--        retrieveDataBtn.addEventListener('click', function () {-->
+<!--            // Retrieve data from local storage-->
+<!--            const storedData = localStorage.getItem('userData');-->
+
+<!--            if (storedData) {-->
+<!--                const data = JSON.parse(storedData);-->
+<!--                alert('Retrieved data:\n' + JSON.stringify(data, null, 2));-->
+<!--            } else {-->
+<!--                alert('No data found in local storage.');-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 
 </body>
 </html>
