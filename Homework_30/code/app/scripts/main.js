@@ -1,1 +1,1 @@
-console.log(sum(1, 6));
+console.log(sum(1, 7));

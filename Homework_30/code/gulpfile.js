@@ -47,15 +47,19 @@ const concat = require("gulp-concat");
 const babel = require("gulp-babel");
 const ssi = require("gulp-ssi");
 const browserSync = require('browser-sync').create();
+const imagemin = require('gulp-imagemin');
 
 const APP_PATH = "./app/";
 const BID_PATH = "./dist/";
 const SCRIPT_PATH = `${APP_PATH}scripts/`;
 const STYLES_PATH = `${APP_PATH}styles/`;
 const PARTS_PATH = `${APP_PATH}parts/`;
+const IMAGES_PATH = `${APP_PATH}images/`
 
 function cleanDist() {
-    return src(`${BID_PATH}**/*`, { force: true }).pipe(clean());
+//    return src(`${BID_PATH}**/*`, { force: true }).pipe(clean());
+    return src([`${BID_PATH}**/*`, `!${BID_PATH}img/**`], { force: true, allowEmpty: true })
+        .pipe(clean())
 }
 
 function html() {
@@ -86,6 +90,17 @@ function scripts() {
         .pipe(browserSync.stream());
 }
 
+function images() {
+    return src(`${IMAGES_PATH}src/*.{jpg,png,gif}`)
+        .pipe(imagemin({
+            quality: 70,
+            progressive: true
+        }))
+        .pipe(dest(`${BID_PATH}img`))
+        .pipe(browserSync.stream());
+}
+
+
 function watcher() {
     browserSync.init({
         server: {
@@ -95,13 +110,16 @@ function watcher() {
     });
     watch(`${SCRIPT_PATH}*.js`, scripts);
     watch(`${STYLES_PATH}*.scss`, styles);
+    watch(`${IMAGES_PATH}src/*.{jpg,png,gif}`, images);
     watch(`${PARTS_PATH}*.html`, html);
-    watch(`${APP_PATH}*.html`, html);
+//    watch(`${APP_PATH}*.html`, html);
+     watch(`${APP_PATH}**/*`).on("change", browserSync.reload);
+//    watch(`${PARTS_PATH}*.html`,html).on('change', browserSync.reload);
+    watch(`${APP_PATH}*.html`,html).on('change', browserSync.reload);
 }
 
 
-
-
-
 exports.build = series(cleanDist, html, styles, scripts);
-exports.default = series(html, styles, scripts, parallel(watcher));
+exports.default = series(html, styles, scripts, images, parallel(watcher));
+exports.clean = series(cleanDist);
+exports.images = series(images);
