@@ -22,8 +22,9 @@ const PARTS_PATH = `${APP_PATH}parts/`;
 const IMAGES_PATH = `${APP_PATH}images/`
 
 function cleanDist() {
-//    return src(`${BID_PATH}**/*`, { force: true }).pipe(clean());
-    return src([`${BID_PATH}**/*`, `!${BID_PATH}img/**`], { force: true, allowEmpty: true })
+    // return src(`${BID_PATH}**/*`, { force: true }).pipe(clean());
+    return src([`${BID_PATH}**/*`, `!${BID_PATH}img/**`],
+        { force: true, allowEmpty: true })
         .pipe(clean())
 }
 
@@ -90,12 +91,10 @@ function watcher() {
     watch(`${IMAGES_PATH}src/*.{jpg,png,gif}`, images);
     watch(`${PARTS_PATH}*.html`, html);
     watch(`${APP_PATH}*.html`,parallel(html, reloadBrowser));
-    //watch(`${APP_PATH}**/*`).on("change", browserSync.reload);
-    //watch(`${APP_PATH}*.html`,html).on('change', reloadBrowser);
+    //watch(`${APP_PATH}**/*,html`).on("change", reloadBrowser);
+
 }
 
-
-exports.build = series(cleanDist, html, styles, scripts);
-exports.default = series(html, styles, scripts, images, watcher);
-exports.clean = series(cleanDist);
-exports.images = series(images);
+exports.cleanDist = cleanDist;
+exports.build = series(cleanDist, parallel(html, styles, scripts, images));
+exports.default = series(parallel(html, styles, scripts, images), watcher)
