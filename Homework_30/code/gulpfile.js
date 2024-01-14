@@ -1,41 +1,4 @@
 
-// const {parallel, series, src, dest, watch} = require('gulp');
-// const uglify = require('gulp-uglify');
-// const rename = require('gulp-rename');
-// const clean = require('gulp-clean');
-//
-// const APP_PATH = "./app/";
-// const BID_PATH = "./dist/";
-// const SCRIPT_PATH = `${APP_PATH}scripts/`;
-// const STYLES_PATH = `${APP_PATH}styles/`;
-//
-//
-// function cleanDist(){
-//     return src(`${BID_PATH}**/*`, {force: true})
-//         .pipe(clean());
-// }
-//
-// function styles(cb){
-//     console.log('styles');
-//     cb();
-// }
-//
-// function scripts(cb){
-//     return src(`${SCRIPT_PATH}*.js`)
-//         .pipe(uglify())
-//         .pipe(rename({extname:'.min.js'}))
-//         .pipe(dest(BID_PATH))
-// }
-//
-// function observer(){
-//     watch(`${SCRIPT_PATH}*.js`,scripts);
-// }
-//
-// exports.build = series(cleanDist, styles, scripts);
-// exports.default = parallel (cleanDist, styles, scripts);
-// exports.createfile = series(cleanDist, scripts);
-// exports.observe = series(cleanDist, styles, scripts, observer);
-
 const { parallel, series, src, dest, watch } = require("gulp");
 const uglify = require("gulp-uglify");
 const rename = require("gulp-rename");
@@ -48,6 +11,7 @@ const babel = require("gulp-babel");
 const ssi = require("gulp-ssi");
 const browserSync = require('browser-sync').create();
 const imagemin = require('gulp-imagemin');
+const newer = require('gulp-newer');
 
 const APP_PATH = "./app/";
 const BID_PATH = "./dist/";
@@ -92,6 +56,7 @@ function scripts() {
 
 function images() {
     return src(`${IMAGES_PATH}src/*.{jpg,png,gif}`)
+        .pipe(newer(`${BID_PATH}img`))
         .pipe(imagemin({
             quality: 70,
             progressive: true
@@ -100,26 +65,39 @@ function images() {
         .pipe(browserSync.stream());
 }
 
-
-function watcher() {
+function serverStart(){
     browserSync.init({
+        watch: true,
         server: {
             baseDir: BID_PATH,
         },
         port: 3000,
     });
+}
+
+
+function reloadBrowser(cb) {
+    browserSync.reload();
+    cb();
+}
+
+function watcher() {
+    serverStart();
     watch(`${SCRIPT_PATH}*.js`, scripts);
     watch(`${STYLES_PATH}*.scss`, styles);
     watch(`${IMAGES_PATH}src/*.{jpg,png,gif}`, images);
     watch(`${PARTS_PATH}*.html`, html);
+
 //    watch(`${APP_PATH}*.html`, html);
-     watch(`${APP_PATH}**/*`).on("change", browserSync.reload);
+//    watch(`${APP_PATH}**/*`).on("change", browserSync.reload);
 //    watch(`${PARTS_PATH}*.html`,html).on('change', browserSync.reload);
-    watch(`${APP_PATH}*.html`,html).on('change', browserSync.reload);
+
+    //watch(`${APP_PATH}*.html`,html).on('change', reloadBrowser);
+    watch(`${APP_PATH}*.html`,parallel(html, reloadBrowser));
 }
 
 
 exports.build = series(cleanDist, html, styles, scripts);
-exports.default = series(html, styles, scripts, images, parallel(watcher));
+exports.default = series(html, styles, scripts, images, watcher);
 exports.clean = series(cleanDist);
 exports.images = series(images);
