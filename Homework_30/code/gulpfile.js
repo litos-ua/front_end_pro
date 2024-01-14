@@ -12,6 +12,7 @@ const ssi = require("gulp-ssi");
 const browserSync = require('browser-sync').create();
 const imagemin = require('gulp-imagemin');
 const newer = require('gulp-newer');
+const minifyHtml = require('gulp-minify-html');
 
 const APP_PATH = "./app/";
 const BID_PATH = "./dist/";
@@ -29,6 +30,7 @@ function cleanDist() {
 function html() {
     return src(`${APP_PATH}*.html`)
         .pipe(ssi())
+        .pipe(minifyHtml())
         .pipe(dest(`${BID_PATH}`))
         .pipe(browserSync.stream());
 }
@@ -87,13 +89,9 @@ function watcher() {
     watch(`${STYLES_PATH}*.scss`, styles);
     watch(`${IMAGES_PATH}src/*.{jpg,png,gif}`, images);
     watch(`${PARTS_PATH}*.html`, html);
-
-//    watch(`${APP_PATH}*.html`, html);
-//    watch(`${APP_PATH}**/*`).on("change", browserSync.reload);
-//    watch(`${PARTS_PATH}*.html`,html).on('change', browserSync.reload);
-
-    //watch(`${APP_PATH}*.html`,html).on('change', reloadBrowser);
     watch(`${APP_PATH}*.html`,parallel(html, reloadBrowser));
+    //watch(`${APP_PATH}**/*`).on("change", browserSync.reload);
+    //watch(`${APP_PATH}*.html`,html).on('change', reloadBrowser);
 }
 
 
