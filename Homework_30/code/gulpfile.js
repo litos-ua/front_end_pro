@@ -95,6 +95,6 @@ function watcher() {
 
 }
 
-exports.cleanDist = cleanDist;
+
 exports.build = series(cleanDist, parallel(html, styles, scripts, images));
 exports.default = series(parallel(html, styles, scripts, images), watcher)
