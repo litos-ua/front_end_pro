@@ -1,0 +1,11 @@
+body {
+    background-color: lightblue;
+}
+h2 {
+    font-weight: bold;
+}
+
+h3 {
+    font-style: italic;
+    color: blue;
+}
