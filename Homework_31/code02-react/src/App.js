@@ -1,6 +1,5 @@
 
 import React from 'react';
-import './App.css';
 import './styles.css'
 
 const App = () => {
@@ -22,10 +21,16 @@ const App = () => {
     );
   };
 
+
   const getRandomImageNumber = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+
+  const handleRestart = () => {
+        window.location.reload();
   };
 
   return (
@@ -34,7 +39,7 @@ const App = () => {
           <div className="button-container" style={{ display: 'flex', alignItems: 'center',
               justifyContent: 'space-between',paddingRight: '5%', paddingLeft: '5%'  }}>
               <h3>Homework_22: Images output</h3>
-              <button className="btn btn-primary" style={{ marginLeft: '10px' }}>
+              <button className="btn btn-primary" style={{ marginLeft: '10px' }} onClick={handleRestart}>
                   Restart
               </button>
           </div>
