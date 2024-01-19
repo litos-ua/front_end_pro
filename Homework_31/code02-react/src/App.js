@@ -35,10 +35,10 @@ const App = () => {
 
   return (
       <div className="text-center">
-          <h2>Lessons_18</h2>
+          <h2>Lessons_29</h2>
           <div className="button-container" style={{ display: 'flex', alignItems: 'center',
               justifyContent: 'space-between',paddingRight: '5%', paddingLeft: '5%'  }}>
-              <h3>Homework_22: Images output</h3>
+              <h3>Homework_31: Images output</h3>
               <button className="btn btn-primary" style={{ marginLeft: '10px' }} onClick={handleRestart}>
                   Restart
               </button>
