@@ -1,0 +1,19 @@
+body {
+    background-color: lightblue;
+    padding-top: 0px;
+}
+
+h2 {
+    font-weight: bold;
+}
+
+h3 {
+    font-style: italic;
+    color: blue;
+}
+
+h5{
+    margin-top: 0px;
+    padding-top: 0px;
+    height: 50%;
+}
