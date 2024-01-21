@@ -15,6 +15,7 @@ class Table extends React.Component {
                     <th>Name</th>
                     <th>Username</th>
                     <th>Phone</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,6 +25,14 @@ class Table extends React.Component {
                         <td>{user.name}</td>
                         <td>{user.username}</td>
                         <td>{user.phone}</td>
+                        <td>
+                            <button className="btn btn-sm btn-primary me-1" onClick={
+                                () => console.log('Edit', user.id)
+                            }>Edit</button>
+                            <button className="btn btn-sm btn-danger" onClick={
+                                () => console.log('Delete', user.id)
+                            }>Delete</button>
+                        </td>
                     </tr>
                 ))}
                 </tbody>

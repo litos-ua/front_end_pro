@@ -2,12 +2,12 @@
 .custom-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #c7c68c;
+    background-color: #ece3a4;
     margin-top: 5px;
 }
 
 
-.custom-table td, .custom-table th {
+.custom-table th, .custom-table td {
     padding: 10px;
     border: 1px solid #112370;
     text-align: center;
