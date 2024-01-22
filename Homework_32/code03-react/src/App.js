@@ -2,6 +2,7 @@
 import React from "react";
 import { Header } from "./components";
 import { Table } from "./components";
+import { PortalModal} from "./components";
 import { usersArray } from './data/users';
 import "./App.css";
 
@@ -24,6 +25,7 @@ class App extends React.Component {
                     User Table
                 </h1>
                 <Table users={usersArray} />
+                <PortalModal />
             </div>
         );
     }

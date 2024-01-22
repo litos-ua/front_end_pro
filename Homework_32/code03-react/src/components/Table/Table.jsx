@@ -11,20 +11,20 @@ class Table extends React.Component {
 
     constructor(props) {
         super(props);
-        this.handleCreateUser = this.handleCreateUser(this);
-        this.handleEditUser = this.handleEditUser.bind(this);
-        this.handleDeleteUser = this.handleDeleteUser.bind(this)
+        this.createUserHandler = this.createUserHandler(this);
+        this.editUserHandler = this.editUserHandler.bind(this);
+        this.deleteUserHandler = this.deleteUserHandler.bind(this)
     }
 
-    handleCreateUser = (userId) => {
+    createUserHandler = (userId) => {
         // Create
     }
 
-    handleEditUser = (userId) => {
+    editUserHandler = (userId) => {
         // Update
     }
 
-    handleDeleteUser = (userId) => {
+    deleteUserHandler = (userId) => {
         // Delete
     }
 
