@@ -7,24 +7,18 @@ import { usersArray } from './data/users';
 import "./App.css";
 
 class App extends React.Component {
-    // constructor(props) {
-    //     super(props);
-    //
-    //     this.state = {
-    //         showDate: false,
-    //     };
-    // }
-
     render() {
-
+        const localStorageKey = 'tableData';
+        const localStorageData = localStorage.getItem(localStorageKey);
+        const loadingUsers = localStorageData ? JSON.parse(localStorageData) : usersArray;
 
         return (
             <div className="App">
                 <Header />
-                <h1 id={Math.round(Math.random() * 100).toString()} >
+                <h1 id={Math.round(Math.random() * 100).toString()}>
                     User Table
                 </h1>
-                <Table users={usersArray} />
+                <Table users={loadingUsers} />
                 <PortalModal />
             </div>
         );

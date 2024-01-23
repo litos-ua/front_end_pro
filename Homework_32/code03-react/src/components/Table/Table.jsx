@@ -1,35 +1,20 @@
-'use strict'
 
-import React from 'react';
+import React, {Component} from 'react';
 import './Table.css';
 
 const tableClass = 'custom-table';
 const buttonPrimaryClass = 'btn btn-sm btn-primary me-1';
 const buttonDangerClass = 'btn btn-sm btn-danger';
 
-class Table extends React.Component {
+export class Table extends Component {
 
-    constructor(props) {
-        super(props);
-        this.createUserHandler = this.createUserHandler(this);
-        this.editUserHandler = this.editUserHandler.bind(this);
-        this.deleteUserHandler = this.deleteUserHandler.bind(this)
-    }
-
-    createUserHandler = (userId) => {
-        // Create
-    }
-
-    editUserHandler = (userId) => {
-        // Update
-    }
-
-    deleteUserHandler = (userId) => {
-        // Delete
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
     render() {
-        const { users } = this.props;
+        const {users} = this.props;
+        console.log(this.props);
 
         return (
             <table className={tableClass}>
@@ -69,5 +54,3 @@ class Table extends React.Component {
     }
 }
 
-
-export { Table };
