@@ -84,6 +84,7 @@ export class PortalModal extends React.Component {
             localStorage.setItem('tableData', JSON.stringify(tableData));
 
             this.toggleModalHandler();
+            this.props.updateTable();
             alert('User data saved successfully!');
 
         } catch (error) {
