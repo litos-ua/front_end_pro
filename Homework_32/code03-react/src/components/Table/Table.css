@@ -8,8 +8,10 @@
 
 
 .custom-table th, .custom-table td {
-    padding: 10px;
     border: 1px solid #112370;
     text-align: center;
     color: #333;
+    height: 15px;
+    padding: 1px 10px;
 }
+

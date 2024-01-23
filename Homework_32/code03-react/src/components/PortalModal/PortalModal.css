@@ -1,6 +1,6 @@
 
 .custom-modal {
-    width: 70%;
+    width: 50%;
     margin: auto;
     display: flex;
     justify-content: center;
@@ -19,11 +19,21 @@
     margin-top: 1%;
 }
 .close-modal-btn{
-    margin: auto;
-    width: 10%;
+    margin: 5px 5px;
+    width: 20%;
 }
 
 .save-user-btn {
-    margin: auto;
-    width: 10%;
+    margin: 5px 5px;
+    width: 20%;
+}
+
+input{
+    width: 100%;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

@@ -7,4 +7,10 @@ export default class TableUtils extends React.Component {
         const localStorageData = localStorage.getItem(localStorageKey);
         return localStorageData ? JSON.parse(localStorageData) : usersArray;
     }
+
+    static updateTableData() {
+        const newTableData = this.loadTableData();
+        // Perform any additional updates or logic if needed
+        return newTableData;
+    }
 }

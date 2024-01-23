@@ -8,9 +8,25 @@ const buttonDangerClass = 'btn btn-sm btn-danger';
 
 export class Table extends Component {
 
-    // constructor(props) {
-    //     super(props);
-    // }
+    handleDelete = (userId) => {
+        // Filter out the user with the specified userId from the state
+        const updatedUsers = this.props.users.filter(user => user.id !== userId);
+
+        // Update the LocalStorage
+        this.updateLocalStorage(updatedUsers);
+
+        // Update the state
+        this.props.reloadTable(updatedUsers);
+
+        // Display a confirmation message
+        alert(`User with ID ${userId} deleted successfully!`);
+    }
+
+    updateLocalStorage = (users) => {
+        // Update the LocalStorage with the new user data
+        const localStorageKey = 'tableData';
+        localStorage.setItem(localStorageKey, JSON.stringify(users));
+    }
 
     render() {
         const {users} = this.props;
@@ -35,13 +51,13 @@ export class Table extends Component {
                         <td>{user.username}</td>
                         <td>{user.phone}</td>
                         <td>
-                            <button className={buttonPrimaryClass} onClick={
-                                () => console.log('Edit', user.id)
-                            }>
-                                Edit
-                            </button>
+                            {/*<button className={buttonPrimaryClass} onClick={*/}
+                            {/*    () => console.log('Edit', user.id)*/}
+                            {/*}>*/}
+                            {/*    Edit*/}
+                            {/*</button>*/}
                             <button className={buttonDangerClass} onClick={
-                                () => console.log('Delete', user.id)
+                                () => this.handleDelete(user.id)
                             }>
                                 Delete
                             </button>
