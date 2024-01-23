@@ -16,18 +16,8 @@ class App extends React.Component {
         };
     }
 
-
     updateTableData = () => {
-        this.setState({
-            tableData: TableUtils.loadTableData(),
-        });
-    }
-
-
-    reloadTable = () => {
-        this.setState({
-            tableData: TableUtils.loadTableData(),
-        });
+        TableUtils.updateTableData(this);
     }
 
 
@@ -40,7 +30,7 @@ class App extends React.Component {
                 <h1 id={Math.round(Math.random() * 100).toString()}>
                     User Table
                 </h1>
-                <Table users={this.state.tableData} reloadTable={this.reloadTable} />
+                <Table users={this.state.tableData} reloadTable={this.updateTableData} />
                 <PortalModal updateTable={this.updateTableData} />
 
             </div>
