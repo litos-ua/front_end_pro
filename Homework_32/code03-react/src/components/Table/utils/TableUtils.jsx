@@ -30,7 +30,4 @@ export default class TableUtils extends React.Component {
         return (maxId + 1).toString();
     };
 
-
-
-
 }

@@ -32,6 +32,11 @@ export class PortalModal extends React.Component {
         try {
             const { id, name, username, phone } = this.state;
 
+            if (!id.trim() || !name.trim() || !username.trim() || !phone.trim()) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
             const newUser = {
                 id: id.trim(),
                 name: name.trim(),

@@ -11,7 +11,7 @@ export default class ButtonGroup extends React.Component {
                     className={`btn ${buttonWarningClass} close-modal-btn`}
                     onClick={onClose}
                 >
-                    Close modal
+                    Cancel
                 </button>
                 <button
                     className={`btn ${buttonPrimaryClass} save-user-btn`}

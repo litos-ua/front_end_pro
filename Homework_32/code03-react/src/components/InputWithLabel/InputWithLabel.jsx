@@ -14,6 +14,7 @@ export default class InputWithLabel extends React.Component {
                         name={name}
                         value={value}
                         onChange={onChange}
+                        readOnly={name === "id"}
                     />
                 </label>
             </div>
