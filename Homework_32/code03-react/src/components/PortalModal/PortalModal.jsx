@@ -1,10 +1,12 @@
 
 import React from "react";
 import { createPortal } from "react-dom";
+import InputWithLabel from "../InputWithLabel/InputWithLabel";
+import ButtonGroup from "../ButtonGroup/ButtonGroup";
 import './PortalModal.css';
-const buttonPrimaryClass = 'btn btn-sm btn-primary';
+//const buttonPrimaryClass = 'btn btn-sm btn-primary';
 const buttonInfoClass = 'btn btn-sm btn-info';
-const buttonWarningClass = 'btn btn-sm btn-warning';
+//const buttonWarningClass = 'btn btn-sm btn-warning';
 
 export class PortalModal extends React.Component {
     constructor(props) {
@@ -61,65 +63,19 @@ export class PortalModal extends React.Component {
                 <div className="custom-modal">
                     <div className="modal-content">
                         <p>Add New User</p>
-                        <div className="input-group">
-                            <label>
-                                ID:
-                                <input
-                                    type="text"
-                                    name="id"
-                                    value={state.id}
-                                    onChange={handleInputChange}
-                                />
-                            </label>
-                            <label>
-                                Name:
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={state.name}
-                                    onChange={handleInputChange}
-                                />
-                            </label>
+                        <div className="double-input-group">
+                            <InputWithLabel label="ID" name="id" value={state.id} onChange={handleInputChange} />
+                            <InputWithLabel label="Name" name="name" value={state.name} onChange={handleInputChange} />
                         </div>
-                        <div className="input-group">
-                            <label>
-                                Username:
-                                <input
-                                    type="text"
-                                    name="username"
-                                    value={state.username}
-                                    onChange={handleInputChange}
-                                />
-                            </label>
-                            <label>
-                                Phone:
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    value={state.phone}
-                                    onChange={handleInputChange}
-                                />
-                            </label>
+                        <div className="double-input-group">
+                            <InputWithLabel label="Username" name="username" value={state.username} onChange={handleInputChange} />
+                            <InputWithLabel label="Phone" name="phone" value={state.phone} onChange={handleInputChange} />
                         </div>
-                        <div className="button-group">
-                            <button
-                                className={`btn ${buttonWarningClass} close-modal-btn`}
-                                onClick={toggleModal}
-                            >
-                                Close modal
-                            </button>
-                            <button
-                                className={`btn ${buttonPrimaryClass} save-user-btn`}
-                                onClick={saveUser}
-                            >
-                                Add User
-                            </button>
-                        </div>
+                        <ButtonGroup onClose={toggleModal} onSave={saveUser} />
                     </div>
                 </div>
             );
         }
-
 
         return (
             <>
@@ -144,3 +100,68 @@ export class PortalModal extends React.Component {
     }
 }
 
+
+
+// function createModal(toggleModal, saveUser, state, handleInputChange) {
+//     return (
+//         <div className="custom-modal">
+//             <div className="modal-content">
+//                 <p>Add New User</p>
+//                 <div className="input-group">
+//                     <label>
+//                         ID:
+//                         <input
+//                             type="text"
+//                             name="id"
+//                             value={state.id}
+//                             onChange={handleInputChange}
+//                         />
+//                     </label>
+//                     <label>
+//                         Name:
+//                         <input
+//                             type="text"
+//                             name="name"
+//                             value={state.name}
+//                             onChange={handleInputChange}
+//                         />
+//                     </label>
+//                 </div>
+//                 <div className="input-group">
+//                     <label>
+//                         Username:
+//                         <input
+//                             type="text"
+//                             name="username"
+//                             value={state.username}
+//                             onChange={handleInputChange}
+//                         />
+//                     </label>
+//                     <label>
+//                         Phone:
+//                         <input
+//                             type="text"
+//                             name="phone"
+//                             value={state.phone}
+//                             onChange={handleInputChange}
+//                         />
+//                     </label>
+//                 </div>
+//                 <div className="button-group">
+//                     <button
+//                         className={`btn ${buttonWarningClass} close-modal-btn`}
+//                         onClick={toggleModal}
+//                     >
+//                         Close modal
+//                     </button>
+//                     <button
+//                         className={`btn ${buttonPrimaryClass} save-user-btn`}
+//                         onClick={saveUser}
+//                     >
+//                         Add User
+//                     </button>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// }

@@ -17,6 +17,7 @@
 
 .toggle-modal-btn {
     margin-top: 1%;
+    width: 10%;
 }
 .close-modal-btn{
     margin: 5px 5px;
@@ -28,12 +29,16 @@
     width: 20%;
 }
 
-input{
-    width: 100%;
-}
+/*input{*/
+/*    width: 100%;*/
+/*}*/
 
-.input-group {
+.double-input-group {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.input-group input {
+    width: 100%;
 }
