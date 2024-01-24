@@ -29,10 +29,6 @@
     width: 20%;
 }
 
-/*input{*/
-/*    width: 100%;*/
-/*}*/
-
 .double-input-group {
     display: flex;
     flex-direction: row;

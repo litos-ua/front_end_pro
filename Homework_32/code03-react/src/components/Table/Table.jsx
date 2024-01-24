@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import './Table.css';
 
 const tableClass = 'custom-table';
-const buttonPrimaryClass = 'btn btn-sm btn-primary me-1';
 const buttonDangerClass = 'btn btn-sm btn-danger';
 
 export class Table extends Component {
@@ -23,7 +22,6 @@ export class Table extends Component {
 
     render() {
         const {users} = this.props;
-//        console.log(this.props);
 
         return (
             <table className={tableClass}>
@@ -44,11 +42,6 @@ export class Table extends Component {
                         <td>{user.username}</td>
                         <td>{user.phone}</td>
                         <td>
-                            {/*<button className={buttonPrimaryClass} onClick={*/}
-                            {/*    () => console.log('Edit', user.id)*/}
-                            {/*}>*/}
-                            {/*    Edit*/}
-                            {/*</button>*/}
                             <button className={buttonDangerClass} onClick={
                                 () => this.handleDelete(user.id)
                             }>

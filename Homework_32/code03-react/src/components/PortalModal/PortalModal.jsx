@@ -4,21 +4,21 @@ import { createPortal } from "react-dom";
 import InputWithLabel from "../InputWithLabel/InputWithLabel";
 import ButtonGroup from "../ButtonGroup/ButtonGroup";
 import './PortalModal.css';
-//const buttonPrimaryClass = 'btn btn-sm btn-primary';
+import TableUtils from "../Table/utils/TableUtils";
 const buttonInfoClass = 'btn btn-sm btn-info';
-//const buttonWarningClass = 'btn btn-sm btn-warning';
 
 export class PortalModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: '',
+            id: TableUtils.getDefaultId(),
             name: '',
             username: '',
             phone: '',
             isOpen: false,
         };
     }
+
 
     handleInputChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
@@ -46,6 +46,12 @@ export class PortalModal extends React.Component {
             this.toggleModalHandler();
             this.props.updateTable();
             alert('User data saved successfully!');
+            this.setState({
+                id: TableUtils.getDefaultId(),
+                name: '',
+                username: '',
+                phone: '',
+            });
 
         } catch (error) {
 
@@ -102,66 +108,3 @@ export class PortalModal extends React.Component {
 
 
 
-// function createModal(toggleModal, saveUser, state, handleInputChange) {
-//     return (
-//         <div className="custom-modal">
-//             <div className="modal-content">
-//                 <p>Add New User</p>
-//                 <div className="input-group">
-//                     <label>
-//                         ID:
-//                         <input
-//                             type="text"
-//                             name="id"
-//                             value={state.id}
-//                             onChange={handleInputChange}
-//                         />
-//                     </label>
-//                     <label>
-//                         Name:
-//                         <input
-//                             type="text"
-//                             name="name"
-//                             value={state.name}
-//                             onChange={handleInputChange}
-//                         />
-//                     </label>
-//                 </div>
-//                 <div className="input-group">
-//                     <label>
-//                         Username:
-//                         <input
-//                             type="text"
-//                             name="username"
-//                             value={state.username}
-//                             onChange={handleInputChange}
-//                         />
-//                     </label>
-//                     <label>
-//                         Phone:
-//                         <input
-//                             type="text"
-//                             name="phone"
-//                             value={state.phone}
-//                             onChange={handleInputChange}
-//                         />
-//                     </label>
-//                 </div>
-//                 <div className="button-group">
-//                     <button
-//                         className={`btn ${buttonWarningClass} close-modal-btn`}
-//                         onClick={toggleModal}
-//                     >
-//                         Close modal
-//                     </button>
-//                     <button
-//                         className={`btn ${buttonPrimaryClass} save-user-btn`}
-//                         onClick={saveUser}
-//                     >
-//                         Add User
-//                     </button>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// }
