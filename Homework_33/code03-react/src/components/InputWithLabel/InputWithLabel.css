@@ -1,0 +1,9 @@
+.double-input-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.input-group input {
+    width: 100%;
+}

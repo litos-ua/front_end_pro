@@ -1,0 +1,40 @@
+
+.custom-modal {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(156, 174, 217, 0.51);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content {
+    text-align: center;
+}
+
+.toggle-modal-btn {
+    margin-top: 1%;
+    width: 10%;
+}
+.close-modal-btn{
+    margin: 5px 5px;
+    width: 20%;
+}
+
+.save-user-btn {
+    margin: 5px 5px;
+    width: 20%;
+}
+
+.double-input-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.input-group input {
+    width: 100%;
+}
