@@ -7,36 +7,26 @@ import "./App.css";
 const loadTableData = TableUtils.loadTableData;
 
 export default function App() {
+
     const [tableData, setTableData] = useState([]);
 
-
-
-    // const loadData = () => {
-    //     try {
-    //         const data = loadTableData();
-    //         setTableData(data);
-    //     } catch (error) {
-    //         console.error('Error loading table data:', error);
-    //     }
-    // };
-    //
-    // useEffect(() => {
-    //     loadData();
-    // }, []);
-    //
-    // const updateTableData = () => {
-    //     loadData();
-    // };
-
-
-    const loadData = async () => {
+    const loadData = () => {
         try {
-            const data = await loadTableData();
+            const data = loadTableData();
             setTableData(data);
         } catch (error) {
             console.error('Error loading table data:', error);
         }
     };
+
+    // const loadData = async () => {
+    //     try {
+    //         const data = await loadTableData();
+    //         setTableData(data);
+    //     } catch (error) {
+    //         console.error('Error loading table data:', error);
+    //     }
+    // };
 
     useEffect(() => {
         loadData();
@@ -45,29 +35,6 @@ export default function App() {
     const updateTableData = () => {
         loadData();
     };
-    
-
-    // useEffect(() => {
-    //     const loadData = async () => {
-    //         try {
-    //             const data = await loadTableData();
-    //             setTableData(data);
-    //         } catch (error) {
-    //             console.error('Error loading table data:', error);
-    //         }
-    //     };
-    //     loadData().then();
-    // }, []);
-    //
-    // const updateTableData = async () => {
-    //     try {
-    //         const data = await loadTableData();
-    //         setTableData(data);
-    //     } catch (error) {
-    //         console.error('Error updating table data:', error);
-    //     }
-    // };
-
 
     return (
         <div className="App">
