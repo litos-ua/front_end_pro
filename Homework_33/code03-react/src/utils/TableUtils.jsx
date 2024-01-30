@@ -28,5 +28,3 @@ export const TableUtils = {
     getDefaultIdLocalStorage,
     getDefaultId,
 };
-
-// export default TableUtils;

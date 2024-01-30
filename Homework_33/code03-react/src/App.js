@@ -9,27 +9,64 @@ const loadTableData = TableUtils.loadTableData;
 export default function App() {
     const [tableData, setTableData] = useState([]);
 
-    useEffect(() => {
-        const loadData = async () => {
-            try {
-                const data = await loadTableData();
-                setTableData(data);
-            } catch (error) {
-                console.error('Error loading table data:', error);
-            }
-        };
 
-        loadData().then();
-    }, []);
 
-    const updateTableData = async () => {
+    // const loadData = () => {
+    //     try {
+    //         const data = loadTableData();
+    //         setTableData(data);
+    //     } catch (error) {
+    //         console.error('Error loading table data:', error);
+    //     }
+    // };
+    //
+    // useEffect(() => {
+    //     loadData();
+    // }, []);
+    //
+    // const updateTableData = () => {
+    //     loadData();
+    // };
+
+
+    const loadData = async () => {
         try {
-            const data = await loadTableData;
+            const data = await loadTableData();
             setTableData(data);
         } catch (error) {
-            console.error('Error updating table data:', error);
+            console.error('Error loading table data:', error);
         }
     };
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    const updateTableData = () => {
+        loadData();
+    };
+    
+
+    // useEffect(() => {
+    //     const loadData = async () => {
+    //         try {
+    //             const data = await loadTableData();
+    //             setTableData(data);
+    //         } catch (error) {
+    //             console.error('Error loading table data:', error);
+    //         }
+    //     };
+    //     loadData().then();
+    // }, []);
+    //
+    // const updateTableData = async () => {
+    //     try {
+    //         const data = await loadTableData();
+    //         setTableData(data);
+    //     } catch (error) {
+    //         console.error('Error updating table data:', error);
+    //     }
+    // };
 
 
     return (
