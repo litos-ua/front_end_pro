@@ -4,7 +4,7 @@ import todosReducer from './todos/reducer';
 import { composeWithDevTools } from "@redux-devtools/extension";
 
 const rootReducer = combineReducers({
-    todos: todosReducer,
+    todosManager: todosReducer,
 });
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));

@@ -1,7 +1,7 @@
 import { ADD_TODO, COMPLETE_TODO, REMOVE_TODO } from './actions';
 
 const initialState = {
-    todos: [],
+    todosItems: [],
 };
 
 const generateId = () => {
@@ -22,20 +22,20 @@ const reducer = (state = initialState, action) => {
             };
             return {
                 ...state,
-                todos: [...state.todos, newTodo],
+                todosItems: [...state.todosItems, newTodo],
             };
         }
         case COMPLETE_TODO:
             return {
                 ...state,
-                todos: state.todos.map((todo) =>
-                    todo.id === action.payload ? { ...todo, completed: true } : todo
+                todosItems: state.todosItems.map((el) =>
+                    el.id === action.payload ? { ...el, completed: true } : el
                 ),
             };
         case REMOVE_TODO:
             return {
                 ...state,
-                todos: state.todos.filter((todo) => todo.id !== action.payload),
+                todosItems: state.todosItems.filter((el) => el.id !== action.payload),
             };
         default:
             return state;

@@ -5,14 +5,12 @@ import { selectTodos } from '../store';
 
 const TodoList = () => {
     const todos = useSelector(selectTodos);
-
     const dispatch = useDispatch();
-
-    const handleComplete = (id) => {
+    const completeHandler = (id) => {
         dispatch(completeTodoAction(id));
     };
 
-    const handleRemove = (id) => {
+    const removeHandler = (id) => {
         dispatch(removeTodoAction(id));
     };
 
@@ -27,10 +25,11 @@ const TodoList = () => {
                     <div>Performer: {todo.taskPerformer}</div>
                     <div>Additional Info: {todo.additionalInfo}</div>
                     <div>Creation Time: {new Date(todo.create_time).toLocaleString()}</div>
-                    <button className="todo___ul_btn_complete" onClick={() => handleComplete(todo.id)} disabled={todo.completed}>
+                    <button className="todo___ul_btn_complete"
+                            onClick={() => completeHandler(todo.id)} disabled={todo.completed}>
                         Complete
                     </button>
-                    <button className="todo___ul_btn_remove" onClick={() => handleRemove(todo.id)}>
+                    <button className="todo___ul_btn_remove" onClick={() => removeHandler(todo.id)}>
                         Remove
                     </button>
                 </li>
