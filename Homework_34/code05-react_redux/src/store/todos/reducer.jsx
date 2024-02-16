@@ -18,7 +18,7 @@ const reducer = (state = initialState, action) => {
                 taskSetter: action.payload.taskSetter,
                 taskPerformer: action.payload.taskPerformer,
                 additionalInfo: action.payload.additionalInfo,
-                create_time: new Date().toISOString(),
+                createdAt: new Date().toISOString(),
             };
             return {
                 ...state,

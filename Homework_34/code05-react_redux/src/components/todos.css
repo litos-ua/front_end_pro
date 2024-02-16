@@ -59,7 +59,8 @@ li{
 }
 
 .todo___ul_btn_complete,
-.todo___ul_btn_remove {
+.todo___ul_btn_remove,
+.todo___btn_save {
     background-color: #6076e3;
     color: #fff;
     border: 1px solid #112370;
@@ -70,4 +71,10 @@ li{
 .todo___ul_btn_remove {
     background-color: orangered;
     margin-left: 1vw;
+}
+
+.todo___btn_save {
+    height: 5vh;
+    width: 12vw;
+    margin-left: 43%;
 }
