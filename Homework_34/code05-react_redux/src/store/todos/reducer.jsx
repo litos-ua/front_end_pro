@@ -1,4 +1,4 @@
-import { ADD_TODO, COMPLETE_TODO, REMOVE_TODO } from './actions';
+import { ADD_TODO, COMPLETE_TODO, REMOVE_TODO, RESET_STORE } from './actions';
 
 const initialState = {
     todosItems: [],
@@ -37,6 +37,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 todosItems: state.todosItems.filter((el) => el.id !== action.payload),
             };
+        case RESET_STORE:
+            return initialState;
         default:
             return state;
     }
