@@ -1,32 +1,4 @@
 
-// import { addTodoAction } from './actions';
-//
-// export const saveTodo = (todoData) => async (dispatch) => {
-//     try {
-//         const response = await fetch('https://65ce335ec715428e8b402e03.mockapi.io/api/todo/tasks', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify(todoData),
-//         });
-//
-//         const statusCode = response.status;
-//         console.log('Response code:', statusCode);
-//
-//         if (response.ok) {
-//             const data = await response.json();
-//             dispatch(addTodoAction(data));
-//             console.log('Todo saved successfully:', data);
-//         } else {
-//             throw new Error('Failed to save todo');
-//         }
-//     } catch (error) {
-//         console.error('Error saving todo:', error);
-//     }
-// };
-
-
 //Wrapper
 // import { addTodoAction } from './actions';
 //
@@ -67,9 +39,9 @@
 //end Wrapper
 
 
-import { addTodoAction, resetStoreAction } from './actions';
+import { addTodoAction, resetStoreAction } from '../actions';
 
-//export const saveTodo = (todoData) => async (dispatch, getState) => {
+
 export const saveTodo = (todoData, controller) => async (dispatch, getState) => {
     try {
         const response = await fetch('https://65ce335ec715428e8b402e03.mockapi.io/api/todo/tasks', {

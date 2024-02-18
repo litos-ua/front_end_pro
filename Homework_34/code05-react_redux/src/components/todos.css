@@ -58,9 +58,11 @@ li{
     font-size: 2vh;
 }
 
-.todo___ul_btn_complete,
-.todo___ul_btn_remove,
-.todo___btn_save {
+.todo__ul_btn_complete,
+.todo__ul_btn_remove,
+.todo__btn_save,
+.todo__btn_load
+{
     background-color: #6076e3;
     color: #fff;
     border: 1px solid #112370;
@@ -68,13 +70,25 @@ li{
     height: 3vh;
 }
 
-.todo___ul_btn_remove {
+.todo__ul_btn_remove {
     background-color: orangered;
     margin-left: 1vw;
 }
 
-.todo___btn_save {
+.todo__div_remote_btn {
+    display: flex;
+    justify-content: center;
+    gap: 1vw;
+    width: 100%;
+}
+
+.todo__btn_save,
+.todo__btn_load {
+    width: 12vh;
     height: 5vh;
-    width: 12vw;
-    margin-left: 43%;
+}
+
+
+.todo__btn_load {
+    background-color: darkgreen;
 }

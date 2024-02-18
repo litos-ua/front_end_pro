@@ -1,7 +1,17 @@
-import { ADD_TODO, COMPLETE_TODO, REMOVE_TODO, RESET_STORE } from './actions';
+import {
+    ADD_TODO,
+    COMPLETE_TODO,
+    REMOVE_TODO,
+    RESET_STORE,
+    LOAD_TODOS_REQUEST,
+    LOAD_TODOS_SUCCESS,
+    LOAD_TODOS_FAILURE,
+} from './actions';
 
 const initialState = {
     todosItems: [],
+    loading: false,
+    error: null,
 };
 
 const generateId = () => {
@@ -36,6 +46,24 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 todosItems: state.todosItems.filter((el) => el.id !== action.payload),
+            };
+        case LOAD_TODOS_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: null,
+            };
+        case LOAD_TODOS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                todosItems: action.payload,
+            };
+        case LOAD_TODOS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
             };
         case RESET_STORE:
             return initialState;

@@ -1,4 +1,5 @@
 export * from './actions';
 export * from './selectors';
-export * from './thunks';
+export * from './thunks/saveTodos';
+export * from './thunks/loadTodos';
 export * from './reducer';
