@@ -7,13 +7,16 @@ import { saveTodo } from '../store';
 import { loadTodos } from '../store';
 import { loadTodosRequest, loadTodosSuccess, loadTodosFailure } from '../store';
 import {markTodoCompletedRemote, deleteTodoRemote} from '../store';
+import './loader.css';
 
 const TodoList = () => {
     const todos = useSelector(selectTodos);
     const dispatch = useDispatch();
     const [blockRendered, setBlockRendered] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const completeHandler = (id, loadedFromRemote) => {
+        setIsLoading(true)
         dispatch(completeTodoAction(id));
         if (loadedFromRemote) {
             try {
@@ -21,12 +24,15 @@ const TodoList = () => {
             } catch (error) {
                 console.error('Error marking task as completed on remote server:', error);
             }
+            finally {
+                setIsLoading(false);
+            }
         }
     };
 
 
     const removeHandler = (id, loadedFromRemote) => {
-        console.log('loadedFromRemote=',loadedFromRemote);
+        setIsLoading(true);
         dispatch(removeTodoAction(id));
         if (loadedFromRemote) {
             try {
@@ -35,10 +41,14 @@ const TodoList = () => {
             } catch (error) {
                 console.error('Error deleting task on remote server:', error);
             }
+            finally {
+                setIsLoading(false);
+            }
         }
     };
 
     const saveTodos = async () => {
+        setIsLoading(true);
         const controller = new AbortController();
         try {
             await Promise.all(todos.map(todo => dispatch(saveTodo(todo, controller))));
@@ -46,11 +56,13 @@ const TodoList = () => {
         } catch (error) {
             console.error('Error saving todos:', error);
         } finally {
+            setIsLoading(false);
             controller.abort();
         }
     };
 
     const loadRemoteTodos = () => {
+        setIsLoading(true);
         return async (dispatch) => {
             const controller = new AbortController();
             try {
@@ -61,6 +73,7 @@ const TodoList = () => {
                 console.error('Error loading remote todos:', error);
                 dispatch(loadTodosFailure(error));
             } finally {
+                setIsLoading(false)
                 controller.abort();
             }
         };
@@ -77,6 +90,7 @@ const TodoList = () => {
 
     return (
         <div>
+            {isLoading && <div className="lds-hourglass"></div>}
             {!blockRendered && (
                 <div className="todo__ul">
                     <ul>
