@@ -13,7 +13,8 @@ export const loadTodos = async (controller) => {
 
         if (response.ok) {
             const data = await response.json();
-            return data;
+            const todosLoadedFlag = data.map(todo => ({ ...todo, loadedFromRemote: true }));
+            return todosLoadedFlag;
         } else {
             const errorData = await response.json();
             throw new Error(`Failed to load todos: ${errorData.message}`);

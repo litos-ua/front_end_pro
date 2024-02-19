@@ -6,17 +6,36 @@ import { selectTodos } from '../store';
 import { saveTodo } from '../store';
 import { loadTodos } from '../store';
 import { loadTodosRequest, loadTodosSuccess, loadTodosFailure } from '../store';
+import {markTodoCompletedRemote, deleteTodoRemote} from '../store';
 
 const TodoList = () => {
     const todos = useSelector(selectTodos);
     const dispatch = useDispatch();
     const [blockRendered, setBlockRendered] = useState(false);
-    const completeHandler = (id) => {
+
+    const completeHandler = (id, loadedFromRemote) => {
         dispatch(completeTodoAction(id));
+        if (loadedFromRemote) {
+            try {
+                markTodoCompletedRemote(id);
+            } catch (error) {
+                console.error('Error marking task as completed on remote server:', error);
+            }
+        }
     };
 
-    const removeHandler = (id) => {
+
+    const removeHandler = (id, loadedFromRemote) => {
+        console.log('loadedFromRemote=',loadedFromRemote);
         dispatch(removeTodoAction(id));
+        if (loadedFromRemote) {
+            try {
+                console.log('begin try');
+                deleteTodoRemote(id);
+            } catch (error) {
+                console.error('Error deleting task on remote server:', error);
+            }
+        }
     };
 
     const saveTodos = async () => {
@@ -51,7 +70,10 @@ const TodoList = () => {
         dispatch(resetStoreAction());
     };
 
-//    console.log('local form data', todos);
+    const renderStyle = (todo) => {
+        return todo.loadedFromRemote ? { color: 'blue' } : {};
+    };
+
 
     return (
         <div>
@@ -60,15 +82,18 @@ const TodoList = () => {
                     <ul>
                         {todos.map((todo) => (
                             <li key={todo.id} style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
-                                <div>Task: {todo.task}</div>
-                                <div>Setter: {todo.taskSetter}</div>
-                                <div>Performer: {todo.taskPerformer}</div>
-                                <div>Additional Info: {todo.additionalInfo}</div>
-                                <div>Creation Time: {new Date(todo.createdAt).toLocaleString()}</div>
-                                <button className="todo__ul_btn_complete" onClick={() => completeHandler(todo.id)} disabled={todo.completed}>
+                                <div style={renderStyle(todo)}>Task: {todo.task}</div>
+                                <div style={renderStyle(todo)}>Setter: {todo.taskSetter}</div>
+                                <div style={renderStyle(todo)}>Performer: {todo.taskPerformer}</div>
+                                <div style={renderStyle(todo)}>Additional Info: {todo.additionalInfo}</div>
+                                <div style={renderStyle(todo)}>Creation Time: {new Date(todo.createdAt).toLocaleString()}</div>
+                                <button className="todo__ul_btn_complete"
+                                          onClick={() => completeHandler(todo.id, todo.loadedFromRemote)}
+                                          disabled={todo.completed}>
                                     Complete
                                 </button>
-                                <button className="todo__ul_btn_remove" onClick={() => removeHandler(todo.id)}>
+                                <button className="todo__ul_btn_remove"
+                                        onClick={() => removeHandler(todo.id, todo.loadedFromRemote)} >
                                     Remove
                                 </button>
                             </li>
