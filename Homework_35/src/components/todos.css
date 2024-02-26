@@ -1,0 +1,94 @@
+.todo__form {
+    width: 80%;
+    height: 20vh;
+    margin: 0 auto;
+    border: 2px solid #1860e7;
+    border-radius: 10px;
+    padding: 1vh;
+}
+
+.todo__form_input {
+    display: flex;
+    align-items: center;
+    height: 5vh;
+    margin: auto;
+
+}
+
+.todo__form_input_todo,
+.todo__form_input_setter,
+.todo__form_input_performer {
+    width: 30%;
+    height: 3vh;
+    border: 2px solid #1860e7;
+    border-radius: 10px;
+    padding: 1vh;
+    font-size: 2vh;
+}
+
+.todo__form_textarea {
+    width: 90%;
+    height: 5vh;
+    border: 2px solid #1860e7;
+    border-radius: 10px;
+    padding: 1vh;
+    margin-top: 2vh;
+    font-size: 2vh;
+}
+
+.todo__form_submit {
+    display: flex;
+    align-items: center;
+    height: 5vh;
+    margin: auto;
+    padding-top: 1vh;
+}
+
+.todo__form_submit_btn {
+    display: flex;
+    margin: auto;
+    background-color: #3451e1;
+    color: #fff;
+    border: 1px solid #112370;
+    border-radius: 4px;
+    height: 4vh;
+    padding-top: 1vh;
+}
+li{
+    font-size: 2vh;
+}
+
+.todo__ul_btn_complete,
+.todo__ul_btn_remove,
+.todo__btn_save,
+.todo__btn_load
+{
+    background-color: #6076e3;
+    color: #fff;
+    border: 1px solid #112370;
+    border-radius: 3px;
+    height: 3vh;
+}
+
+.todo__ul_btn_remove {
+    background-color: orangered;
+    margin-left: 1vw;
+}
+
+.todo__div_remote_btn {
+    display: flex;
+    justify-content: center;
+    gap: 1vw;
+    width: 100%;
+}
+
+.todo__btn_save,
+.todo__btn_load {
+    width: 12vh;
+    height: 5vh;
+}
+
+
+.todo__btn_load {
+    background-color: darkgreen;
+}
