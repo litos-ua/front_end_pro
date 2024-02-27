@@ -1,12 +1,12 @@
 
+
 import React, { useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {completeTodoAction, removeTodoAction, resetStoreAction} from '../store';
-import { selectTodos } from '../store';
-import { saveTodo } from '../store';
-import { loadTodos } from '../store';
+import { selectTodos, saveTodo, loadTodos } from '../store';
 import { loadTodosRequest, loadTodosSuccess, loadTodosFailure } from '../store';
 import {markTodoCompletedRemote, deleteTodoRemote} from '../store';
+import { Button, Box, List, ListItem, ListItemText } from '@mui/material';
 import './loader.css';
 
 const TodoList = () => {
@@ -16,9 +16,15 @@ const TodoList = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const completeHandler = (id, loadedFromRemote) => {
-        setIsLoading(true)
-        dispatch(completeTodoAction(id));
+
+        try {
+            dispatch(completeTodoAction(id));
+        } catch (error) {
+            console.error('Error completing task on the Redux store:', error);
+        }
+
         if (loadedFromRemote) {
+            setIsLoading(true)
             try {
                 markTodoCompletedRemote(id);
             } catch (error) {
@@ -32,19 +38,26 @@ const TodoList = () => {
 
 
     const removeHandler = (id, loadedFromRemote) => {
-        setIsLoading(true);
-        dispatch(removeTodoAction(id));
+
+        try {
+            dispatch(removeTodoAction(id));
+        } catch (error) {
+            console.error('Error deleting task on the Redux store:', error);
+        }
+
         if (loadedFromRemote) {
+            setIsLoading(true);
             try {
                 console.log('begin try');
                 deleteTodoRemote(id);
             } catch (error) {
-                console.error('Error deleting task on remote server:', error);
+                console.error('Error deleting task on the remote server:', error);
             }
             finally {
                 setIsLoading(false);
             }
         }
+
     };
 
     const saveTodos = async () => {
@@ -61,9 +74,10 @@ const TodoList = () => {
         }
     };
 
+
     const loadRemoteTodos = () => {
-        setIsLoading(true);
         return async (dispatch) => {
+            setIsLoading(true);
             const controller = new AbortController();
             try {
                 dispatch(loadTodosRequest());
@@ -73,59 +87,72 @@ const TodoList = () => {
                 console.error('Error loading remote todos:', error);
                 dispatch(loadTodosFailure(error));
             } finally {
-                setIsLoading(false)
+                setIsLoading(false);
                 controller.abort();
             }
         };
     };
 
+    const handleLoadRemoteTodos = async () => {
+        try {
+            await dispatch(loadRemoteTodos());
+        } catch (error) {
+            console.error('Error loading remote todos:', error);
+        }
+    };
+
+
     const resetStore = () => {
         dispatch(resetStoreAction());
     };
 
-    const renderStyle = (todo) => {
-        return todo.loadedFromRemote ? { color: 'blue' } : {};
-    };
+    // const renderStyle = (todo) => {
+    //     return todo.loadedFromRemote ? { color: 'blue' } : {};
+    // };
 
 
     return (
         <div>
             {isLoading && <div className="lds-hourglass"></div>}
             {!blockRendered && (
-                <div className="todo__ul">
-                    <ul>
-                        {todos.map((todo) => (
-                            <li key={todo.id} style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
-                                <div style={renderStyle(todo)}>Task: {todo.task}</div>
-                                <div style={renderStyle(todo)}>Setter: {todo.taskSetter}</div>
-                                <div style={renderStyle(todo)}>Performer: {todo.taskPerformer}</div>
-                                <div style={renderStyle(todo)}>Additional Info: {todo.additionalInfo}</div>
-                                <div style={renderStyle(todo)}>Creation Time: {new Date(todo.createdAt).toLocaleString()}</div>
-                                <button className="todo__ul_btn_complete"
-                                          onClick={() => completeHandler(todo.id, todo.loadedFromRemote)}
-                                          disabled={todo.completed}>
-                                    Complete
-                                </button>
-                                <button className="todo__ul_btn_remove"
-                                        onClick={() => removeHandler(todo.id, todo.loadedFromRemote)} >
-                                    Remove
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-
-                </div>
+                <List>
+                    {todos.map((todo) => (
+                        <ListItem key={todo.id}>
+                            <ListItemText
+                                style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+                                primary={todo.task}
+                                secondary={
+                                    <>
+                                        Setter: {todo.taskSetter}<br />
+                                        Performer: {todo.taskPerformer}<br />
+                                        Additional Info: {todo.additionalInfo}<br />
+                                        Creation Time: {new Date(todo.createdAt).toLocaleString()}<br />
+                                    </>
+                                }
+                            />
+                            <Button
+                                variant="contained" color="primary"
+                                onClick={() => completeHandler(todo.id, todo.loadedFromRemote)}
+                                disabled={todo.completed}
+                            >
+                                Complete
+                            </Button>
+                            <Button
+                                variant="contained" color="warning"
+                                onClick={() => removeHandler(todo.id, todo.loadedFromRemote)}>
+                                Remove
+                            </Button>
+                        </ListItem>
+                    ))}
+                </List>
             )}
-            <div className="todo__div_remote_btn">
-                <button className="todo__btn_save" onClick={saveTodos}>Save Remote</button>
-                <button className="todo__btn_load" onClick={() => dispatch(loadRemoteTodos())}>Load Remote</button>
-                <button className="todo__btn_reset" onClick={resetStore}>Reset Store</button>
-            </div>
+            <Box className="todo__div_remote_btn" sx={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '16px' }}>
+                <Button variant="contained" color="primary" onClick={saveTodos}>Save Remote</Button>
+                <Button variant="contained" color="secondary" onClick={handleLoadRemoteTodos}>Load Remote</Button>
+                <Button variant="contained" color="success" onClick={resetStore}>Reset Store</Button>
+            </Box>
         </div>
     );
 };
 
 export default TodoList;
-
-
-
