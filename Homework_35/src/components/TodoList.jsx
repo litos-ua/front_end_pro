@@ -1,5 +1,4 @@
 
-
 import React, { useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {completeTodoAction, removeTodoAction, resetStoreAction} from '../store';
@@ -7,7 +6,7 @@ import { selectTodos, saveTodo, loadTodos } from '../store';
 import { loadTodosRequest, loadTodosSuccess, loadTodosFailure } from '../store';
 import {markTodoCompletedRemote, deleteTodoRemote} from '../store';
 import { Button, Box, List, ListItem, ListItemText } from '@mui/material';
-import './loader.css';
+//import './loader.css';
 
 const TodoList = () => {
     const todos = useSelector(selectTodos);

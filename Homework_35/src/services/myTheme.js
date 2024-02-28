@@ -7,8 +7,14 @@ const lightTheme = createTheme({
     components: {
         MuiCssBaseline: {
             styleOverrides: {
+                'html': {
+                    backgroundColor: 'burlywood',
+                },
                 '.todo': {
                     backgroundColor: 'burlywood',
+                },
+                '.todo__form': {
+                    backgroundColor: '#efd399',
                 },
             },
         },

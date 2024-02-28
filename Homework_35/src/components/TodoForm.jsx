@@ -1,63 +1,57 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addTodoAction } from '../store';
-import { Box, Button, OutlinedInput } from '@mui/material';
-
+import { Box, Button } from '@mui/material';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import FormField from './TodoFormField';
 
 const TodoForm = () => {
     const dispatch = useDispatch();
-    const [task, setTask] = useState('');
-    const [taskSetter, setTaskSetter] = useState('');
-    const [taskPerformer, setTaskPerformer] = useState('');
-    const [additionalInfo, setAdditionalInfo] = useState('');
 
-    const handleAddTodo = (e) => {
-        e.preventDefault();
-        dispatch(addTodoAction({ task, taskSetter, taskPerformer, additionalInfo }));
-        setTask('');
-        setTaskSetter('');
-        setTaskPerformer('');
-        setAdditionalInfo('');
-    };
+    const validationSchema = Yup.object({
+        task: Yup.string()
+            .min(3, 'Task must be at least 3 characters')
+            .max(20, 'Task must be at most 20 characters')
+            .matches(/^[a-zA-Z0-9-_]+$/, 'Task can only contain letters, numbers, "-", and "_"')
+            .required('Task is required'),
+        taskSetter: Yup.string()
+            .min(5, 'Setter must be at least 5 characters')
+            .max(20, 'Setter must be at most 20 characters')
+            .matches(/^[a-zA-Z-_]+$/, 'Setter can only contain letters, "-", and "_"')
+            .required('Setter is required'),
+        taskPerformer: Yup.string()
+            .min(5, 'Performer must be at least 5 characters')
+            .max(20, 'Performer must be at most 20 characters')
+            .matches(/^[a-zA-Z-_]+$/, 'Performer can only contain letters, "-", and "_"')
+            .required('Performer is required'),
+        additionalInfo: Yup.string()
+            .max(100, 'Additional info must be at most 100 characters'),
+    });
+
+    const formik = useFormik({
+        initialValues: {
+            task: '',
+            taskSetter: '',
+            taskPerformer: '',
+            additionalInfo: ''
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values, { resetForm }) => {
+            dispatch(addTodoAction(values));
+            resetForm();
+        },
+    });
 
     return (
-        <Box className="todo__form" border={2} borderRadius={10} p={2} maxWidth="80%" margin="auto">
-            <Box display="flex" flexDirection="row" justifyContent="center" gap={2} alignItems="center">
-                <OutlinedInput
-                    className="todo__form_input"
-                    placeholder="ToDo"
-                    value={task}
-                    onChange={(e) => setTask(e.target.value)}
-                    style={{ width: '25%' }}
-                />
-                <OutlinedInput
-                    className="todo__form_input"
-                    placeholder="Setter"
-                    value={taskSetter}
-                    onChange={(e) => setTaskSetter(e.target.value)}
-                    style={{ width: '25%' }}
-                />
-                <OutlinedInput
-                    className="todo__form_input"
-                    placeholder="Performer"
-                    value={taskPerformer}
-                    onChange={(e) => setTaskPerformer(e.target.value)}
-                    style={{ width: '25%' }}
-                />
-            </Box>
-            <Box display="flex" justifyContent="center" alignItems="center" margin="auto" mt={2} width="50%">
-                <OutlinedInput
-                    className="todo__form_textarea"
-                    placeholder="Additional Info"
-                    value={additionalInfo}
-                    onChange={(e) => setAdditionalInfo(e.target.value)}
-                    style={{ width: '75%' }}
-                />
-
-            </Box>
+        <Box className="todo__form" border={2} borderRadius={10} p={2} maxWidth="80%" margin="auto" component="form" onSubmit={formik.handleSubmit}>
+            <FormField id="task" label="ToDo" formik={formik} />
+            <FormField id="taskSetter" label="Setter" formik={formik} />
+            <FormField id="taskPerformer" label="Performer" formik={formik} />
+            <FormField id="additionalInfo" label="Additional Info" formik={formik} multiline rows={3} />
             <Box display="flex" justifyContent="center" mt={2}>
-                <Button className="todo__form_submit_btn" variant="contained" color="primary" onClick={handleAddTodo}>
+                <Button className="todo__form_submit_btn" variant="contained" color="primary" type="submit">
                     Add Todo
                 </Button>
             </Box>
@@ -66,6 +60,7 @@ const TodoForm = () => {
 };
 
 export default TodoForm;
+
 
 
 

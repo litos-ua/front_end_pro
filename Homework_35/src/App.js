@@ -1,34 +1,11 @@
-// import React from 'react';
-// import TodoForm from './components/TodoForm';
-// import TodoList from './components/TodoList';
-// import './App.css';
-// import {CssBaseline, Typography} from "@mui/material";
-//
-// function App() {
-//   return (
-//       <div className="todo">
-//           <CssBaseline/>
-//           <Typography variant="h2" align="center" className="todo__head">
-//               Todo List
-//           </Typography>
-//           <TodoForm />
-//           <TodoList />
-//       </div>
-//   );
-// }
-//
-// export default App;
-
-
-
-// App.js
 
 import React, { useState } from 'react';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
-import { CssBaseline, Typography, AppBar, Toolbar, Switch, Container } from "@mui/material";
+import { CssBaseline, Typography, AppBar, Toolbar, Container } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import lightTheme from './services/myTheme';
+import { ThemeToggleButton } from './components/ThemeToggleButton';
 
 function App() {
     const [mode, setMode] = useState("dark");
@@ -54,11 +31,12 @@ function App() {
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                             Todo List
                         </Typography>
-                        <Switch
-                            checked={mode === 'dark'}
-                            onChange={toggleColorMode}
-                            inputProps={{ 'aria-label': 'toggle light/dark theme' }}
-                        />
+                        {/*<Switch*/}
+                        {/*    checked={mode === 'dark'}*/}
+                        {/*    onChange={toggleColorMode}*/}
+                        {/*    inputProps={{ 'aria-label': 'toggle light/dark theme' }}*/}
+                        {/*/>*/}
+                        <ThemeToggleButton mode={mode} toggleColorMode={toggleColorMode} />
                     </Toolbar>
                 </AppBar>
                 <Container>
