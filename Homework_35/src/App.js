@@ -31,11 +31,6 @@ function App() {
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                             Todo List
                         </Typography>
-                        {/*<Switch*/}
-                        {/*    checked={mode === 'dark'}*/}
-                        {/*    onChange={toggleColorMode}*/}
-                        {/*    inputProps={{ 'aria-label': 'toggle light/dark theme' }}*/}
-                        {/*/>*/}
                         <ThemeToggleButton mode={mode} toggleColorMode={toggleColorMode} />
                     </Toolbar>
                 </AppBar>

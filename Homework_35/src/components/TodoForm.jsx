@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { addTodoAction } from '../store';
+import { addTodoAction } from '../ducks';
 import { Box, Button } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
