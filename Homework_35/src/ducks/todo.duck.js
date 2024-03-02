@@ -58,7 +58,7 @@ const todosSlice = createSlice({
             });
     },
     selectors: {
-        selectTodos: (state) => state.todos,
+        selectTodos: (state) => state.items,
     },
 });
 

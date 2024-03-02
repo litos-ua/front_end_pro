@@ -158,10 +158,11 @@
 
 import React, { useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {fetchTodos} from "../ducks/thunk/loadTodo.duck";
 import {completeTodoAction, removeTodoAction, resetStoreAction} from '../ducks';
-//import {selectTodos} from '../ducks';
+import {fetchTodos, completeTodoAsync, removeTodoAsync} from "../ducks/thunk";
 import { Button, Box, List, ListItem, ListItemText } from '@mui/material';
+import './loader.css';
+
 
 const TodoList = () => {
     const todos = useSelector((state) => state.todos.items); //selectTodos
@@ -171,36 +172,58 @@ const TodoList = () => {
 
 
 
-
-    const loadRemoteTodos = () => {
-        return async (dispatch) => {
-            setIsLoading(true);
+    const handleLoadRemoteTodos = () => {
+        setIsLoading(true);
+        (async () => {
             const controller = new AbortController();
             try {
-                dispatch(fetchTodos());
-                const remoteTodos = await fetchTodos(controller);
-                dispatch(fetchTodos(remoteTodos));
+                await dispatch(fetchTodos());
+//                const remoteTodos = await fetchTodos();
+//                dispatch(remoteTodos);
             } catch (error) {
                 console.error('Error loading remote todos:', error);
-                dispatch(fetchTodos(error));
             } finally {
                 setIsLoading(false);
                 controller.abort();
             }
-        };
+        })();
     };
 
-    const handleLoadRemoteTodos = async () => {
+
+    const completeTodoHandler = async (id, loadedFromRemote) => {
+        setIsLoading(true);
+        console.log('loadedFromRemote', loadedFromRemote)
+        const controller = new AbortController();
         try {
-            await dispatch(loadRemoteTodos());
+            dispatch(completeTodoAction(id));
+            if (loadedFromRemote) {
+                await dispatch(completeTodoAsync(id));
+            }
         } catch (error) {
-            console.error('Error loading remote todos:', error);
+            console.error('Error completing task:', error);
+        } finally {
+            setIsLoading(false);
+            controller.abort();
         }
     };
 
+    const removeHandler = async (id, loadedFromRemote) => {
+        setIsLoading(true);
+        console.log('loadedFromRemote', loadedFromRemote)
+        const controller = new AbortController();
+        try {
+            dispatch(removeTodoAction(id));
+            if (loadedFromRemote) {
+                await dispatch(removeTodoAsync(id));
+            }
+        } catch (error) {
+            console.error('Error deleting task:', error);
+        } finally {
+            setIsLoading(false);
+            controller.abort();
+        }
+    };
 
-    const completeHandler = (id, loadedFromRemote) => {};
-    const removeHandler = (id, loadedFromRemote) => {};
 
     const resetStore = () => {
         dispatch(resetStoreAction());
@@ -232,7 +255,7 @@ const TodoList = () => {
                             />
                             <Button
                                 variant="contained" color="primary"
-                                onClick={() => completeHandler(todo.id, todo.loadedFromRemote)}
+                                onClick={() => completeTodoHandler(todo.id, todo.loadedFromRemote)}
                                 disabled={todo.completed}
                             >
                                 Complete
@@ -247,7 +270,7 @@ const TodoList = () => {
                 </List>
             )}
             <Box className="todo__div_remote_btn" sx={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '16px' }}>
-                <Button variant="contained" color="primary" onClick={console.log('saveTodos')}>Save Remote</Button>
+                <Button variant="contained" color="primary" onClick={resetStore}>Save Remote</Button>
                 <Button variant="contained" color="secondary" onClick={handleLoadRemoteTodos}>Load Remote</Button>
                 <Button variant="contained" color="success" onClick={resetStore}>Reset Store</Button>
             </Box>
@@ -257,50 +280,7 @@ const TodoList = () => {
 
 export default TodoList;
 
-// const completeHandler = (id, loadedFromRemote) => {
-//
-//     try {
-//         dispatch(completeTodoAction(id));
-//     } catch (error) {
-//         console.error('Error completing task on the Redux store:', error);
-//     }
-//
-//     if (loadedFromRemote) {
-//         setIsLoading(true)
-//         try {
-//             markTodoCompletedRemote(id);
-//         } catch (error) {
-//             console.error('Error marking task as completed on remote server:', error);
-//         }
-//         finally {
-//             setIsLoading(false);
-//         }
-//     }
-// };
-//
-//
-// const removeHandler = (id, loadedFromRemote) => {
-//
-//     try {
-//         dispatch(removeTodoAction(id));
-//     } catch (error) {
-//         console.error('Error deleting task on the Redux store:', error);
-//     }
-//
-//     if (loadedFromRemote) {
-//         setIsLoading(true);
-//         try {
-//             console.log('begin try');
-//             deleteTodoRemote(id);
-//         } catch (error) {
-//             console.error('Error deleting task on the remote server:', error);
-//         }
-//         finally {
-//             setIsLoading(false);
-//         }
-//     }
-//
-// };
+
 
 // const saveTodos = async () => {
 //     setIsLoading(true);
@@ -315,3 +295,4 @@ export default TodoList;
 //         controller.abort();
 //     }
 // };
+
