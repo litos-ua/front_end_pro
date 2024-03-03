@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchTodos } from './thunk/loadTodo.duck'
-//import {removeTodoAction} from "../store";
-//import {addTodoAction, completeTodoAction} from "../store";
+import { fetchTodos } from './thunk'
 
 const generateId = () => {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);

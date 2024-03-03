@@ -1,7 +1,10 @@
-
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { delTodos } from "../../api";
 import { config } from "../../config";
+
+/****************************************
+ * DUCK
+ ****************************************/
 
 export const removeTodoAsync = createAsyncThunk(
     'todos/removeTodoAsync',
